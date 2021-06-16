@@ -1,0 +1,251 @@
+﻿<UserControl x:Class="UI.Code.View.UserAddOrEdit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UI.Code.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+                xmlns:con="clr-namespace:UI.Code.Convertor"
+                xmlns:control="clr-namespace:UI.Code.Controls"
+              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+              xmlns:prism="http://prismlibrary.com/"    
+             prism:ViewModelLocator.AutoWireViewModel="True"  
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <con:ColorErrorConverter x:Key="err"></con:ColorErrorConverter>
+        <con:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></con:BooleanToVisibilityConverter>
+    </UserControl.Resources>
+    <Grid>
+    <Grid Margin="80,5,0,0" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Button  Grid.Column="0" Margin="50,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding BackCommand}"
+  Style="{StaticResource ImgBtn}"
+  ToolTip="New Project">
+                    <materialDesign:PackIcon  Foreground="White"
+    Kind="ArrowBack"
+    />
+                </Button>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" Text="{Binding Title}"
+    Style="{StaticResource Title}">
+
+                </TextBlock>
+            </StackPanel>
+          
+        </Grid>
+        <materialDesign:Card Grid.Row="1" VerticalAlignment="Top" Margin="50,5,50,0">
+            <Grid Margin="20" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBox Margin="10" 
+  materialDesign:HintAssist.Hint="First Name"  Text="{Binding User.FirstName}" HorizontalAlignment="Stretch"
+                        materialDesign:TextFieldAssist.TextBoxViewMargin="1 12 1 0"
+                        materialDesign:HintAssist.FloatingScale="0.90"
+  Style="{StaticResource MaterialDesignOutlinedTextBox}"   FontSize="14"
+  VerticalAlignment="Center" />
+                <TextBox Margin="10" Grid.Column="1"
+  materialDesign:HintAssist.Hint="Last Name" Text="{Binding User.LastName}" HorizontalAlignment="Stretch"
+                        materialDesign:TextFieldAssist.TextBoxViewMargin="1 12 1 0"
+                        materialDesign:HintAssist.FloatingScale="0.90"
+  Style="{StaticResource MaterialDesignOutlinedTextBox}"   FontSize="14"
+  VerticalAlignment="Center" />
+                <TextBox Margin="10"  Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+  materialDesign:HintAssist.Hint="Username" Text="{Binding User.UserName}"
+                        materialDesign:TextFieldAssist.TextBoxViewMargin="1 12 1 0"
+                        materialDesign:HintAssist.FloatingScale="0.90"
+  Style="{StaticResource MaterialDesignOutlinedTextBox}"   FontSize="14"
+  VerticalAlignment="Center" />
+                    <TextBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Visibility="Visible"  Margin="10" Name="txtPass"
+  materialDesign:HintAssist.Hint="Password" Text="{Binding User.Pwd}"
+                        materialDesign:TextFieldAssist.TextBoxViewMargin="1 5 1 0"
+                        materialDesign:HintAssist.FloatingScale="0.90"
+  Style="{StaticResource MaterialDesignOutlinedTextBox}"   FontSize="14"
+  VerticalAlignment="Center" />
+                    <Grid HorizontalAlignment="Stretch" Grid.Row="2"  Grid.ColumnSpan="2" >
+                    <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                      
+                        <StackPanel Grid.Column="0" Grid.Row="2" Margin="0" Visibility="Collapsed" >
+                        <PasswordBox  Name="passBox_text" Visibility="Collapsed"  Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+  materialDesign:HintAssist.Hint="Password"  PasswordChanged="passBox_text_PasswordChanged"
+                        materialDesign:TextFieldAssist.TextBoxViewMargin="1 12 1 0"
+                        materialDesign:HintAssist.FloatingScale="0.90"
+    FontSize="14"
+  VerticalAlignment="Center" ></PasswordBox>
+                           
+                            <!--<CheckBox>
+                          <materialDesign:PackIcon Background="Transparent"
+    Kind="Eye"
+   
+     />
+                        </CheckBox>-->
+                        <StackPanel 
+  Margin="8 10">
+                            <CheckBox Visibility="Collapsed"  Name="cbShowPassword" Checked="cbShowPassword_Checked" Unchecked="cbShowPassword_Unchecked"
+    IsChecked="False"
+    materialDesign:CheckBoxAssist.CheckBoxSize="20">
+                                Show password
+                            </CheckBox>
+                        </StackPanel>
+                    </StackPanel>
+                   
+                    <!--<Button Grid.Column="1" HorizontalAlignment="Right" Name="btnShowPass" MouseUp="btnShowPass_MouseUp" MouseDown="btnShowPass_MouseDown"  Style="{StaticResource ImgBtn}" Command="{Binding SearchCommand}"
+   Margin="10,5" 
+  ToolTip="Show password">
+                        
+                    </Button>-->
+                </Grid>
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                    <StackPanel 
+  Margin="8 0">
+                        <CheckBox  Name="cbAdmin" Checked="cbAdmin_Checked" Unchecked="cbAdmin_Unchecked"
+    IsChecked="False"
+    materialDesign:CheckBoxAssist.CheckBoxSize="20">
+                           Admin
+                        </CheckBox>
+                    </StackPanel>
+                    <StackPanel
+  Margin="8 0">
+                        <CheckBox  Name="cbdesktop"
+    IsChecked="False"
+    materialDesign:CheckBoxAssist.CheckBoxSize="20" >
+                            Desktop
+                        </CheckBox>
+                    </StackPanel>
+                    <StackPanel
+  Margin="8 0">
+                        <CheckBox Name="cbMobile"
+    IsChecked="False"
+    materialDesign:CheckBoxAssist.CheckBoxSize="20">
+                            Mobile
+                        </CheckBox>
+                    </StackPanel>
+                </StackPanel>
+                <ComboBox Grid.Column="0" Grid.Row="5" SelectedItem="{Binding SelectedType}" ItemsSource="{Binding ActiveList}" Width="200" Name="CbActiveType" HorizontalAlignment="Left" Margin="10,2,0,5" VerticalAlignment="Center"
+  materialDesign:HintAssist.Hint="Status">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"></TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <StackPanel Grid.Row="5" Grid.ColumnSpan="2">
+                <Button Width="100" HorizontalAlignment="Center" Margin="10" Name="btnSave" Click="btnSave_Click"
+    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+    ToolTip="MaterialDesignFlatDarkButton">
+                    Save
+                </Button>
+                </StackPanel>
+                <StackPanel>
+                <StackPanel>
+                       
+                      
+                    </StackPanel>
+                <StackPanel Orientation="Horizontal">
+
+
+
+                       
+                    </StackPanel>
+                <StackPanel Width="550" Margin="0,10">
+
+
+
+                 
+                </StackPanel>
+                <StackPanel>
+                        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">-->
+                            
+                          
+                        <!--</StackPanel>-->
+                        <StackPanel>
+                           
+                        </StackPanel>
+                </StackPanel>
+                <!--<StackPanel>
+                        <TextBlock Margin="10"  Text="{Binding Project.Attendent }"
+    Style="{StaticResource Label}">
+  
+                    </TextBlock>
+                </StackPanel>-->
+                
+                <StackPanel >
+                    
+                    
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        </materialDesign:Card>
+    </Grid>
+        <Border Style="{StaticResource brdProgress}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" >
+            <control:progress></control:progress>
+        </Border>
+
+        <!--<xctk:ChildWindow Padding="20"   CloseButtonVisibility="Collapsed"  BorderThickness="0"    WindowBorderBrush="White" Visibility="Collapsed"   Name="childDeleteConfirmation" WindowStartupLocation="Center" IsModal="True"    WindowState="Open"
+                   
+                    >
+
+
+            <StackPanel Margin="20">
+                <TextBlock Style="{StaticResource Title}" FontSize="14" Foreground="Black"  Margin="5"  Text="Are you sure you want to delete?"></TextBlock>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Yes" Name="btnDeleteOk" Click="btnDeleteOk_Click" HorizontalContentAlignment="Center" Height="25" HorizontalAlignment="Right" Margin="10" 
+    Style="{StaticResource btn}"
+    ToolTip="Yes">
+
+                    </Button>
+                    <Button   HorizontalAlignment="Center" Margin="10" Name="btnDeleteClose" Click="btnDeleteClose_Click" 
+    Style="{StaticResource btn}"
+    ToolTip="No">
+                        No
+                    </Button>
+                </StackPanel>
+
+            </StackPanel>
+
+        </xctk:ChildWindow>-->
+        <xctk:ChildWindow Padding="20"   CloseButtonVisibility="Collapsed"  BorderThickness="0"    WindowBorderBrush="White" Visibility="Collapsed"   Name="childWindowFeedback" WindowStartupLocation="Center" IsModal="True"    WindowState="Open"
+                   
+                    >
+
+
+            <StackPanel Margin="20">
+                <TextBlock Style="{StaticResource Title}" Text="{Binding Status}"  Margin="5"  Foreground="{Binding Status,Converter={StaticResource err}}"></TextBlock>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+
+                    <TextBlock Margin="5" Style="{StaticResource Error}" Foreground="{Binding Status,Converter={StaticResource err}}" Text="{Binding Message}"></TextBlock>
+                    <Button   HorizontalAlignment="Center" Margin="10" Name="btnErrorClose" Click="btnErrorClose_Click"
+    Style="{StaticResource btn}"
+    ToolTip="Close">
+                        Close
+                    </Button>
+                </StackPanel>
+
+            </StackPanel>
+
+        </xctk:ChildWindow>
+    </Grid>
+</UserControl>

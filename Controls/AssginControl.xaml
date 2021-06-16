@@ -1,0 +1,172 @@
+﻿<UserControl x:Class="UI.Code.Controls.AssginControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UI.Code.Controls"
+             mc:Ignorable="d" 
+             xmlns:con="clr-namespace:UI.Code.Convertor"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+      
+            <Grid Margin="5,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox Margin="20,0,0,0" Grid.Column="0" VerticalAlignment="Center"
+  x:Name="CommentTextBoxAssigne" Width="200" Text="{Binding UserSearch}"
+  materialDesign:HintAssist.Hint="Search by name"
+  materialDesign:HintAssist.HelperText="" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button x:Name="btnSearch" HorizontalAlignment="Right"  Grid.Column="2"  Style="{StaticResource ImgBtn}" Click="btnSearch1_Click"
+   Margin="10,5" 
+  ToolTip="Search">
+                        <materialDesign:PackIcon Background="Transparent"
+    Kind="Search"
+   
+     />
+                    </Button>
+                    <Button HorizontalAlignment="Right"  Grid.Column="2" Name="btnResetAss" Click="btnReset1_Click"
+ Style="{StaticResource ImgBtn}" Margin="5" 
+  ToolTip="Reset">
+                        <materialDesign:PackIcon Background="Transparent"
+    Kind="Refresh"
+    
+     />
+                    </Button>
+                  
+                </StackPanel>
+            </Grid>
+       
+        <materialDesign:Card Grid.Row="1" Margin="5" >
+
+                <ScrollViewer >
+                <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto"  MaxHeight="400"  SelectionMode="Single"  ItemsSource="{Binding UsersAssignList}" SelectedItem="{Binding SelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsSynchronizedWithCurrentItem="True">
+                        <ListBox.Style>
+                            <Style
+           TargetType="ListBox"
+           BasedOn="{StaticResource {x:Type ListBox}}">
+                                <Style.Triggers>
+                                    <!-- Use ListBox.HasItems instead of Binding -->
+                                    <Trigger Property="HasItems" Value="False">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <TextBlock Style="{StaticResource Label}" Margin="5,10">No items to display</TextBlock>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.Style>
+                        <ListBox.Resources>
+                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+                        </ListBox.Resources>
+
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                <Setter Property="Margin" Value="10,5"/>
+                                <Setter Property="AllowDrop" Value="true"/>
+
+                                <Setter Property="Template">
+
+                                    <Setter.Value>
+
+                                        <ControlTemplate TargetType="ListBoxItem">
+
+                                            <Border
+
+           Name="Border"
+
+           Padding="2"
+
+           SnapsToDevicePixels="true">
+
+                                                <ContentPresenter />
+
+                                            </Border>
+
+                                            <ControlTemplate.Triggers>
+
+                                                <Trigger Property="IsSelected" Value="true">
+                                                    <!--<Setter Property="FontWeight" Value="Bold" />-->
+                                                    <Setter TargetName="Border" Property="Background"
+
+                     Value="#f4f4f4"/>
+
+                                                </Trigger>
+
+                                            </ControlTemplate.Triggers>
+
+                                        </ControlTemplate>
+
+                                    </Setter.Value>
+
+                                </Setter>
+                              
+                            </Style>
+
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+
+                                <Border HorizontalAlignment="Stretch" Margin="0"
+                    BorderThickness="1"
+                     BorderBrush="{StaticResource AppMainColor}">
+                                 
+                                    <Grid Margin="5">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <ListBoxItem IsSelected="{Binding IsAssign}">
+                                            <CheckBox IsChecked="{Binding IsAssign}"  Content="{Binding FullName}" />
+                                        </ListBoxItem>
+                                      
+                                    </Grid>
+
+                                </Border>
+                            </DataTemplate>
+
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+
+
+                </ScrollViewer>
+
+            </materialDesign:Card>
+        <materialDesign:Card Grid.Row="2" Margin="5">
+            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Save" Name="btnAssignSave"   HorizontalContentAlignment="Center" Height="25" HorizontalAlignment="Right" Margin="10" 
+    Style="{StaticResource btn}"
+    ToolTip="Save">
+
+                </Button>
+                <Button   HorizontalAlignment="Center" Margin="10" Name="btnAssignCLose" 
+    Style="{StaticResource btn}"
+    ToolTip="Close">
+                    Close
+                </Button>
+            </StackPanel>-->
+        </materialDesign:Card>
+
+
+
+    </Grid>
+</UserControl>

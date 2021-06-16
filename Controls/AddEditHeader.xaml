@@ -1,0 +1,136 @@
+﻿<UserControl x:Class="UI.Code.Controls.AddEditHeader"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UI.Code.Controls"
+              xmlns:control="clr-namespace:UI.Code.Controls"
+            xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:img="clr-namespace:UI.Code.View"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+              xmlns:con="clr-namespace:UI.Code.Convertor"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <con:ColorErrorConverter x:Key="err"></con:ColorErrorConverter>
+        <con:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></con:BooleanToVisibilityConverter>
+        <con:InversBooleanToVisibilityConverter x:Key="InversBooleanToVisibilityConverter"></con:InversBooleanToVisibilityConverter>
+    </UserControl.Resources>
+    <Grid Margin="10,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+     
+            <Button  Grid.Column="0" x:Name="btnBack" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Left" 
+  Style="{StaticResource ImgBtn}"
+  ToolTip="Back">
+                <materialDesign:PackIcon  Foreground="White"
+    Kind="ArrowBack"
+    />
+            </Button>
+        <StackPanel Grid.Column="2" Orientation="Horizontal">
+            <Button  Padding="5" Margin="0,5,0,2" Visibility="{Binding IsInvasiveControlDisable,Converter={StaticResource BooleanToVisibilityConverter }}" Foreground="Red" Name="btnDelete"  HorizontalAlignment="Right" VerticalAlignment="Center"
+  Style="{StaticResource ImgBtn}" 
+  ToolTip="Delete">
+                <materialDesign:PackIcon Foreground="White"
+    Kind="DeleteCircle"
+    
+     />
+            </Button>
+            <Button  Name="btnDataEdit"  HorizontalAlignment="Right"  Foreground="White"
+  Style="{StaticResource ImgBtn}" 
+  ToolTip="Edit">
+                <materialDesign:PackIcon 
+    Kind="PencilCircleOutline"
+    
+     />
+            </Button>
+            <Button  Name="btnDataSave" Visibility="Collapsed"   Foreground="White" HorizontalAlignment="Right" 
+  Style="{StaticResource ImgBtn}" 
+  ToolTip="Save">
+                <materialDesign:PackIcon
+    Kind="Floppy"
+    
+     />
+            </Button>
+            <Button  Name="btnDataCancel" Foreground="White"  Visibility="Collapsed" HorizontalAlignment="Right" 
+  Style="{StaticResource ImgBtn}" 
+  ToolTip="Cancel">
+                <materialDesign:PackIcon
+    Kind="Close"
+    
+     />
+            </Button>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2">
+          
+            <TextBlock Text="{Binding Title}" HorizontalAlignment="Center"  VerticalAlignment="Center" Style="{StaticResource Title}" Grid.Column="1"></TextBlock>
+            <Button Background="ForestGreen"  Foreground="White" HorizontalAlignment="Left" Grid.Row="0" Margin="0,5,0,0" FontSize="14" Width="150" Name="btnExport" 
+    Style="{StaticResource MaterialDesignFlatDarkBgButton}"   VerticalAlignment="Bottom"
+    Content="Export To Excel">
+
+            </Button>
+        </StackPanel>
+        
+        <Grid Grid.Row="1" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Name="gDisplay" >
+
+                <TextBlock HorizontalAlignment="Left"  MaxWidth="600" TextWrapping="WrapWithOverflow" Text="{Binding DataModel.Name,StringFormat='Name : {0}'}" Margin="0,5,0,0" Style="{StaticResource Large}"></TextBlock>
+
+                <TextBlock HorizontalAlignment="Left" MaxWidth="600" TextWrapping="WrapWithOverflow" Text="{Binding DataModel.Description,StringFormat='Description : {0}'}" Margin="0,5,0,0"  Style="{StaticResource Medium}"></TextBlock>
+                <TextBlock HorizontalAlignment="Left"   MaxWidth="600" TextWrapping="WrapWithOverflow" Text="{Binding DataModel.Address,StringFormat='Address : {0}'}" Margin="0,5,0,0" Style="{StaticResource Small}"></TextBlock>
+                <Button Background="LightGray" Foreground="Black" HorizontalAlignment="Left" Grid.Row="0" Margin="0,5,0,0" FontSize="14" Width="100" Name="btnInvasive" 
+    Style="{StaticResource MaterialDesignFlatDarkBgButton}" Visibility="{Binding CanInvasiveCreate, Converter={StaticResource BooleanToVisibilityConverter}}"  VerticalAlignment="Bottom"
+    Content="{Binding BtnInvasiveText}">
+                    
+                </Button>
+            </StackPanel>
+            <StackPanel Grid.Column="0"   Background="White" Name="gAddEdit">
+
+                <TextBox Margin="5"
+  materialDesign:HintAssist.Hint="Name" Text="{Binding DataModel.Name,Mode=TwoWay}"
+                        materialDesign:TextFieldAssist.TextBoxViewMargin="1 12 1 0"
+                        materialDesign:HintAssist.FloatingScale="0.90"
+  Style="{StaticResource MaterialDesignOutlinedTextBox}"   FontSize="12"
+  VerticalAlignment="Center" />
+
+                <TextBox Margin="5" Name="txtAddress" Visibility="Collapsed"
+  materialDesign:HintAssist.Hint="Address" Text="{Binding DataModel.Address,Mode=TwoWay}"
+                        materialDesign:TextFieldAssist.TextBoxViewMargin="1 12 1 0"
+                        materialDesign:HintAssist.FloatingScale="0.90"
+  Style="{StaticResource MaterialDesignOutlinedTextBox}"   FontSize="12"
+  VerticalAlignment="Center" />
+
+                <TextBox Margin="5" FontSize="12" Text="{Binding DataModel.Description }"
+    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+    VerticalAlignment="Top"
+    Height="50"
+    AcceptsReturn="True"
+    TextWrapping="Wrap"
+    VerticalScrollBarVisibility="Auto"
+                                 
+    materialDesign:HintAssist.Hint="Description"
+    IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" />
+            </StackPanel>
+            <Grid Grid.Column="1">
+                <img:CachedImage ImageUrl="{Binding DataModel.ImageUrl}" Width="400" Height="150"  Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  />
+            </Grid>
+
+        </Grid>
+        <Grid Grid.Row="2" Grid.ColumnSpan="3">
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" Visibility="{Binding IsInvasiveControlDisable,Converter={StaticResource InversBooleanToVisibilityConverter }}"  FontSize="18"  Text="Invasive Report" Foreground="#FF8200" Style="{StaticResource Title}"    Margin="5"  ></TextBlock>
+        </Grid>
+    </Grid>
+</UserControl>

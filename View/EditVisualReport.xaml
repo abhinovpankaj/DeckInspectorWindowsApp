@@ -1,0 +1,520 @@
+﻿<UserControl x:Class="UI.Code.View.EditVisualReport"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UI.Code.View" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             
+             d:DesignHeight="1650" d:DesignWidth="400">
+
+    <DockPanel>
+
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+
+            </Grid.RowDefinitions>
+            <Grid x:Name="gridtoolbar" Margin="10"
+                    Background="White">
+
+                <Label Content="Edit Visual Deck/Waterproofing Report" 
+                       FontSize="15" 
+                       FontWeight="SemiBold"
+                       Foreground="Black"                 
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+
+
+                <Button  Name="btnSave" 
+                         Foreground="Blue" Visibility="Collapsed" 
+                         HorizontalAlignment="Right"
+                         Style="{StaticResource ImgBtn}"  ToolTip="Save">
+                    <materialDesign:PackIcon  Kind="Floppy"/>
+                </Button>
+
+
+            </Grid>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <Grid >
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                    </Grid.RowDefinitions>
+                    <materialDesign:Card  Margin="10,2,10,2">
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal"  Margin="0,5,0,5" HorizontalAlignment="Stretch">
+                                <Label  
+                                    HorizontalAlignment="Left"
+                                    Content="Name"                                                                    
+                                     >
+
+                                </Label>
+                                <Label   
+                                    Content="*"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                
+                                    Foreground="Red" >
+
+                                </Label>
+                                <!--<StackPanel Orientation="Horizontal"
+                                        Margin="200,0,0,0">
+                                <Label  Foreground="#2e479b" HorizontalContentAlignment="Left"
+                                VerticalAlignment="Center"
+                                        
+                    FontSize="25" HorizontalAlignment="Right" FontFamily="Segoe MDL2 Assets" Content="&#xE722;" ></Label>
+                                <Label Foreground="Black"  HorizontalAlignment="Right"
+                                       Margin="20,0,0,0"
+                                FontSize="20"  VerticalAlignment="Center" Content="{Binding UnitPhotoCount}"
+                    />
+                            </StackPanel>-->
+                            </StackPanel>
+
+                            <TextBox x:Name="txtName" Foreground="Black" 
+                                 Margin="5"
+                                 materialDesign:HintAssist.Hint="Visual Report Name"
+                                 Style="{StaticResource  MaterialDesignFloatingHintTextBox}"
+                                 Text="{Binding Title}" 
+                                 FontSize="15" 
+                                 Grid.Row="1" Height="40"  Grid.ColumnSpan="2" Background="#ececec"></TextBox>
+                        </Grid>
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="1"  Margin="10,2,10,2">
+
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+
+                            </Grid.ColumnDefinitions>
+
+                            <Label Margin="0,0,8,8"
+                                    
+                                    FontSize="14" 
+                                    HorizontalAlignment="Stretch"
+                                    
+                                    Content="Exterior Elements "
+                                    Foreground="Black" />
+                            <Label Grid.Column="1" Foreground="Black" Content="{Binding CountExteriorElements}" Margin="5,5"
+                           FontSize="20" VerticalAlignment="Center"
+                            ></Label>
+                            <Button Grid.Column="2" Foreground="White"
+                                    x:Name="exteriorbtn"
+                                    FontFamily="Segoe MDL2 Assets" 
+                                   Content="&#xE71D;" FontSize="20" VerticalAlignment="Center">
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="Button.Click">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <BooleanAnimationUsingKeyFrames 
+                                 Storyboard.TargetName="ExteriorPopup" 
+                                 Storyboard.TargetProperty="IsOpen">
+                                                        <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True" />
+                                                    </BooleanAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+
+                        </Grid>
+                        <!--<Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChooseExteriorCommand}"></TapGestureRecognizer>
+                        </Frame.GestureRecognizers>-->
+
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="2"   Margin="10,2,10,2">
+
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+
+                            </Grid.ColumnDefinitions>
+
+                            <Label Margin="0,0,8,8"
+                
+                FontSize="14" 
+                HorizontalAlignment="Stretch"
+                
+                Content="Waterproofing Elements "
+                Foreground="Black" />
+                            <Label Grid.Column="1" Foreground="Black" Content="{Binding CountWaterProofingElements}" Margin="5,5"
+                           FontSize="20" VerticalAlignment="Center"
+                            ></Label>
+                            <Button Grid.Column="2" Foreground="White" FontFamily="Segoe MDL2 Assets" 
+                                   Content="&#xE71D;"
+                                    x:Name="waterbtn"
+                           FontSize="20" VerticalAlignment="Center">
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="Button.Click">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <BooleanAnimationUsingKeyFrames 
+                                 Storyboard.TargetName="WaterPopup" 
+                                 Storyboard.TargetProperty="IsOpen">
+                                                        <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True" />
+                                                    </BooleanAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+
+                        </Grid>
+                        <!--<Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChooseWaterproofingCommand}"></TapGestureRecognizer>
+                        </Frame.GestureRecognizers>-->
+
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="3" Height="70"   Margin="10,2,10,2">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label   
+                                     HorizontalContentAlignment="Left"
+                                   Content="Visual Review"
+                                    
+                                  FontSize="14"
+                                     >
+
+                            </Label>
+                            <ListView  Grid.Row="1"  x:Name="VisualReviewFrm"
+                                        ItemsSource="{Binding RadioList_VisualReviewItems}">
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <RadioButton 
+                                                    Content="{Binding Name}" 
+                                                    IsChecked="{Binding IsChecked}" 
+                                                    GroupName="{Binding GroupName}">
+
+                                        </RadioButton>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </Grid>
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="4"  Height="70" 
+                                            Margin="10,2,10,2">
+                        <Grid Margin="5" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label   
+                                     HorizontalAlignment="Left"
+                                   Content="Any visual signs of leaks"
+                                    
+                                  FontSize="14"
+                                     >
+
+                            </Label>
+                            <ListView  Grid.Row="1"  x:Name="VisualSignReviewFrm"
+                                        ItemsSource="{Binding RadioList_AnyVisualSignItems}">
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <RadioButton 
+                                                Content="{Binding Name}" 
+                                                IsChecked="{Binding IsChecked}" 
+                                                GroupName="{Binding GroupName}">
+
+                                        </RadioButton>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </Grid>
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="5"   Height="70" Margin="10,2,10,2">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label   
+                                     HorizontalContentAlignment="Left"
+                                   Content="Further Invasive Review Required Yes/No"
+                                   
+                                  FontSize="14"
+                                     >
+
+                            </Label>
+                            <ListView  Grid.Row="1"  x:Name="FurtherInasiveItemsFrm"
+                                        ItemsSource="{Binding RadioList_FurtherInasiveItems}" >
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <RadioButton 
+                                                Content="{Binding Name}" 
+                                                IsChecked="{Binding IsChecked}" 
+                                                GroupName="{Binding GroupName}">
+
+                                        </RadioButton>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </Grid>
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="6"   Height="150" Margin="10,2,10,2">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label   
+                                     HorizontalAlignment="Left"
+                                   Content="Condition Assessment"
+                                    
+                                  FontSize="14"
+                                     >
+
+                            </Label>
+                            <ListView  Grid.Row="1"  x:Name="ConditionAssessmentFrm"
+                                        ItemsSource="{Binding RadioList_ConditionAssessment}"
+        >
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <RadioButton 
+                                                Content="{Binding Name}" 
+                                                IsChecked="{Binding IsChecked}" 
+                                                GroupName="{Binding GroupName}">
+
+                                        </RadioButton>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </Grid>
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="7" Margin="10,2,10,2">
+                        <Grid  Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Label  HorizontalAlignment="Left"
+                                    HorizontalContentAlignment="Left"
+                                    Content="Additional Considerations or Concerns">
+
+                            </Label>
+
+                            <TextBox Foreground="Black" x:Name="txtDes" 
+                                         Margin="5"
+                                         AcceptsReturn="True"
+                                         Text ="{Binding AdditionalConsideration}" 
+                                         Grid.Row="1" Height="100" 
+                                         VerticalAlignment="Top" Grid.ColumnSpan="2"
+                                         Background="#ececec">
+
+                            </TextBox>
+                        </Grid>
+
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="8"   Height="150" Margin="10,2,10,2">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label   
+                                    HorizontalContentAlignment="Left"
+                                    Content="Life Expectancy Exterior Elevated Elements (EEE)"
+                                    
+                                    FontSize="14"
+                                     >
+
+                            </Label>
+                            <ListView  Grid.Row="1"  x:Name="LifeExpectancyEEEFrm"
+                                        ItemsSource="{Binding RadioList_LifeExpectancyEEE}"
+        >
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <RadioButton 
+                                                Content="{Binding Name}" 
+                                                IsChecked="{Binding IsChecked}" 
+                                                GroupName="{Binding GroupName}">
+
+                                        </RadioButton>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </Grid>
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="9"   Height="150" Margin="10,2,10,2">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label   
+                                     HorizontalContentAlignment="Left"
+                                   Content="Life Expectancy Load Bearing Componenets (LBC)"
+                                    
+                                  FontSize="14"
+                                     >
+
+                            </Label>
+                            <ListView  Grid.Row="1"  x:Name="LifeExpectancyLBCFrm"
+                                        ItemsSource="{Binding RadioList_LifeExpectancyLBC}"
+        >
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <RadioButton 
+                                                Content="{Binding Name}" 
+                                                IsChecked="{Binding IsChecked}" 
+                                                GroupName="{Binding GroupName}">
+
+                                        </RadioButton>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </Grid>
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="10"   Height="150" Margin="10,2,10,2">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label   
+                                     HorizontalContentAlignment="Left"
+                                   Content="Life Expectancy Associated Waterproofing Elements (AWE)"
+                                    
+                                  FontSize="14"
+                                     >
+
+                            </Label>
+                            <ListView  Grid.Row="1"  x:Name="LifeExpectancyAWEFrm"
+                                        ItemsSource="{Binding RadioList_LifeExpectancyAWE}"
+        >
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <RadioButton 
+                                                Content="{Binding Name}" 
+                                                IsChecked="{Binding IsChecked}" 
+                                                GroupName="{Binding GroupName}">
+
+                                        </RadioButton>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </Grid>
+                    </materialDesign:Card>
+
+
+                    <Popup x:Name="ExteriorPopup" StaysOpen="False" Width="200"
+       PlacementTarget="{Binding ElementName=exteriorbtn}"
+                           Opened="ExteriorPopup_Opened"
+                           Closed="ExteriorPopup_Closed">
+                        <ListView ItemsSource="{Binding SelectedExteriorElements}" Margin="5"
+                                  Style="{StaticResource  MaterialDesignCardsListBox}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="5">
+                                        <CheckBox IsChecked="{Binding IsSelected}" Margin="5"/>
+                                        <TextBlock Text="{Binding Name}" Margin="5"
+                                                    Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Popup>
+
+                    <Popup  StaysOpen="False" x:Name="WaterPopup" 
+                            Opened="WaterPopup_Opened"
+                            Closed="WaterPopup_Closed"
+                            PlacementTarget="{Binding ElementName=waterbtn}">
+                        <ListView ItemsSource="{Binding SelectedWaterproofElements}"
+                                  Style="{StaticResource  MaterialDesignCardsListBox}"
+                                  Margin="5">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal"
+                                                Margin="5">
+                                        <CheckBox IsChecked="{Binding IsSelected}" Margin="5"/>
+                                        <TextBlock Text="{Binding Name}"
+                                                   Margin="5"
+                                                   Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Popup>
+
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+</UserControl>

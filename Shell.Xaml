@@ -1,0 +1,121 @@
+﻿<Window x:Class="UI.Code.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.Code"
+        mc:Ignorable="d"
+          xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+        xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+       Title="Deck Inspectors" AllowsTransparency="True"   Height="600" Width="1080" Background="#f4f4f4"  WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None"  ResizeMode="CanResizeWithGrip">
+    <Window.Resources>
+
+       
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OnLoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+   
+    <Grid>
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>-->
+      
+        <!--// Background Color //-->
+
+        <Grid  Background="{StaticResource AppMainColor}">
+
+            <!--// Background Image //-->
+
+            <Grid x:Name="BG" PreviewMouseLeftButtonDown="BG_PreviewMouseLeftButtonDown">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="1"  HorizontalAlignment="Right" Margin="80,0,0,-0.4" >
+                        <ContentControl prism:RegionManager.RegionName="LogInfoRegion"/>
+                    </StackPanel>
+
+
+                    <StackPanel Name="btnMin" HorizontalAlignment="Right" Margin="0,0,20,0" Orientation="Horizontal" Grid.Column="2">
+                        <Button   Click="btnMin_Click"
+  Style="{StaticResource MaterialDesignToolButton}" Margin="5" Foreground="White"
+  ToolTip="Minimize">
+                            <materialDesign:PackIcon Background="Transparent"
+    Kind="WindowMinimize"
+    Height="25"
+    Width="25" />
+                        </Button>
+                        <Button Name="btnMax" Click="btnMax_Click"
+  Style="{StaticResource MaterialDesignToolButton}" Margin="5" Foreground="White"
+  ToolTip="Maximize">
+                            <materialDesign:PackIcon Background="Transparent"
+    Kind="WindowMaximize"
+    Height="25"
+    Width="25" />
+                        </Button>
+                        <Button  Name="btnClose" Click="Button_Click"
+  Style="{StaticResource MaterialDesignToolButton}" Margin="5" Foreground="Red" 
+  ToolTip="Close">
+                            <materialDesign:PackIcon Background="Transparent"
+    Kind="PowerStandby"
+    Height="25"
+    Width="25" />
+                        </Button>
+                
+                    </StackPanel>
+                </Grid>
+                <ContentControl Grid.Row="1" prism:RegionManager.RegionName="MainRegion"/>
+              
+
+            </Grid>
+
+            
+
+            <ContentControl prism:RegionManager.RegionName="NavigationRegion"/>
+
+        </Grid>
+        <xctk:ChildWindow Padding="20"   CloseButtonVisibility="Collapsed"  BorderThickness="0"    WindowBorderBrush="White" Visibility="Collapsed"   Name="childWindowMessageBox" WindowStartupLocation="Center" IsModal="True"    WindowState="Open"
+                   
+                    >
+
+
+            <StackPanel Margin="20">
+                <TextBlock Style="{StaticResource Title}" Text="{Binding Status}"  Margin="5"  Foreground="Orange"></TextBlock>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+
+                    <TextBlock Margin="5" Style="{StaticResource Error}" Foreground="Black" Text="{Binding Message}"></TextBlock>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Yes" HorizontalContentAlignment="Center" Height="25" HorizontalAlignment="Right" Margin="10" Name="btnBackOk" Click="btnBackOk_Click"
+    Style="{StaticResource btn}"
+    ToolTip="Yes">
+
+                        </Button>
+                        <Button   HorizontalAlignment="Center" Margin="10" Name="btnBackClose" Click="btnBackClose_Click"
+    Style="{StaticResource btn}"
+    ToolTip="No">
+                            No
+                        </Button>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </StackPanel>
+
+        </xctk:ChildWindow>
+
+    </Grid>
+</Window>

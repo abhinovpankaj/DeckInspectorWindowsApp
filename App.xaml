@@ -1,0 +1,343 @@
+﻿<prism1:PrismApplication  xmlns:prism1="http://prismlibrary.com/" x:Class="UI.Code.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:UI.Code"
+                          xmlns:con="clr-namespace:UI.Code.Convertor"
+                           xmlns:img="clr-namespace:UI.Code.View"
+                         xmlns:prism="http://prismlibrary.com"
+             xmlns:style="clr-namespace:UI.Code.Style"
+            >
+    <prism1:PrismApplication.Resources>
+       
+        <ResourceDictionary>
+            <BitmapImage x:Key="Icon_FolderOpen"   UriSource="pack://application:,,,/Icons/folder.ico"   />
+            <BitmapImage x:Key="Icon_FolderClosed" UriSource="pack://application:,,,/Icons/folder.ico" />
+            <con:ColorFConverter x:Key="ColorFConverter"></con:ColorFConverter>
+            <Style x:Key="IconImageStyleSmall" TargetType="Image">
+                <Setter Property="MaxWidth" Value="16"/>
+                <Setter Property="MaxHeight" Value="16"/>
+                <Setter Property="Margin" Value="1"/>
+            </Style>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
+
+
+            <SolidColorBrush x:Key="AppMainColor" Color="#0862c4"/>
+            <Style TargetType="Button" x:Key="ImgBtn" BasedOn="{StaticResource MaterialDesignToolButton}">
+                <Setter Property="Height" Value="44" />
+                <Setter Property="Width" Value="44" />
+                <Setter Property="Foreground" Value="{StaticResource AppMainColor}" />
+
+            </Style>
+           
+            <Style TargetType="Border" x:Key="brdProgress" >
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Background" Value="#80000000" />
+                <Setter Property="BorderBrush" Value="Black" />
+
+            </Style>
+            <Style TargetType="Button" x:Key="btn" BasedOn="{StaticResource MaterialDesignFlatDarkBgButton}">
+                <Setter Property="Height" Value="25" />
+                <Setter Property="FontSize" Value="10" />
+                <Setter Property="Foreground" Value="White" />
+
+            </Style>
+            <Style TargetType="Button" x:Key="Svebtn" BasedOn="{StaticResource MaterialDesignFlatDarkBgButton}">
+                <Setter Property="Height" Value="30" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Foreground" Value="White" />
+
+            </Style>
+
+            <Style TargetType="materialDesign:PackIcon">
+                <Setter Property="Height" Value="30" />
+                <Setter Property="Width" Value="30" />
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+            <Style TargetType="TextBlock" x:Key="Error" BasedOn="{StaticResource MaterialDesignSubtitle2TextBlock}">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="Foreground" Value="Red" />
+                
+            </Style>
+            <Style TargetType="TextBlock" x:Key="Title" BasedOn="{StaticResource MaterialDesignHeadline6TextBlock}">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="Foreground" Value="White" />
+
+            </Style>
+            <Style TargetType="TextBlock" x:Key="Des" BasedOn="{StaticResource MaterialDesignHeadline6TextBlock}">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Foreground" Value="White" />
+
+            </Style>
+
+
+            <Style TargetType="TextBlock" x:Key="Large" BasedOn="{StaticResource MaterialDesignHeadline6TextBlock}">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="Foreground" Value="White" />
+
+            </Style>
+            <Style TargetType="TextBlock" x:Key="Medium" BasedOn="{StaticResource MaterialDesignHeadline6TextBlock}">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="Foreground" Value="White" />
+
+            </Style>
+            <Style TargetType="TextBlock" x:Key="Label" BasedOn="{StaticResource MaterialDesignHeadline6TextBlock}">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="Foreground" Value="Black" />
+
+            </Style>
+            <Style TargetType="TextBlock" x:Key="Labelgv" BasedOn="{StaticResource MaterialDesignCaptionTextBlock}">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="Foreground" Value="Black" />
+
+            </Style>
+
+            <Style TargetType="TextBlock" x:Key="Small" BasedOn="{StaticResource MaterialDesignHeadline6TextBlock}">
+                <Setter Property="FontSize" Value="10" />
+                <Setter Property="Foreground" Value="White" />
+
+            </Style>
+            <Style TargetType="ListViewItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            </Style>
+            <!--<Style TargetType="ListBoxItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            </Style>-->
+            <Style x:Key="HorizontalRadioButtonList" TargetType="{x:Type ListBox}">
+                <Setter Property="Background" Value="Red"/>
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Background="Transparent" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ItemContainerStyle">
+                    <Setter.Value>
+                        <Style TargetType="{x:Type ListBoxItem}" >
+                            <Setter Property="Margin" Value="5,0,0,0" />
+                            <Setter Property="FontWeight" Value="Normal" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                        <Border BorderThickness="0" Background="Transparent">
+                                            <RadioButton Focusable="False" FontWeight="Normal"
+					    IsHitTestVisible="False"
+					    IsChecked="{TemplateBinding IsSelected}">
+                                                <ContentPresenter />
+                                            </RadioButton>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBox}">
+                            <Border BorderThickness="0" Padding="0" BorderBrush="Transparent" Background="Transparent" Name="Bd" SnapsToDevicePixels="True">
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <Style x:Key="MyFocusVisual">
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Margin="-2" StrokeThickness="1" Stroke="Red" StrokeDashArray="1 2"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#0862c4"/>
+            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#0862c4"/>
+            <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#0862c4"/>
+            
+            <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#0862c4"/>
+            <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="#0862c4"/>
+            <!--<SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#2e479b"/>
+            <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#2e479b"/>
+            <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#2e479b"/>
+            
+            --><!-- accent --><!--
+           -->
+
+            <Style x:Key="MaterialDesignDatePicker1" TargetType="{x:Type DatePicker}">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}" />
+                <Setter Property="CalendarStyle" Value="{StaticResource MaterialDesignDatePickerCalendarPortrait}" />
+                <Setter Property="IsTodayHighlighted" Value="True" />
+                <Setter Property="SelectedDateFormat" Value="Short" />
+                <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignTextBoxBorder}" />
+                <Setter Property="BorderThickness" Value="0 0 0 1" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Padding" Value="{x:Static wpf:Constants.TextBoxDefaultPadding}" />
+                <Setter Property="wpf:TextFieldAssist.TextBoxViewMargin" Value="{x:Static wpf:Constants.DefaultTextBoxViewMargin}" />
+                <Setter Property="Validation.ErrorTemplate" Value="{StaticResource MaterialDesignValidationErrorTemplate}" />
+                <Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
+                <Setter Property="wpf:HintAssist.Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DatePicker}">
+                            <ControlTemplate.Resources>
+                                <ControlTemplate x:Key="CalendarButtonTemplate" TargetType="{x:Type Button}">
+                                    <wpf:PackIcon
+                                Kind="Calendar" Width="20" Height="20"
+                                Foreground="{TemplateBinding Foreground}"
+                                Background="Transparent"
+                                VerticalAlignment="Center" />
+                                </ControlTemplate>
+                            </ControlTemplate.Resources>
+                            <Grid x:Name="PART_Root">
+                                <DatePickerTextBox
+                            x:Name="PART_TextBox"
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            Focusable="{TemplateBinding Focusable}"
+                            Style="{DynamicResource MaterialDesignDatePickerTextBox}"
+                            VerticalContentAlignment="Center"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            wpf:HintAssist.IsFloating="{TemplateBinding wpf:HintAssist.IsFloating}"
+                            wpf:HintAssist.FloatingScale="{TemplateBinding wpf:HintAssist.FloatingScale}"
+                            wpf:HintAssist.FloatingOffset="{TemplateBinding wpf:HintAssist.FloatingOffset}"
+                            wpf:HintAssist.Hint="{TemplateBinding wpf:HintAssist.Hint}"
+                            wpf:HintAssist.HintOpacity="{TemplateBinding wpf:HintAssist.HintOpacity}"
+                            wpf:HintAssist.Foreground="{TemplateBinding wpf:HintAssist.Foreground}"
+                            wpf:HintAssist.HelperText="{TemplateBinding wpf:HintAssist.HelperText}"
+                            wpf:HintAssist.HelperTextFontSize="{TemplateBinding wpf:HintAssist.HelperTextFontSize}"
+                            wpf:TextFieldAssist.TextBoxViewMargin="{TemplateBinding wpf:TextFieldAssist.TextBoxViewMargin}"
+                            wpf:TextFieldAssist.DecorationVisibility="{TemplateBinding wpf:TextFieldAssist.DecorationVisibility}"
+                            wpf:TextFieldAssist.HasFilledTextField="{TemplateBinding wpf:TextFieldAssist.HasFilledTextField}"
+                            wpf:TextFieldAssist.HasOutlinedTextField="{TemplateBinding wpf:TextFieldAssist.HasOutlinedTextField}"
+                            wpf:TextFieldAssist.TextFieldCornerRadius="{TemplateBinding wpf:TextFieldAssist.TextFieldCornerRadius}"
+                            wpf:TextFieldAssist.UnderlineCornerRadius="{TemplateBinding wpf:TextFieldAssist.UnderlineCornerRadius}"
+                            wpf:TextFieldAssist.NewSpecHighlightingEnabled="{TemplateBinding wpf:TextFieldAssist.NewSpecHighlightingEnabled}"
+                            wpf:TextFieldAssist.RippleOnFocusEnabled="{TemplateBinding wpf:TextFieldAssist.RippleOnFocusEnabled}"
+                            wpf:TextFieldAssist.UnderlineBrush="{TemplateBinding wpf:TextFieldAssist.UnderlineBrush}"
+                            wpf:TextFieldAssist.HasClearButton="{TemplateBinding wpf:TextFieldAssist.HasClearButton}"
+                            wpf:TextFieldAssist.PrefixText="{TemplateBinding wpf:TextFieldAssist.PrefixText}"
+                            wpf:TextFieldAssist.SuffixText="{TemplateBinding wpf:TextFieldAssist.SuffixText}">
+                                    <DatePickerTextBox.Padding>
+                                        <MultiBinding Converter="{StaticResource PickerInnerPaddingConverter}">
+                                            <Binding Path="Padding" RelativeSource="{RelativeSource TemplatedParent}" />
+                                            <Binding Path="ActualWidth" ElementName="PART_Button" Mode="OneWay" />
+                                        </MultiBinding>
+                                    </DatePickerTextBox.Padding>
+                                </DatePickerTextBox>
+                                <Button
+                            x:Name="PART_Button"
+                            Foreground="{TemplateBinding BorderBrush}"
+                            Focusable="False"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Template="{StaticResource CalendarButtonTemplate}"
+                            Margin="{TemplateBinding Padding, Converter={StaticResource PickerInnerPaddingConverter}}"
+                            Height="16" />
+                                <Popup
+                            x:Name="PART_Popup"
+                            AllowsTransparency="True"
+                            Placement="Custom"
+                            CustomPopupPlacementCallback="{x:Static wpf:CustomPopupPlacementCallbackHelper.LargePopupCallback}"
+                            PlacementTarget="{Binding ElementName=PART_TextBox}"
+                            StaysOpen="False"
+                            PopupAnimation="Fade" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="wpf:TextFieldAssist.HasFilledTextField" Value="True">
+                                    <Setter Property="Padding" Value="16 8" />
+                                    <Setter Property="Background" Value="{DynamicResource MaterialDesignTextFieldBoxBackground}" />
+                                    <Setter Property="wpf:TextFieldAssist.TextBoxViewMargin" Value="{x:Static wpf:Constants.DefaultTextBoxViewMarginEmbedded}" />
+                                </Trigger>
+                                <Trigger Property="wpf:TextFieldAssist.HasOutlinedTextField" Value="True">
+                                    <Setter Property="Padding" Value="16" />
+                                    <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignTextAreaBorder}" />
+                                    <Setter Property="wpf:TextFieldAssist.TextBoxViewMargin" Value="{x:Static wpf:Constants.DefaultTextBoxViewMarginEmbedded}" />
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="wpf:TextFieldAssist.HasFilledTextField" Value="False" />
+                                        <Condition Property="wpf:TextFieldAssist.HasOutlinedTextField" Value="False" />
+                                        <Condition Property="IsMouseOver" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsEnabled" Value="True" />
+                                        <Condition SourceName="PART_Button" Property="IsMouseOver" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="PART_Button" Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                                </MultiTrigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="PART_Button" Property="Opacity" Value="{x:Static wpf:Constants.TextBoxNotEnabledOpacity}"/>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsEnabled" Value="False" />
+                                        <Condition Property="wpf:TextFieldAssist.HasOutlinedTextField" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="PART_TextBox" Property="BorderBrush" Value="{DynamicResource MaterialDesignTextAreaInactiveBorder}" />
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition SourceName="PART_TextBox" Property="IsKeyboardFocused" Value="True" />
+                                        <Condition Property="wpf:TextFieldAssist.HasOutlinedTextField" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="PART_TextBox" Property="BorderBrush" Value="{Binding Path=(wpf:TextFieldAssist.UnderlineBrush), RelativeSource={RelativeSource Self}}" />
+                                </MultiTrigger>
+                                <Trigger Property="wpf:CalendarAssist.IsHeaderVisible" Value="False">
+                                    <Setter Property="CalendarStyle">
+                                        <Setter.Value>
+                                            <Style TargetType="Calendar" BasedOn="{StaticResource MaterialDesignDatePickerCalendarPortrait}">
+                                                <Setter Property="wpf:CalendarAssist.IsHeaderVisible" Value="False" />
+                                            </Style>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True" />
+                                        <Condition Property="wpf:TextFieldAssist.HasFilledTextField" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Background" Value="{DynamicResource MaterialDesignTextFieldBoxHoverBackground}" />
+                                </MultiTrigger>
+
+                                <Trigger Property="Validation.HasError" Value="True">
+                                    <Setter TargetName="PART_TextBox" Property="wpf:ValidationAssist.HasError" Value="True" />
+                                    <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignValidationErrorBrush}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+               
+                <!--<style:SkinResourceDictionary DarkSource="Style/Dark.xaml" 
+                                              LightSource="Style/Light.xaml" />-->
+                   <ResourceDictionary Source="Style/Style.xaml"></ResourceDictionary>
+
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Indigo.xaml" />
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </prism1:PrismApplication.Resources>
+</prism1:PrismApplication>

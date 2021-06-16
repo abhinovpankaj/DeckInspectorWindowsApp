@@ -1,0 +1,682 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{146FF75D-46BA-45BD-9B0C-760137994325}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>UI.Code</RootNamespace>
+    <AssemblyName>Deck Inspectors</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://api.deckinspectors.com/</InstallUrl>
+    <SupportUrl>http://api.deckinspectors.com/</SupportUrl>
+    <ErrorReportUrl>http://api.deckinspectors.com/</ErrorReportUrl>
+    <ProductName>Deck inspectors</ProductName>
+    <PublisherName>Deck inspectors</PublisherName>
+    <SuiteName>Deck inspectors</SuiteName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>16</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>25306FD0D04877A8B188ADB4445A094809375933</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>UI.Code_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.6.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\CommonServiceLocator.2.0.6\lib\net47\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>packages\EnvDTE.16.9.31023.347\lib\net45\EnvDTE.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>.\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=2.0.0.2422, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>packages\MaterialDesignColors.2.0.0\lib\net452\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=4.0.0.2422, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>packages\MaterialDesignThemes.4.0.0\lib\net452\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism, Version=8.0.0.1909, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>packages\Prism.Core.8.0.0.1909\lib\net47\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Unity.Wpf, Version=8.0.0.1909, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>packages\Prism.Unity.8.0.0.1909\lib\net47\Prism.Unity.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=8.0.0.1909, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>packages\Prism.Wpf.8.0.0.1909\lib\net47\Prism.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>packages\stdole.16.9.31023.347\lib\net45\stdole.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Unity.Abstractions, Version=5.11.7.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.Abstractions.5.11.7\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.11.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.Container.5.11.11\lib\net47\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\dll\WPFToolkit.Extended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid">
+      <HintPath>..\dll\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Controls\AddEditHeader.xaml.cs">
+      <DependentUpon>AddEditHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AssginControl.xaml.cs">
+      <DependentUpon>AssginControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DeleteControl.xaml.cs">
+      <DependentUpon>DeleteControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ImageList.xaml.cs">
+      <DependentUpon>ImageList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListDataDisplay.xaml.cs">
+      <DependentUpon>ListDataDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\progress.xaml.cs">
+      <DependentUpon>progress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UCShowPassWord.xaml.cs">
+      <DependentUpon>UCShowPassWord.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Convertor\Class2.cs" />
+    <Compile Include="Convertor\Class3.cs" />
+    <Compile Include="Convertor\InversBooleanToVisibilityConverter.cs" />
+    <Compile Include="Convertor\PasswordToVisibilityConverter.cs" />
+    <Compile Include="Convertor\Class1.cs" />
+    <Compile Include="Model\BaseDetail.cs" />
+    <Compile Include="Model\ApiException.cs" />
+    <Compile Include="Model\CheckboxItem.cs" />
+    <Compile Include="Model\Class2.cs" />
+    <Compile Include="Model\Class3.cs" />
+    <Compile Include="Model\Class4.cs" />
+    <Compile Include="Model\CustomRadioItem.cs" />
+    <Compile Include="Model\OrganizationDetail.cs" />
+    <Compile Include="Model\TreeFile.cs" />
+    <Compile Include="Model\VisualBuildingApartment.cs" />
+    <Compile Include="Model\ErrorModel.cs" />
+    <Compile Include="Model\Response.cs" />
+    <Compile Include="Model\Search.cs" />
+    <Compile Include="Services\TreeServices.cs" />
+    <Compile Include="ViewModel\AssigeProjectViewModel.cs" />
+    <Compile Include="ViewModel\BuildingViewModel.cs" />
+    <Compile Include="ViewModel\UCFilePageViewModel.cs" />
+    <Compile Include="ViewModel\LogInfoViewModel.cs" />
+    <Compile Include="ViewModel\FilePageViewModel.cs" />
+    <Compile Include="ViewModel\ViewImages\DetailViewBuildingApartmentImageViewModel.cs" />
+    <Compile Include="ViewModel\ViewImages\DetailViewBuildingLocationImageViewModel.cs" />
+    <Compile Include="ViewModel\ViewImages\DetailViewProjectLocationImageViewModel.cs" />
+    <Compile Include="ViewModel\BuildingAddOrEditViewModel.cs" />
+    <Compile Include="ViewModel\BuildingLocationAddOrEditViewModel.cs" />
+    <Compile Include="ViewModel\BuildingAparmentEditViewModel.cs" />
+    <Compile Include="ViewModel\ProjectLocationAddOrEditViewModel.cs" />
+    <Compile Include="ViewModel\VisualForm\EditVisualReportViewModel.cs" />
+    <Compile Include="ViewModel\VisualForm\VisualApartmentViewModel.cs" />
+    <Compile Include="ViewModel\VisualForm\VisualBuildingLocationViewModel.cs" />
+    <Compile Include="ViewModel\VisualForm\VisualLocationViewModel.cs" />
+    <Compile Include="ViewModel\UserAddOrEditViewModel.cs" />
+    <Compile Include="ViewModel\ProjectViewModel.cs" />
+    <Compile Include="ViewModel\UsersPageViewModel.cs" />
+    <Compile Include="Controls\LogInfo.xaml.cs">
+      <DependentUpon>LogInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BuildingApartmentAddOrEdit.xaml.cs">
+      <DependentUpon>BuildingApartmentAddOrEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BuildingLocationAddOrEdit.xaml.cs">
+      <DependentUpon>BuildingLocationAddOrEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Class1.cs" />
+    <Compile Include="View\DetailViewBuildingLocationImage.xaml.cs">
+      <DependentUpon>DetailViewBuildingLocationImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DetailViewBuildingApartmentImage.xaml.cs">
+      <DependentUpon>DetailViewBuildingApartmentImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditVisualReport.xaml.cs">
+      <DependentUpon>EditVisualReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UCFilePageView.xaml.cs">
+      <DependentUpon>UCFilePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Navigation\UserNavigation.xaml.cs">
+      <DependentUpon>UserNavigation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NotEmptyValidationRule.cs" />
+    <Compile Include="Controls\DummyView.xaml.cs">
+      <DependentUpon>DummyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Header.xaml.cs">
+      <DependentUpon>Header.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LocationDetail.xaml.cs">
+      <DependentUpon>LocationDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VisualDetail.xaml.cs">
+      <DependentUpon>VisualDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProjectNewEdit.xaml.cs">
+      <DependentUpon>ProjectNewEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Convertor\BooleanToVisibilityConverter.cs" />
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Apartment_Visual.cs" />
+    <Compile Include="Model\BindingModel.cs" />
+    <Compile Include="Model\BuildingApartment.cs" />
+    <Compile Include="Model\BuildingApartmentImages.cs" />
+    <Compile Include="Model\BuildingCommonLocationImages.cs" />
+    <Compile Include="Model\BuildingLocation.cs" />
+    <Compile Include="Model\BuildingLocation_Visual.cs" />
+    <Compile Include="Model\Class1.cs" />
+    <Compile Include="Model\Project.cs" />
+    <Compile Include="Model\ProjectBuilding.cs" />
+    <Compile Include="Model\ProjectCommonLocationImages.cs" />
+    <Compile Include="Model\ProjectLocation.cs" />
+    <Compile Include="Model\ProjectLocation_Visual.cs" />
+    <Compile Include="Model\ProjectTypeList.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="Model\VisualApartmentLocationPhoto.cs" />
+    <Compile Include="Model\VisualBuildingLocationPhoto.cs" />
+    <Compile Include="Model\VisualProjectLocation.cs" />
+    <Compile Include="Model\VisualProjectLocationPhoto.cs" />
+    <Compile Include="Presentation\ModuleLocators.cs" />
+    <Compile Include="Services\BuildingApartmentDataStore.cs" />
+    <Compile Include="Services\BuildingApartmentImagesDataStore.cs" />
+    <Compile Include="Services\BuildingCommonLocationImagesDataStore.cs" />
+    <Compile Include="Services\BuildingLocationDataStore.cs" />
+    <Compile Include="Services\ProjectBuildingDataStore.cs" />
+    <Compile Include="Services\ProjectLocationService.cs" />
+    <Compile Include="Services\ProjectLocationImagesDataStore.cs" />
+    <Compile Include="Services\ProjectService.cs" />
+    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\VisualImages\VisualApartmentLocationPhotoDataStore.cs" />
+    <Compile Include="Services\VisualImages\VisualBuildingLocationPhotoDataStore.cs" />
+    <Compile Include="Services\VisualForm\VisualFormApartmentDataStore.cs" />
+    <Compile Include="Services\VisualForm\VisualFormBuildingLocationDataStore.cs" />
+    <Compile Include="Services\VisualForm\VisualFormProjectLocationDataStore.cs" />
+    <Compile Include="Services\VisualImages\VisualProjectLocationPhotoDataStore.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Shell.xaml.cs">
+      <DependentUpon>Shell.Xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Style\SkinResourceDictionary.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\NotificationDialogViewModel.cs" />
+    <Compile Include="ViewModel\ProjectAddOrEditViewModel.cs" />
+    <Compile Include="ViewModel\LocationDetailPageViewModel.cs" />
+    <Compile Include="ViewModel\ReportPageViewModel.cs" />
+    <Compile Include="ViewModel\ProjectsPageViewModel.cs" />
+    <Compile Include="ViewModel\LoginPageViewModel.cs" />
+    <Compile Include="ViewModel\ShellViewModel.cs" />
+    <Compile Include="ViewModel\WelcomePageViewModel.cs" />
+    <Compile Include="View\Dialog\NotificationDialog.xaml.cs">
+      <DependentUpon>NotificationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoginPageView.xaml.cs">
+      <DependentUpon>LoginPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Navigation\AdminNavigation.xaml.cs">
+      <DependentUpon>AdminNavigation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AssigeProjectView.xaml.cs">
+      <DependentUpon>AssigeProjectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BuildingPageView.xaml.cs">
+      <DependentUpon>BuildingPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DetailViewProjectLocationImage.xaml.cs">
+      <DependentUpon>DetailViewProjectLocationImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BuildingAddOrEdit.xaml.cs">
+      <DependentUpon>BuildingAddOrEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProjectLocationAddOrEdit.xaml.cs">
+      <DependentUpon>ProjectLocationAddOrEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProjectsPageView.xaml.cs">
+      <DependentUpon>ProjectsPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UCDialogDelete.xaml.cs">
+      <DependentUpon>UCDialogDelete.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserAddOrEdit.xaml.cs">
+      <DependentUpon>UserAddOrEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProjectAddOrEdit.xaml.cs">
+      <DependentUpon>ProjectAddOrEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProjectPageView.xaml.cs">
+      <DependentUpon>ProjectPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UsersPageView.xaml.cs">
+      <DependentUpon>UsersPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FilePageView.xaml.cs">
+      <DependentUpon>FilePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReportView.xaml.cs">
+      <DependentUpon>ReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InvasiveVisualApartmentView.xaml.cs">
+      <DependentUpon>InvasiveVisualApartmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisualApartmentView.xaml.cs">
+      <DependentUpon>VisualApartmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InvasiveVisualBuildingLocationView.xaml.cs">
+      <DependentUpon>InvasiveVisualBuildingLocationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisualBuildingLocationView.xaml.cs">
+      <DependentUpon>VisualBuildingLocationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InvasiveVisualProjectLocationView.xaml.cs">
+      <DependentUpon>InvasiveVisualProjectLocationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisualProjectLocationView.xaml.cs">
+      <DependentUpon>VisualProjectLocationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisualUserControleForVisual.xaml.cs">
+      <DependentUpon>VisualUserControleForVisual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisualUserControle.xaml.cs">
+      <DependentUpon>VisualUserControle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WelcomePageView.xaml.cs">
+      <DependentUpon>WelcomePageView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Controls\AddEditHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\AssginControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DeleteControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DummyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Header.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ImageList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ListDataDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LocationDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\progress.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\UCShowPassWord.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\VisualDetail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ProjectNewEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Shell.Xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Style\Dark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Style\Light.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Style\Style.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BuildingApartmentAddOrEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BuildingLocationAddOrEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DetailViewBuildingLocationImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DetailViewBuildingApartmentImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Dialog\NotificationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LogInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditVisualReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UCFilePageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LoginPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Navigation\UserNavigation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Navigation\AdminNavigation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AssigeProjectView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BuildingPageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DetailViewProjectLocationImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BuildingAddOrEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ProjectLocationAddOrEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ProjectsPageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\UCDialogDelete.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserAddOrEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ProjectAddOrEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ProjectPageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\UsersPageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FilePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\InvasiveVisualApartmentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\VisualApartmentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\InvasiveVisualBuildingLocationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\VisualBuildingLocationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\InvasiveVisualProjectLocationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\VisualProjectLocationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\VisualUserControleForVisual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\VisualUserControle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\WelcomePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="UI.Code_TemporaryKey.pfx" />
+    <Resource Include="Fonts\Roboto-Light.ttf" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\closeBtn_default.png" />
+    <Resource Include="Assets\closeBtn_MouseOver.png" />
+    <Resource Include="Assets\img_background.png" />
+    <Resource Include="Assets\img_contact.png" />
+    <Resource Include="Assets\img_home.png" />
+    <Resource Include="Assets\img_map.png" />
+    <Resource Include="Assets\img_message.png" />
+    <Resource Include="Assets\img_setting.png" />
+    <Resource Include="Assets\img_signout.png" />
+    <Resource Include="Assets\tgBtn_default.png" />
+    <Resource Include="Assets\tgBtn_MouseOver.png" />
+    <Resource Include="Fonts\LICENSE.txt" />
+    <EmbeddedResource Include="Images\icon33.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CacheFolder\" />
+    <Folder Include="Validation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\folder.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.VisualStudio.SDK.EmbedInteropTypes.15.0.36\build\Microsoft.VisualStudio.SDK.EmbedInteropTypes.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.VisualStudio.SDK.EmbedInteropTypes.15.0.36\build\Microsoft.VisualStudio.SDK.EmbedInteropTypes.targets'))" />
+  </Target>
+  <Import Project="packages\Microsoft.VisualStudio.SDK.EmbedInteropTypes.15.0.36\build\Microsoft.VisualStudio.SDK.EmbedInteropTypes.targets" Condition="Exists('packages\Microsoft.VisualStudio.SDK.EmbedInteropTypes.15.0.36\build\Microsoft.VisualStudio.SDK.EmbedInteropTypes.targets')" />
+</Project>

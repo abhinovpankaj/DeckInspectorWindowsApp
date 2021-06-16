@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="UI.Code.View.ProjectLocationAddOrEdit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UI.Code.View"
+              xmlns:control="clr-namespace:UI.Code.Controls"
+              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+              xmlns:prism="http://prismlibrary.com/"    
+             prism:ViewModelLocator.AutoWireViewModel="True"  
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid Margin="80,5,0,0" Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <Button  Grid.Column="0" Margin="50,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding BackCommand}"
+  Style="{StaticResource ImgBtn}"
+  ToolTip="New Project">
+                        <materialDesign:PackIcon  Foreground="White"
+    Kind="ArrowBack"
+    />
+                    </Button>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" Text="{Binding Title}"
+    Style="{StaticResource Title}">
+
+                    </TextBlock>
+                </StackPanel>
+
+            </Grid>
+            <materialDesign:Card Grid.Row="1" VerticalAlignment="Top" Margin="50,5,50,0">
+                <Grid  >
+
+
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock Margin="10" Text="{Binding Type}"
+    Style="{StaticResource MaterialDesignSubtitle1TextBlock}">
+
+                            </TextBlock>
+
+                        </StackPanel>
+                        <StackPanel>
+
+
+
+                            <TextBox Margin="10"
+  materialDesign:HintAssist.Hint="Project Common Location Name" Text="{Binding ProjectLocation.Name}"
+                        materialDesign:TextFieldAssist.TextBoxViewMargin="1 12 1 0"
+                        materialDesign:HintAssist.FloatingScale="0.90"
+  Style="{StaticResource MaterialDesignOutlinedTextBox}"   FontSize="14"
+  VerticalAlignment="Center" />
+                        </StackPanel>
+                        <!--<StackPanel>
+
+
+
+                    <TextBox Margin="10"
+  materialDesign:HintAssist.Hint="Address" Text="{Binding Project.Address,Mode=TwoWay}"
+                        materialDesign:TextFieldAssist.TextBoxViewMargin="1 12 1 0"
+                        materialDesign:HintAssist.FloatingScale="0.90"
+  Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"   FontSize="14"
+  VerticalAlignment="Center" />
+                </StackPanel>-->
+                        <StackPanel>
+                            <StackPanel>
+
+                                <TextBox Margin="10" FontSize="14" Text="{Binding ProjectLocation.Description }"
+    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+    VerticalAlignment="Top"
+    Height="80"
+    AcceptsReturn="True"
+    TextWrapping="Wrap"
+    VerticalScrollBarVisibility="Auto"
+                                 
+    materialDesign:HintAssist.Hint="Description"
+    IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Margin="10"  Text="{Binding ProjectLocation.Username,Mode=TwoWay }"
+    Style="{StaticResource Label}">
+
+                            </TextBlock>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Margin="10" Text="{Binding ProjectLocation.CreatedOn }"
+    Style="{StaticResource Label}">
+
+                            </TextBlock>
+                        </StackPanel>
+                        <StackPanel >
+                            <Button Width="100" HorizontalAlignment="Center" Margin="10" Name="btnSave" Click="btnSave_Click"
+    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+    ToolTip="Save">
+                                Save
+                            </Button>
+
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+        </Grid>
+        <Border Style="{StaticResource brdProgress}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" >
+            <control:progress></control:progress>
+        </Border>
+        <xctk:ChildWindow Padding="20"   CloseButtonVisibility="Collapsed"  BorderThickness="0"    WindowBorderBrush="White" Visibility="Collapsed"   Name="childWindowFeedback" WindowStartupLocation="Center" IsModal="True"    WindowState="Open"
+                   
+                    >
+
+
+            <StackPanel Margin="20">
+                <TextBlock Style="{StaticResource Title}" Foreground="Black"  Margin="5"  Text="{Binding Status}"></TextBlock>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+
+                    <TextBlock Margin="5" Style="{StaticResource Error}" Text="{Binding Message}"></TextBlock>
+                    <Button   HorizontalAlignment="Center" Margin="10" Name="btnErrorClose" Click="btnErrorClose_Click"
+    Style="{StaticResource btn}"
+    ToolTip="Close">
+                        Close
+                    </Button>
+                </StackPanel>
+
+            </StackPanel>
+
+        </xctk:ChildWindow>
+    </Grid>
+   
+   
+</UserControl>
