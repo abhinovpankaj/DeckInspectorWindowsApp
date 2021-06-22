@@ -206,54 +206,7 @@ namespace UI.Code.ViewModel.VisualForm
 
                     VisualForm.LifeExpectancyAWE = RadioList_LifeExpectancyAWE.Where(c => c.IsChecked == true).Single().Name;
 
-                    #region save Visual Form updates: to be used may be
-                    //if (await VisualFormProjectLocationDataStore.GetItemAsync(VisualForm.Id) == null)
-                    //{
-                    //    List<string> list = VisualProjectLocationPhotoItems.Select(c => c.ImageUrl).ToList();
-                    //    response = await VisualFormProjectLocationDataStore.AddItemAsync(VisualForm, list);
-                    //    // VisualProjectLocationPhotoItems.Clear();
-
-
-                    //}
-                    //else
-                    //{
-                    //    List<MultiImage> finelList = new List<MultiImage>();
-                    //    if (App.IsInvasive == false)
-                    //        response = await VisualFormProjectLocationDataStore.UpdateItemAsync(VisualForm, App.VisualEditTracking);
-                    //    else
-                    //    {
-
-                    //        if (InvasiveVisualProjectLocationPhotoItems.Count == 0)
-                    //        {
-                    //            errorMessage += "\nInvasive photo required\n"; ;
-
-                    //        }
-                    //        if (string.IsNullOrEmpty(visualForm.ImageDescription))
-                    //        {
-                    //            errorMessage += "\nDescription required\n"; ;
-
-                    //        }
-                    //        if (!string.IsNullOrEmpty(errorMessage))
-                    //        {
-                    //            response.Message = errorMessage;
-                    //            response.Status = ApiResult.Fail;
-
-                    //            // await Shell.Current.DisplayAlert("Validation Error", errorMessage, "OK");
-                    //        }
-                    //        else
-                    //        {
-
-                    //            response = await VisualFormProjectLocationDataStore.UpdateItemAsync(VisualForm, App.VisualEditTrackingForInvasive);
-                    //        }
-
-                    //    }
-
-
-                    //    // VisualProjectLocationPhotoItems.Clear();
-
-                    //}
-
-                    #endregion
+                   
                 }
             }
 

@@ -195,6 +195,7 @@
     <Compile Include="Model\Class3.cs" />
     <Compile Include="Model\Class4.cs" />
     <Compile Include="Model\CustomRadioItem.cs" />
+    <Compile Include="Model\MultiImage.cs" />
     <Compile Include="Model\OrganizationDetail.cs" />
     <Compile Include="Model\TreeFile.cs" />
     <Compile Include="Model\VisualBuildingApartment.cs" />

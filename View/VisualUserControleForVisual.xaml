@@ -368,6 +368,15 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBlock VerticalAlignment="Center" FontSize="14" Foreground="White" Style="{Binding Title}" Grid.Column="0" Text="Photo(s)"></TextBlock>
+                        <Button  Style="{StaticResource ImgBtn}" Margin="100,0,0,0"
+                                 ToolTip="Click to browse and add Images"
+                               x:Name="addPicBtn" Foreground="White"
+                       VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                         Click="addPicBtn_Click"
+                        Grid.Row="0">
+                            <materialDesign:PackIcon Kind="Add"/>
+                        </Button>
                         <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
 
                             <Button  Name="btnEdit" Foreground="White" Visibility="Visible"  HorizontalAlignment="Right"  
@@ -404,7 +413,8 @@
                         <materialDesign:Card Background="White" Grid.Row="0" >
                             <ScrollViewer Grid.Column="0">
 
-                                <ListBox  ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto" Name="lbox" SelectionMode="Single" ItemsSource="{Binding Images}"  >
+                                <ListBox  ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto" Name="lbox" SelectionMode="Single"
+                                          ItemsSource="{Binding Images}"  >
                                     <ListBox.Resources>
                                         <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                                             <Setter Property="Background" Value="Transparent"/>
@@ -446,7 +456,7 @@
 
 
                         </materialDesign:Card>
-
+                        
                         <TextBlock Grid.Row="1" HorizontalAlignment="Left" MaxWidth="450" TextWrapping="WrapWithOverflow"  VerticalAlignment="Center"  FontSize="12" Foreground="White" Style="{Binding Title}" Grid.Column="0" Text="{Binding SelectedItem.ImageDescription}" ></TextBlock>
                     </Grid>
 
