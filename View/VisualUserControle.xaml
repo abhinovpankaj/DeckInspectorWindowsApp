@@ -36,14 +36,6 @@
 
                 <Grid Grid.Column="0">
 
-                    <!--<Button Grid.Column="4" Name="btnBack" HorizontalAlignment="Right" 
-  Style="{StaticResource ImgBtn}" Margin="10" Foreground="White"
-  ToolTip="Back">
-                        <materialDesign:PackIcon
-    Kind="ArrowBack"
-    
-     />
-                    </Button>-->
 
 
                 </Grid>
@@ -52,34 +44,7 @@
     Style="{StaticResource MaterialDesignHeadline6TextBlock}">
 
                 </TextBlock>
-                <!--<ComboBox Grid.Column="1" SelectionChanged="CbProType_SelectionChanged" SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding Items}" Width="400" Name="CbProType" HorizontalAlignment="Left" Margin="20,2,0,5" VerticalAlignment="Center"
-  materialDesign:HintAssist.Hint="Visual Inspection">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}"></TextBlock>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                
-                <StackPanel Grid.Column="3" Orientation="Horizontal">
-                    <Button HorizontalAlignment="Right" x:Name="btnSearch"  Grid.Column="2"  Style="{StaticResource ImgBtn}" 
-   Margin="10,5" 
-  ToolTip="Search">
-                        <materialDesign:PackIcon Background="Transparent"
-    Kind="Search"
-   
-     />
-                    </Button>
-                    <Button HorizontalAlignment="Right"  Grid.Column="2" Command="{Binding ResetCommand}"
- Style="{StaticResource ImgBtn}" Margin="5" 
-  ToolTip="Reset">
-                        <materialDesign:PackIcon Background="Transparent"
-    Kind="Refresh"
-    
-     />
-                    </Button>
-                </StackPanel>-->
-
+               
             </Grid>
             <!--</materialDesign:Card>-->
             <Grid Grid.Row="1" >
@@ -135,7 +100,9 @@
                         </StackPanel>
                     </Grid>
                     <ScrollViewer Grid.Row="1">
-                        <ListBox VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto"  Name="lboxVisual" SelectionMode="Single" ItemsSource="{Binding Items}" Width="400"  >
+                        <ListBox VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                 HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto"  
+                                 Name="lboxVisual" SelectionMode="Single" ItemsSource="{Binding Items}" Width="400"  >
                             <ListBox.Resources>
                                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                                     <Setter Property="Background" Value="Transparent"/>
@@ -216,8 +183,8 @@
                     </Grid.RowDefinitions>
                     <materialDesign:ColorZone Mode="Standard">
                         <StackPanel Orientation="Horizontal" Margin="2">
-                            <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}" x:Name="rbTab1" Margin="4" IsChecked="True" Content="Visual"/>
-                            <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}" x:Name="rbTab2" Margin="4" Content="Invasive"/>
+                            <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}" x:Name="rbTab1" Margin="4"  IsChecked="True" Content="Visual"/>
+                            <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}" x:Name="rbTab2" Margin="4"  Content="Invasive"/>
                          
                         </StackPanel>
                     </materialDesign:ColorZone>
@@ -486,6 +453,13 @@
                                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
                                             <TextBlock VerticalAlignment="Center" FontSize="14" Foreground="White" Style="{Binding Title}" Grid.Column="0" Text="Photo(s)"></TextBlock>
+                                            <Button  Name="btnAddNewImage" Foreground="White" Visibility="Visible" 
+                                                     HorizontalAlignment="Right"
+                                                     Margin="100,0,0,0"
+                                                     Click="btnAddNewImage_Click"
+                                                     Style="{StaticResource ImgBtn}" ToolTip="Add new Images">
+                                                <materialDesign:PackIcon Kind="Add" />
+                                            </Button>
                                             <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
 
                                                 <Button  Name="btnEditInvasive" Foreground="White" Visibility="Visible"  HorizontalAlignment="Right"  
@@ -579,44 +553,7 @@
             </Grid>
 
         </Grid>
-        <!--<xctk:ChildWindow Padding="20"   CloseButtonVisibility="Collapsed"  BorderThickness="0"    WindowBorderBrush="White" Visibility="Collapsed"   Name="childImageShow" WindowStartupLocation="Center" IsModal="True"    WindowState="Open"
-                   
-                    >
-
-
-            <Grid Margin="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-
-                </Grid.RowDefinitions>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Button HorizontalAlignment="Right"  Grid.Column="0" Name="btnImageDelete"
- Style="{StaticResource ImgBtn}" Margin="5,0,0,0" 
-  ToolTip="Delete">
-                        <materialDesign:PackIcon Background="Transparent"
-    Kind="Delete"
-    
-     />
-                    </Button>
-                    <Button HorizontalAlignment="Right"  Grid.Column="1" Name="btnImageClose"
- Style="{StaticResource ImgBtn}" Margin="5,0,0,0" 
-  ToolTip="Close">
-                        <materialDesign:PackIcon Background="Transparent"
-    Kind="Close"
-    
-     />
-                    </Button>
-                </Grid>
-                <img:CachedImage ImageUrl="{Binding ImageUrl}" Width="800" Height="500" Grid.Row="1" Margin="0" VerticalAlignment="Stretch"  />
-            </Grid>
-
-        </xctk:ChildWindow>-->
+       
         <xctk:ChildWindow Padding="10"    CloseButtonVisibility="Collapsed"  BorderThickness="0"    WindowBorderBrush="White" Visibility="Collapsed"   Name="childImageShow" WindowStartupLocation="Center" IsModal="True"    WindowState="Open"
                    
                     >

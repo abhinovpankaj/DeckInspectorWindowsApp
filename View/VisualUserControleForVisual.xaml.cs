@@ -706,6 +706,32 @@ namespace UI.Code.View
         private async void addPicBtn_Click(object sender, RoutedEventArgs e)
         {
             List<string> pics = new List<string>();
+            var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+            {
+                var myVM = vm as VisualProjectLocationViewModel;
+                this.Dispatcher.Invoke(() => {
+                    myVM.IsBusy = true;
+                });
+            }
+
+            if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+            {
+                var myVM = vm as VisualBuildingLocationViewModel;
+                this.Dispatcher.Invoke(() => {
+                    myVM.IsBusy = true;
+                });
+
+            }
+
+            if (vm.GetType() == typeof(VisualApartmentViewModel))
+            {
+                var myVM = vm as VisualApartmentViewModel;
+                this.Dispatcher.Invoke(() => {
+                    myVM.IsBusy = true;
+                });
+
+            }
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = true;
             openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
@@ -718,6 +744,34 @@ namespace UI.Code.View
                
                 var passed= await UploadGallary(pics);
             }
+            else
+            {
+                if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+                {
+                    var myVM = vm as VisualProjectLocationViewModel;
+                    this.Dispatcher.Invoke(() => {
+                        myVM.IsBusy = false;
+                    });
+                }
+
+                if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+                {
+                    var myVM = vm as VisualBuildingLocationViewModel;
+                    this.Dispatcher.Invoke(() => {
+                        myVM.IsBusy = false;
+                    });
+
+                }
+
+                if (vm.GetType() == typeof(VisualApartmentViewModel))
+                {
+                    var myVM = vm as VisualApartmentViewModel;
+                    this.Dispatcher.Invoke(() => {
+                        myVM.IsBusy = false;
+                    });
+
+                }
+            }
             
         }
         public async Task<bool> UploadGallary(List<string> images)
@@ -727,9 +781,7 @@ namespace UI.Code.View
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var myVM = vm as VisualProjectLocationViewModel;
-                this.Dispatcher.Invoke(()=>{
-                    myVM.IsBusy = true;
-                });
+                
                 
                 foreach (var item in images)
                 {
@@ -965,41 +1017,7 @@ namespace UI.Code.View
         }
         public async Task<Response> UploadFromGallary(VisualProjectLocation visualLocation, String endpointUrl, IEnumerable<MultiImage> list)
         {
-            #region comment
-            //using (var client = new HttpClient())
-            //{
-
-            //    client.BaseAddress = new Uri(App.AppUrl);
-
-            //    using (var formData = new MultipartFormDataContent())
-            //    {
-            //        int Index = 1000;
-            //        foreach (string img in list)
-            //        {
-            //            Index++;
-            //            FileInfo fi = new FileInfo(img);
-            //            var extension = fi.Extension;
-            //            string ServerFileName = FileName.Replace(" ", "_") + DateTime.Now.ToString("ddMMMyyyyHHmmss.FFF") + "_" + Index + extension;
-            //            formData.Add(new ByteArrayContent(File.ReadAllBytes(img)), Index.ToString(), ServerFileName);
-            //        }
-            //        var response = await client.PostAsync(endpointUrl, formData);
-
-            //        //   Response result = JsonConvert.DeserializeObject<Response>(responseBody);
-            //        if (!response.IsSuccessStatusCode)
-            //        {
-            //            return false;
-            //            //var responseBody = await response.Content.ReadAsStringAsync();
-            //            //Response result = JsonConvert.DeserializeObject<Response>(responseBody);
-            //        }
-            //        else
-            //        {
-
-            //        }
-
-            //    }
-            //    return true;
-            //}
-            #endregion
+           
 
             Response result = new Response();
 
@@ -1020,7 +1038,7 @@ namespace UI.Code.View
             parameters.Add("LifeExpectancyLBC", visualLocation.LifeExpectancyLBC);
 
             parameters.Add("LifeExpectancyAWE", visualLocation.LifeExpectancyAWE);
-            parameters.Add("ImageDescription", visualLocation.ImageDescription);
+            parameters.Add("ImageDescription", "False");
             parameters.Add("UserID", App.LogUser.Id.ToString());
 
 
@@ -1088,6 +1106,11 @@ namespace UI.Code.View
                 }
 
             }
+        }
+
+        private void closeme_Click(object sender, RoutedEventArgs e)
+        {
+            VisualReportEditor.Visibility = Visibility.Collapsed;
         }
     }
 }

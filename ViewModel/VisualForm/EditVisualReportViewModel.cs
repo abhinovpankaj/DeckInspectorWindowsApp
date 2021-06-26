@@ -35,7 +35,7 @@ namespace UI.Code.ViewModel.VisualForm
             new CheckboxItem() {  Name = "Walkways", IsSelected = false },
             new CheckboxItem() {  Name = "Railings", IsSelected = false },
             new CheckboxItem() { Name = "Integrations", IsSelected = false },
-            new CheckboxItem() {  Name = "Door Thershold", IsSelected = false },
+            new CheckboxItem() {  Name = "Door Threshold", IsSelected = false },
             new CheckboxItem() {  Name = "Stucco Interface", IsSelected = false }
         };
 
