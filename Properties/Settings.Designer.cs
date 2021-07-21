@@ -58,5 +58,41 @@ namespace UI.Code.Properties {
                 this["IsRemember"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("170")]
+        public int ImageHeight {
+            get {
+                return ((int)(this["ImageHeight"]));
+            }
+            set {
+                this["ImageHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public int ImageWidth {
+            get {
+                return ((int)(this["ImageWidth"]));
+            }
+            set {
+                this["ImageWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public long ImageQuality {
+            get {
+                return ((long)(this["ImageQuality"]));
+            }
+            set {
+                this["ImageQuality"] = value;
+            }
+        }
     }
 }

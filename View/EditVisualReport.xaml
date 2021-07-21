@@ -363,6 +363,8 @@
 
                             <TextBox Foreground="Black" x:Name="txtDes" 
                                          Margin="5"
+                                     TextWrapping="Wrap"
+                                     VerticalScrollBarVisibility="Auto"
                                          AcceptsReturn="True"
                                          Text ="{Binding AdditionalConsideration}" 
                                          Grid.Row="1" Height="100" 

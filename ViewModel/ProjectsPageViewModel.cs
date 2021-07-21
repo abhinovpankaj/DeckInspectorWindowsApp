@@ -419,6 +419,10 @@ namespace UI.Code.ViewModel
         }
         //public ProjectsPageViewModel() { }
         private readonly new IDialogService _dialogService;
+        public ProjectsPageViewModel()
+        {
+
+        }
         public ProjectsPageViewModel(IDialogService dialogService)
         {
             IsCompleted = false;
@@ -426,7 +430,9 @@ namespace UI.Code.ViewModel
 
             Title = "Project(s)";
 
-
+            ImageHeight= Properties.Settings.Default.ImageHeight;
+            ImageWidth = Properties.Settings.Default.ImageWidth;
+            ImageQuality = Properties.Settings.Default.ImageQuality;
             //  SubmitCommand = new DelegateCommand(async () => await Submit());
         }
         private void ShowDialog()
@@ -462,147 +468,10 @@ namespace UI.Code.ViewModel
             //    ErrorMsg = "Please Select Report Type";
             //}
         }
-        //private ObservableCollection<Organization> _treeItems;
-        //public ObservableCollection<Organization> TreeItems
-        //{
-        //    get { return _treeItems; }
-        //    set { _treeItems = value; OnPropertyChanged("TreeItems"); }
-        //}
-        //private ObservableCollection<Organization> MakeTree(ObservableCollection<Organization> list, Organization parentNode)
-        //{
-        //    ObservableCollection<Organization> treeViewList = new ObservableCollection<Organization>();
-        //    var nodes = list.Where(x => parentNode == null ? x.Parent_ID == string.Empty : x.Parent_ID == parentNode.Id);
-        //    foreach (var node in nodes)
-        //    {
-        //        Organization newNode = new Organization();
-        //        newNode.Id = node.Id;
-        //        newNode.NodeTitle = node.NodeTitle;
-        //        newNode.Parent_ID = node.Parent_ID;
-        //        if (parentNode == null)
-        //        {
-        //            treeViewList.Add(newNode);
-        //        }
-        //        else
-        //        {
-        //            parentNode.NodeItem.Add(newNode);
-        //        }
-        //        MakeTree(list, newNode);
-        //    }
-        //    return treeViewList;
-        //}
-
-        //private Organization _org;
-
-        //public Organization Organization
-        //{
-        //    get { return _org; }
-        //    set { _org = value; OnPropertyChanged("Organization"); }
-        //}
-        //public async Task<ErrorModel> DeleteNode(Organization node)
-        //{
-        //    ErrorModel err = new ErrorModel();
-        //    await treeService.DeleteItemAsync(node);
-        //    TreeItems = MakeTree(new ObservableCollection<Organization>(await treeService.GetItemAsync()), null);
-        //    return await Task.FromResult(err);
-
-        //}
-        //public async void LoadTree()
-        //{
-
-        //       TreeItems = MakeTree(new ObservableCollection<Organization>(await treeService.GetItemAsync()), null);
-
-        //}
-        //public async Task<ErrorModel> AddNewNode(Organization node, string NodeText)
-        //{
-        //    IsBusy = true;
-        //    ErrorModel err = new ErrorModel();
-
-        //    if (!string.IsNullOrEmpty(NodeText))
-        //    {
-        //        //if (string.IsNullOrEmpty(Organization.NodeTitle))
-        //        //{
-        //        //    err.Status = "Validation";
-        //        //    err.Message = "Please Enter Name";
-
-        //        //    return await Task.FromResult(err);
-        //        //}
-        //        try
-        //        {
-        //            //Organization obj= await treeService.GetItemAsync(ParentID);
-
-        //            //if(obj!=null)
-        //            //{
-        //            if (node.NodeCode == "Edit")
-        //            {
-        //                node.NodeTitle = NodeText;
-        //                await treeService.UpdateItemAsync(node);
-        //                TreeItems = MakeTree(new ObservableCollection<Organization>(await treeService.GetItemAsync()), null);
-        //            }
-        //            else
-        //            {
-        //                Organization org = new Organization();
-
-        //                //if (string.IsNullOrEmpty(Organization.Id))
-        //                //{
-        //                // Organization item = new Organization();
-        //                org.NodeTitle = NodeText;
-        //                org.Id = Guid.NewGuid().ToString();
-        //                org.Parent_ID = node.Id;
-        //                //obj.NodeItem.Add(org);
-        //                await treeService.AddItemAsync(org);
-        //                // TreeItems = new ObservableCollection<Organization>(await treeService.GetItemsAsync());
-        //                TreeItems = MakeTree(new ObservableCollection<Organization>(await treeService.GetItemAsync()), null);
-        //            }
-        //            //}
-        //            //else
-        //            //{
-        //            //    Organization org = new Organization();
-        //            //    //if (string.IsNullOrEmpty(Organization.Id))
-        //            //    //{
-        //            //    // Organization item = new Organization();
-        //            //    org.NodeTitle = NodeText;
-        //            //    org.Id = Guid.NewGuid().ToString();
-        //            //    org.Parent_ID = ParentID;
-
-        //            //    await treeService.AddItemAsync(org);
-        //            //    // obj.NodeItem.Add(org);
-        //            //    TreeItems = new ObservableCollection<Organization>(await treeService.GetItemsAsync());
-        //            //}
-
-
-        //            //}
-        //            //else
-        //            //{
-        //            //Response result = await projectService.UpdateItemAsync(DataModel);
-        //            //if (result.Status == ApiResult.Success)
-        //            //{
-
-        //            //    //App.ProjectID = Project.Id;
-        //            //    //ErrorMsg = result.Message;
-        //            //    var parameters = new NavigationParameters { { "Project", DataModel } };
-        //            //    RegionManger.RequestNavigate("MainRegion", "Project", parameters);
-        //            //    err.Status = "Success";
-        //            //    err.Message = result.Message;
-        //            //}
-        //            //else
-        //            //{
-        //            //    err.Status = "Error";
-        //            //    err.Message = result.Message;
-        //            //    //   ErrorMsg = result.Message;
-        //            //}
-        //            //   }
-
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            err.Status = "Error";
-        //            err.Message = ex.Message;
-
-        //        }
-
-        //    }
-        //    IsBusy = false;
-        //    return await Task.FromResult(err);
-        //}
+        #region ImageFormatting
+        public int ImageWidth { get; set; }
+        public int ImageHeight { get; set; }
+        public long ImageQuality { get; set; }
+        #endregion
     }
 }
