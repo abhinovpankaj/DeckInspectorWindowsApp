@@ -22,25 +22,9 @@
     </UserControl.Resources>
    
     <Grid Margin="80,0,10,0">
-        <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition>
-                <ColumnDefinition.Style>
-                    <Style TargetType="ColumnDefinition">
-                        <Setter Property="Width" Value="*" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding DetailVisibility}" Value="False">
-                                <Setter Property="Width" Value="0" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ColumnDefinition.Style>
-            </ColumnDefinition>
-
-           
-        </Grid.ColumnDefinitions>-->
+       
         
-            <Grid>
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -59,48 +43,13 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <!--<materialDesign:PackIcon Grid.Column="0" Kind="Search" VerticalAlignment="Center" Foreground="#707070"/>-->
-                    <!--<TextBox Grid.Column="1" Margin="3,0,0,0" Width="200"
-  x:Name="NameTextBox" VerticalAlignment="Center"
-  materialDesign:HintAssist.Hint="Name"
-  materialDesign:HintAssist.HelperText="">
-                       
-                    </TextBox>-->
+                    
                     <Grid Grid.Column="0">
                         <TextBox Margin="20,0,0,0" VerticalAlignment="Center"
   x:Name="CommentTextBox" Width="200" Text="{Binding SearchText}"
   materialDesign:HintAssist.Hint="Search by name"
   materialDesign:HintAssist.HelperText="" />
-                        <!--<Grid.ColumnDefinitions>
-                            <ColumnDefinition
-              Width="Auto" />
-                            <ColumnDefinition
-              Width="*" />
-                            <ColumnDefinition
-              Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Button
-            Style="{DynamicResource MaterialDesignToolButton}">
-                            <materialDesign:PackIcon
-              Kind="Magnify"
-              Opacity=".56" />
-                        </Button>
-                        <TextBox
-            Grid.Column="1"
-            Margin="8 0 0 0"
-            materialDesign:HintAssist.Hint="Build a search bar"
-            materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
-            BorderThickness="0"
-            MinWidth="200"
-            VerticalAlignment="Center" />
-                        <Button
-            Style="{DynamicResource MaterialDesignToolButton}"
-            Grid.Column="2">
-                            <materialDesign:PackIcon
-              Kind="Microphone"
-              Opacity=".56"
-              Margin="8 0 0 0" />
-                        </Button>-->
+                      
                     </Grid>
                     <StackPanel Grid.Column="2"
   Margin="12,15">
@@ -160,13 +109,7 @@
                 <ScrollViewer >
                     <ListBox Name="lvDataBinding"  ScrollViewer.CanContentScroll="True"
          ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Stretch"  SelectionMode="Single" ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedItem}" >
-                        <!--<ListBox.ItemsPanel >
-                            <ItemsPanelTemplate>
-                                <StackPanel Height="{Binding (FrameworkElement.ActualWidth),
-RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}">
-
-
-                        </ListBox.ItemsPanel>-->
+                        
                         <ListBox.Resources>
                             <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -180,12 +123,7 @@ RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}">
                             
                         </ListBox.Resources>
                       
-                        <!--<i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseUp">
                         
-                                <i:InvokeCommandAction Command="{Binding SelectedItemCommand}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>-->
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
 
@@ -194,56 +132,7 @@ RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}">
                                 <Setter Property="AllowDrop" Value="False"/>
                                 <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
                             
-                                <!--<EventSetter Event="PreviewMouseMove" Handler="s_PreviewMouseMoveEvent"/>
-                                <EventSetter Event="Drop" Handler="lvDataBinding_Drop"/>-->
-                                <!--<Setter Property="Template">
-
-                                    <Setter.Value>
-
-                                        <ControlTemplate TargetType="ListBoxItem" >
-
-                                            <Border HorizontalAlignment="Stretch"
-
-           Name="Border"
-
-           Padding="2"
-
-           SnapsToDevicePixels="true">
-
-                                                <ContentPresenter />
-
-                                            </Border>
-
-                                            <ControlTemplate.Triggers>
-
-                                                <Trigger Property="IsSelected" Value="true">
-                                                    <Setter Property="FontWeight" Value="Bold" />
-                                                    <Setter TargetName="Border" Property="Background"
-
-                     Value="#f4f4f4"/>
-
-                                                </Trigger>
-
-                                            </ControlTemplate.Triggers>
-
-                                        </ControlTemplate>
-
-                                    </Setter.Value>
-
-                                </Setter>-->
-                                <!--<Setter Property="FocusVisualStyle" Value="{x:Null}" />
                                
-                                <Setter Property="Margin" Value="10,5"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsSelected" Value="True" >
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                        <Setter Property="Background" Value="Transparent" />
-                                        <Setter Property="Foreground" Value="Black" />
-                                    </Trigger>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="Black" />
-                                    </Trigger>
-                                </Style.Triggers>-->
                             </Style>
                             
                         </ListBox.ItemContainerStyle>
@@ -349,25 +238,6 @@ RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}">
             </materialDesign:Card>
         </Grid>
        
-        <!--<Grid Grid.Column="1"  Background="White" Margin="10" >
-           
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <StackPanel>
-                <Button HorizontalAlignment="Right" Command="{Binding CloseCommand}"
-  Style="{StaticResource MaterialDesignToolButton}" Margin="10" Background="#E74C3C"
-  ToolTip="Close">
-                    <materialDesign:PackIcon
-    Kind="Close"
-    Height="20"
-    Width="20" />
-                </Button>
-            </StackPanel>
-            <control:ProjectNewEdit></control:ProjectNewEdit>
-
-        </Grid>-->
         <Border Style="{StaticResource brdProgress}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" >
             <control:progress></control:progress>
         </Border>
@@ -496,22 +366,23 @@ RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}">
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <materialDesign:Card Width="520" HorizontalAlignment="Left"  Margin="5"
+                                    <materialDesign:Card  HorizontalAlignment="Left"  Margin="5"
                              VerticalAlignment="Top" materialDesign:ShadowAssist.ShadowDepth="Depth4">
                                         <StackPanel Margin="5">
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="Image Quality:  " HorizontalAlignment="Left"/>
-                                                <TextBlock Text="{Binding ElementName=imageQuality, Path=Value,StringFormat=N2}"/>
+                                                <TextBlock Text="{Binding ElementName=imageQuality, Path=Value}"/>
+                                                <TextBlock Text="% Of Original Image."/>
                                             </StackPanel>
                                             <Slider x:Name="imageQuality" Maximum="100" SmallChange="5" HorizontalAlignment="Left" IsSnapToTickEnabled="True"
     TickFrequency="1"
-                    Minimum="0" Width="500" Value="{Binding ImageQuality}"
+                    Minimum="0" Width="340" Value="{Binding DataContext.ImageQuality, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                     Style="{StaticResource  MaterialDesignSlider}" />
                                         </StackPanel>
                                     </materialDesign:Card>
-                                    <materialDesign:Card Width="520" HorizontalAlignment="Left" Grid.Row="1" Margin="5"
+                                    <!--<materialDesign:Card  HorizontalAlignment="Left" Grid.Row="1" Margin="5"
                              materialDesign:ShadowAssist.ShadowDepth="Depth4" >
-                                        <Grid MaxHeight="600">
+                                        <Grid Height="200">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
@@ -527,33 +398,54 @@ RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}">
                                                     <TextBlock Text="{Binding ElementName=imageHeight, Path=Value,StringFormat=N2}"/>
                                                 </StackPanel>
                                                 
-                                                <Slider x:Name="imageHeight" Maximum="500" SmallChange="10" HorizontalAlignment="Left"
-                    Minimum="100" Width="250" Value="{Binding ImageHeight}" IsSnapToTickEnabled="True"
+                                                <Slider x:Name="imageHeight" Maximum="400" SmallChange="10" HorizontalAlignment="Left"
+                    Minimum="100"  Value="{Binding DataContext.ImageHeight, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" IsSnapToTickEnabled="True"
     TickFrequency="1"
                     Style="{StaticResource MaterialDesignSlider}" />
                                             </StackPanel>
-                                            <StackPanel Margin="5" Grid.Column="1">
+                                            --><!--<StackPanel Margin="5" Grid.Column="1">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="Image Width (px):  " HorizontalAlignment="Left"/>
                                                     <TextBlock Text="{Binding ElementName=imageWidth, Path=Value,StringFormat=N2}"/>
                                                 </StackPanel>
-                                                <Slider x:Name="imageWidth" Maximum="500" HorizontalAlignment="Left" IsSnapToTickEnabled="True"
+                                                <Slider x:Name="imageWidth" Maximum="300" HorizontalAlignment="Left" IsSnapToTickEnabled="True"
     TickFrequency="1"
-                    Minimum="100" Width="250"  Value="{Binding ImageWidth}"
+                    Minimum="100" Width="250"  Value="{Binding DataContext.ImageWidth, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                     Style="{StaticResource  MaterialDesignSlider}" />
-                                            </StackPanel>
-                                            <ScrollViewer Grid.ColumnSpan="2" CanContentScroll="True"
+                                            </StackPanel>-->
+                                            <!--<ScrollViewer Grid.ColumnSpan="2" CanContentScroll="True"
                                                    Grid.Row="1">
                                                 <Image Width="{Binding ElementName=imageWidth, Path=Value}" 
                                                        Margin="5"
                    Source="../images/sample.jpg" SnapsToDevicePixels="True" Stretch="Fill"
                    Height="{Binding ElementName=imageHeight, Path=Value}"
                    />
-                                            </ScrollViewer>
+                                            </ScrollViewer>--><!--
                                             
                                         </Grid>
-                                    </materialDesign:Card>
+                                    </materialDesign:Card>-->
+                                    <materialDesign:Card HorizontalAlignment="Left" Grid.Row="1" Margin="5"
+                             materialDesign:ShadowAssist.ShadowDepth="Depth4" Height="100" Width="350">
+                                        <StackPanel>
+                                            <TextBlock Text="Please select the count of images to include in a row"
+                                                       Margin="10"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <RadioButton x:Name = "rb1" Content = "2" HorizontalAlignment = "Left"  
+                                                         GroupName = "Factor"  Checked="RadioButtonChecked" Margin="5"/>
 
+                                                <RadioButton x:Name = "rb2" Content = "3" HorizontalAlignment = "Left"          
+                                                         GroupName = "Factor"  Checked="RadioButtonChecked" Margin="5"  />
+                                                <RadioButton x:Name = "rb3" Content = "4" HorizontalAlignment = "Left"
+         
+                                                         GroupName = "Factor"  Checked="RadioButtonChecked" Margin="5" />
+                                                <RadioButton x:Name = "rb4" Content = "5" HorizontalAlignment = "Left"
+         
+                                                         GroupName = "Factor"  Checked="RadioButtonChecked" Margin="5" />
+                                            </StackPanel>
+                                            
+
+                                        </StackPanel>
+                                    </materialDesign:Card>
                                 </Grid>
                                 <Grid Visibility="{Binding IsChecked, ElementName=rbTab1, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <Grid Margin="5" >

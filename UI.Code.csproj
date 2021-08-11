@@ -34,10 +34,10 @@
     <ProductName>Deck inspectors</ProductName>
     <PublisherName>Deck inspectors</PublisherName>
     <SuiteName>Deck inspectors</SuiteName>
-    <MinimumRequiredVersion>1.0.0.18</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.0.22</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>20</ApplicationRevision>
+    <ApplicationRevision>26</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>

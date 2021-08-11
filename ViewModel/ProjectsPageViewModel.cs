@@ -430,9 +430,10 @@ namespace UI.Code.ViewModel
 
             Title = "Project(s)";
 
-            ImageHeight= Properties.Settings.Default.ImageHeight;
-            ImageWidth = Properties.Settings.Default.ImageWidth;
+            //ImageHeight= Properties.Settings.Default.ImageHeight;
+            //ImageWidth = Properties.Settings.Default.ImageWidth;
             ImageQuality = Properties.Settings.Default.ImageQuality;
+            Factor = Properties.Settings.Default.Factor;
             //  SubmitCommand = new DelegateCommand(async () => await Submit());
         }
         private void ShowDialog()
@@ -472,6 +473,8 @@ namespace UI.Code.ViewModel
         public int ImageWidth { get; set; }
         public int ImageHeight { get; set; }
         public long ImageQuality { get; set; }
+
+        public int Factor { get; set; }
         #endregion
     }
 }

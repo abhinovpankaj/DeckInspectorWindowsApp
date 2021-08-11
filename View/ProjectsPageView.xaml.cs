@@ -1,6 +1,7 @@
 ﻿using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,23 @@ namespace UI.Code.View
             assignControl.ClickUserSearch += AssignControl_ClickUserSearch;
             assignControl.ClickUserReset += AssignControl_ClickUserReset;
             //lvDataBinding.SelectionChanged += LvDataBinding_SelectionChanged;
+            if (vm.Factor==2)
+            {
+                rb1.IsChecked = true;
+            }
+            if (vm.Factor == 3)
+            {
+                rb2.IsChecked = true;
+
+            }
+            if (vm.Factor == 4)
+            {
+                rb3.IsChecked = true;
+            }
+            if (vm.Factor == 5)
+            {
+                rb4.IsChecked = true;
+            }
         }
 
         private void FileControl_ClickClose(object sender, EventArgs e)
@@ -341,14 +359,14 @@ namespace UI.Code.View
         private void BtnReport_Visual_Word_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordVisual?projectID=" + projectId + "&company=DI&Type=Word");
+            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordVisual?quality="+ vm.ImageQuality+"&height="+vm.Factor+"&width="+vm.ImageWidth +"&projectID=" + projectId + "&company=DI&Type=Word");
         }
         //Report VISUAL FOR DI WORD
         private void BtnReport_Visual_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
 
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordVisual?projectID=" + projectId + "&company=DI&Type=pdf");
+            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordVisual?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=pdf");
         }
         //Report Invasive  DI PDF
         private void BtnReport_Invasive_Click(object sender, RoutedEventArgs e)
@@ -356,20 +374,20 @@ namespace UI.Code.View
             string projectId = ((Button)sender).Tag.ToString();
             //  string url = App.AppUrl + "/api/values/GetInvasivelDI?projectID=" + projectId;
             //  System.Diagnostics.Process.Start(App.AppUrl +"/api/values/GetInvasivelDI?projectID=" + projectId + "&company=DI");
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?projectID=" + projectId + "&company=DI&Type=pdf");
+            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=pdf");
             // System.Diagnostics.Process.Start("http://techcodevity.com/api/values/GetVisualDI?projectID=11D6DFDB-EF89-42E4-A127-7565CCE65DC0");
         }
         //Report Invasive  DI Word
         private void BtnDIInvasiveWord_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?projectID=" + projectId + "&company=DI&Type=Word");
+            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=Word");
         }
         //FINEL DI PDF
         private void btnFinelReport_Deck_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordFinel?projectID=" + projectId + "&company=DI&Type=PDF");
+            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordFinel?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=PDF");
             //string projectId = ((Button)sender).Tag.ToString();
             //string url = App.AppUrl + "/api/values/GetInvasivelDI?projectID=" + projectId;
             // System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordFinel?projectID=" + projectId);
@@ -378,7 +396,7 @@ namespace UI.Code.View
         private void BtnFilelReport_Deck_Word_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordFinel?projectID=" + projectId + "&company=DI&Type=Word");
+            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordFinel?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=Word");
         }
 
 
@@ -387,7 +405,7 @@ namespace UI.Code.View
         private void BtnReport_Visual_WICR_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordVisual?projectID=" + projectId + "&company=WICR&Type=pdf");
+            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordVisual?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=pdf");
         }
         private void WICR_Visual_Word_Click(object sender, RoutedEventArgs e)
         {
@@ -395,7 +413,7 @@ namespace UI.Code.View
             string projectId = ((Button)sender).Tag.ToString();
             //  string url = App.AppUrl + "/api/values/GetInvasivelDI?projectID=" + projectId;
             //  System.Diagnostics.Process.Start(App.AppUrl +"/api/values/GetInvasivelDI?projectID=" + projectId + "&company=DI");
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordVisual?projectID=" + projectId + "&company=WICR&Type=Word");
+            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordVisual?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=Word");
             // S
         }
 
@@ -403,14 +421,14 @@ namespace UI.Code.View
         private void BtnReport_Invasive_wicr_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?projectID=" + projectId + "&company=WICR&Type=pdf");
+            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=pdf");
         }
         private void WICR_Invasive_Word_Click(object sender, RoutedEventArgs e)
         {
 
             string projectId = ((Button)sender).Tag.ToString();
            
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?projectID=" + projectId + "&company=WICR&Type=Word");
+            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=Word");
             
         }
 
@@ -418,12 +436,12 @@ namespace UI.Code.View
         {
             string projectId = ((Button)sender).Tag.ToString();
 
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordFinel?projectID=" + projectId + "&company=WICR&Type=pdf");
+            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordFinel?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=pdf");
         }
         private void BtnWICR_FinelReport_Word_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordFinel?projectID=" + projectId + "&company=WICR&Type=Word");
+            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordFinel?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=Word");
         }
 
       
@@ -432,16 +450,16 @@ namespace UI.Code.View
         {
             childWindowdownload.Visibility = Visibility.Collapsed;
             childWindowdownload.Close();
+
+            //Properties.Settings.Default.ImageHeight = vm.ImageHeight;
+            Properties.Settings.Default.ImageQuality = vm.ImageQuality;
+            //Properties.Settings.Default.ImageWidth = vm.ImageWidth;
+            Properties.Settings.Default.Factor = vm.Factor;
+            Properties.Settings.Default.Save();
+
         }
 
-       
-
-       
-       
-        
-
-       
-
+     
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             Project p = ((Button)sender).DataContext as Project;
@@ -522,15 +540,7 @@ namespace UI.Code.View
            // vm.FileCommand.Execute(p);
             // UCFilePageViewModel vmFile=fileControl.DataContext as UCFilePageViewModel;
             App.MoveProject = p;
-            //vmFile.MoveProject = p;
-            //  fileTree.DataContext = new FilePageViewModel(null);
-            //Project p = ((Button)sender).DataContext as Project;
-            //var eventHandler = this.ClickMove;
-
-            //if (eventHandler != null)
-            //{
-            //    eventHandler(this, e);
-            //}
+            
 
             Application curApp = Application.Current;
             Window mainWindow = curApp.MainWindow;
@@ -549,27 +559,15 @@ namespace UI.Code.View
             childWindowTree.Close();
         }
 
-       
-
-     
-
-        
-
-      
-
-        //private async void chbIsCompleted_Checked(object sender, RoutedEventArgs e)
-        //{
-        //    if(chbIsCompleted.IsChecked==true)
-        //    {
-        //        vm.SelectedeportType = "Completed";
-        //         vm.SearchCommand.Execute();
-        //       //vm.se
-        //    }
-        //    else
-        //    {
-        //        vm.SelectedeportType = "All";
-        //        vm.SearchCommand.Execute();
-        //    }
-        //}
+        private void RadioButtonChecked(object sender, RoutedEventArgs e)
+        {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            int intIndex = Convert.ToInt32(radioButton.Content.ToString());
+            vm.Factor = intIndex;
+            //MessageBox.Show(intIndex.ToString(CultureInfo.InvariantCulture));
+        }
     }
 }
+
