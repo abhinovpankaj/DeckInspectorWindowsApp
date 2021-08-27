@@ -14,7 +14,7 @@
         <ResourceDictionary>
             <BitmapImage x:Key="Icon_FolderOpen"   UriSource="pack://application:,,,/Icons/folder.ico"   />
             <BitmapImage x:Key="Icon_FolderClosed" UriSource="pack://application:,,,/Icons/folder.ico" />
-            <con:ColorFConverter x:Key="ColorFConverter"></con:ColorFConverter>
+            <con:ColorFConverter x:Key="ColorFConverter"/>
             <Style x:Key="IconImageStyleSmall" TargetType="Image">
                 <Setter Property="MaxWidth" Value="16"/>
                 <Setter Property="MaxHeight" Value="16"/>

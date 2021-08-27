@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:UI.Code.View" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              
-             d:DesignHeight="1650" d:DesignWidth="400">
+             d:DesignHeight="1650" d:DesignWidth="800">
 
     <DockPanel>
 

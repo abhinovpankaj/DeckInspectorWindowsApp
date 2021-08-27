@@ -310,6 +310,14 @@ namespace UI.Code.ViewModel
             get { return _invasiveImgs; }
             set { _invasiveImgs = value; OnPropertyChanged("InvasiveImgs"); }
         }
+
+        private ObservableCollection<VisualProjectLocationPhoto> _conclusiveImgs;
+
+        public ObservableCollection<VisualProjectLocationPhoto> ConclusiveImgs
+        {
+            get { return _conclusiveImgs; }
+            set { _conclusiveImgs = value; OnPropertyChanged("ConclusiveImgs"); }
+        }
         public DelegateCommand CloseCommand => new DelegateCommand(async () => await Close());
         public async Task Close()
         {

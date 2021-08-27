@@ -152,56 +152,7 @@ namespace UI.Code.ViewModel
                 err.Status = "Error";
                 err.Message = result.Message;
             }
-            //  var message = "This is a message that should be shown in the dialog.";
-            //  ErrorModel err = new ErrorModel();
-            //  //using the dialog service as-is
-            //  _dialogService.ShowDialog("NotificationDialog", new DialogParameters($"message={message}"),async r =>
-            //  {
-
-            //      if (r.Result == ButtonResult.None)
-            //          Title = "Result is None";
-            //      else if (r.Result == ButtonResult.OK)
-            //      {
-
-
-            //          try
-            //          {
-            //              Response result = await VisualProjectLocationPhotoDataStore.DeleteItemAsync(prm);
-            //              if (result.Status == ApiResult.Success)
-            //              {
-            //                  RegionManger.RequestNavigate("MainRegion", "Projects");
-            //                  err.Status = "Success";
-            //                  err.Message = result.Message;
-            //              }
-            //              else
-            //              {
-            //                  err.Status = "Error";
-            //                  err.Message = result.Message;
-            //              }
-
-            //          }
-            //          catch (Exception ex)
-            //          {
-            //              err.Status = "Error";
-            //              err.Message = ex.Message;
-            //          }
-
-            //          Title = "Result is OK";
-            //      }
-
-            //      else if (r.Result == ButtonResult.Cancel)
-            //          Title = "Result is Cancel";
-            //      else
-            //          Title = "I Don't know what you did!?";
-            //  });
-            ////  return await Task.FromResult(err);
-
-            //  //  RegionManger.RequestNavigate("MainRegion", "ProjectAddOrEdit", parameters);
-            //  //if (ProjectBuilding != null)
-            //  //{
-            //  //    var parameters = new NavigationParameters { { "ProjectBuilding", ProjectBuilding }, { "Project", Project } };
-
-            //  //}
+            
         }
         public DelegateCommand NewCommand => new DelegateCommand(async () => await New());
         public async Task New()
@@ -281,9 +232,10 @@ namespace UI.Code.ViewModel
         private async Task<bool> LongOperationGetImage(string Id)
         {
             var res = new ObservableCollection<VisualApartmentLocationPhoto>(await VisualApartmentLocationPhotoDataStore.GetVisualBuildingApartmentImageByVisualApartmentId(Id));
-            Images = new ObservableCollection<VisualApartmentLocationPhoto>(res.Where(c => c.ImageDescription != "TRUE").OrderBy(c => c.SeqNo));
+            Images = new ObservableCollection<VisualApartmentLocationPhoto>(res.Where(c => c.ImageDescription != "TRUE"&& c.ImageDescription != "CONCLUSIVE").OrderBy(c => c.SeqNo));
             InvasiveImgs = new ObservableCollection<VisualApartmentLocationPhoto>(res.Where(c => c.ImageDescription == "TRUE").OrderBy(c => c.SeqNo));
-
+            
+            ConclusiveImgs = new ObservableCollection<VisualApartmentLocationPhoto>(res.Where(c => c.ImageDescription == "CONCLUSIVE").OrderBy(c => c.SeqNo));
             return await Task.FromResult(true);
         }
         private ObservableCollection<VisualApartmentLocationPhoto> Imgs;
@@ -406,26 +358,7 @@ namespace UI.Code.ViewModel
                     if (string.IsNullOrEmpty(DataModel.Id))
                     {
 
-                        //Response result = await projectService.AddItemAsync(Project);
-                        //if (result.Status == ApiResult.Success)
-                        //{
-                        //    Response getObj = await projectService.GetItemAsync(result.ID);
-                        //    if (getObj.Status == ApiResult.Success)
-                        //    {
-                        //        App.ProjectID = result.ID;
-                        //        //  Project project = JsonConvert.DeserializeObject<Project>(getObj.Data.ToString());
-                        //        // var parameters = new NavigationParameters { { "ProjectID", result.ID } };
-                        //        RegionManger.RequestNavigate("MainRegion", "Project");
-                        //    }
-                        //    err.Status = "Success";
-                        //    err.Message = result.Message;
-                        //    // RegionManger.RequestNavigate("MainRegion", "Projects");
-                        //}
-                        //else
-                        //{
-                        //    err.Status = "Error";
-                        //    err.Message = result.Message;
-                        //}
+                        
                     }
                     else
                     {
@@ -436,11 +369,7 @@ namespace UI.Code.ViewModel
                             var parameters = new NavigationParameters { { "BuildingApartment", DataModel }, { "ProjectBuilding", ProjectBuilding }, { "Project", Project } };
                             RegionManger.RequestNavigate("MainRegion", "VisualApartmentView", parameters);
 
-                            //App.ProjectID = Project.Id;
-                            //ErrorMsg = result.Message;
-                            //  var parameters = new NavigationParameters { { "ProjectBuilding", ProjectBuilding }, { "Project", Project } };
-                            // RegionManger.RequestNavigate("MainRegion", "Building", parameters);
-
+                            
                             err.Status = "Success";
                             err.Message = result.Message;
                         }
@@ -493,13 +422,8 @@ namespace UI.Code.ViewModel
             if (Data != null)
                 Items = new ObservableCollection<VisualBuildingApartment>(await VisualFormApartmentDataStore.GetVisualBuildingApartmentByBuildingApartmentId(Data.Id));
 
-            //if (Items != null)
-            //{
-            //    Items.Clear();
-            //}
-            
             return await Task.FromResult(true);
-            //   Projects = new ObservableCollection<Project>(await projectService.GetItemsAsync());
+            
         }
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
@@ -526,6 +450,14 @@ namespace UI.Code.ViewModel
         {
             get { return _invasiveImgs; }
             set { _invasiveImgs = value; OnPropertyChanged("InvasiveImgs"); }
+        }
+
+        private ObservableCollection<VisualApartmentLocationPhoto> _conclusiveImgs;
+
+        public ObservableCollection<VisualApartmentLocationPhoto> ConclusiveImgs
+        {
+            get { return _conclusiveImgs; }
+            set { _conclusiveImgs = value; OnPropertyChanged("ConclusiveImgs"); }
         }
         private void ShowDialog()
         {

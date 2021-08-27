@@ -91,7 +91,7 @@ namespace UI.Code.ViewModel
             IsBusy = true;
 
             // bool status = await Task.Run(() => LongOperation());
-            bool status = await  LongOperation();
+            bool status = await LongOperation();
             if (status == true)
             {
                 IsBusy = false;

@@ -44,7 +44,9 @@ namespace UI.Code.ViewModel
             set { _date = value; OnPropertyChanged("CreatedOn"); }
         }
 
+       
 
+        
         public async Task<ErrorModel> Reorder()
         {
             ErrorModel err = new ErrorModel();
@@ -91,9 +93,13 @@ namespace UI.Code.ViewModel
         }
 
 
+        private ObservableCollection<VisualBuildingLocationPhoto> _conclusiveImgs;
 
-
-
+        public ObservableCollection<VisualBuildingLocationPhoto> ConclusiveImgs
+        {
+            get { return _conclusiveImgs; }
+            set { _conclusiveImgs = value; OnPropertyChanged("ConclusiveImgs"); }
+        }
 
         IRegionManager RegionManger
         {

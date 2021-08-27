@@ -63,10 +63,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>25306FD0D04877A8B188ADB4445A094809375933</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>981B95E2BAF6C01073333CCC1174FB3EEE344A71</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>UI.Code_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>UI.Code_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -233,6 +233,9 @@
       <DependentUpon>BuildingLocationAddOrEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Class1.cs" />
+    <Compile Include="View\ConclusiveReport.xaml.cs">
+      <DependentUpon>ConclusiveReport.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DetailViewBuildingLocationImage.xaml.cs">
       <DependentUpon>DetailViewBuildingLocationImage.xaml</DependentUpon>
     </Compile>
@@ -475,6 +478,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\ConclusiveReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\DetailViewBuildingLocationImage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -622,6 +629,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="UI.Code_1_TemporaryKey.pfx" />
     <None Include="UI.Code_TemporaryKey.pfx" />
     <Resource Include="Fonts\Roboto-Light.ttf" />
     <None Include="packages.config" />
@@ -652,7 +660,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CacheFolder\" />
-    <Folder Include="Validation\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

@@ -38,5 +38,16 @@ namespace UI.Code.Model
         public bool IsDelete { get; set; }
         public int SeqNo { get; set; }
         public string Username { get; set; }
+
+        public bool IsPostInvasiveRepairsRequired { get; set; }
+        public bool IsInvasiveRepairApproved { get; set; }
+        public bool IsInvasiveRepairComplete { get; set; }
+
+        public string ConclusiveComments { get; set; }
+        public string ConclusiveLifeExpEEE { get; set; }
+        public string ConclusiveLifeExpLBC { get; set; }
+        public string ConclusiveLifeExpAWE { get; set; }
+        public string ConclusiveAdditionalConcerns { get; set; }
+
     }
 }

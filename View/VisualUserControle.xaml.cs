@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UI.Code.Model;
+using UI.Code.Services;
 using UI.Code.ViewModel;
 
 namespace UI.Code.View
@@ -157,6 +158,8 @@ namespace UI.Code.View
                 VisualProjectLocationViewModel db = vm as VisualProjectLocationViewModel;
                 var obj = ((ListBoxItem)sender).DataContext as VisualProjectLocation;
                 db.GetImagesCommand.Execute(obj);
+
+
             }
             if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
             {
@@ -170,15 +173,13 @@ namespace UI.Code.View
                 var obj = ((ListBoxItem)sender).DataContext as VisualBuildingApartment;
                 db.GetImagesCommand.Execute(obj);
             }
-            //if (FTitleDes.Text == "Yes")
-            //{
-            //    FTitle.Foreground = FTitleDes.Foreground = new SolidColorBrush(Colors.DarkRed);
-            //}
-            //else
-            //{
-            //    FTitle.Foreground = FTitleDes.Foreground = new SolidColorBrush(Colors.DarkGreen);
-            //}
+
+            PopulateLifeExpRadioButtons();
+            
         }
+
+       
+
         private void lboxViusal_Drop(object sender, DragEventArgs e)
         {
             var vm = this.DataContext;
@@ -830,7 +831,7 @@ namespace UI.Code.View
             }
         }
 
-        public async Task<bool> UploadGallary(List<string> images)
+        public async Task<bool> UploadGallary(List<string> images,bool isConclusive=false)
         {
             var vm = this.DataContext;
             List<MultiImage> locImages = new List<MultiImage>();
@@ -881,14 +882,14 @@ namespace UI.Code.View
                 }
 
 
-                Response result = await UploadFromGallary(myVM.SelectedItem, "api/VisualBuildingApartment/Edit", locImages);
+                Response result = await UploadFromGallary(myVM.SelectedItem, "api/VisualBuildingApartment/Edit", locImages,isConclusive);
 
                 await myVM.GetImages(myVM.SelectedItem);
             }
 
             return true;
         }
-        public async Task<Response> UploadFromGallary(VisualBuildingApartment visualLocation, String endpointUrl, IEnumerable<MultiImage> list)
+        public async Task<Response> UploadFromGallary(VisualBuildingApartment visualLocation, String endpointUrl, IEnumerable<MultiImage> list,bool isConclusive=false)
         {
 
 
@@ -918,8 +919,10 @@ namespace UI.Code.View
             if (App.IsInvasive == true)
             {
 
-                parameters.Add("IsInvaiveImage", "TRUE");
-                // parameters.Add("IsInvasive", "FALSE");
+                if (isConclusive)
+                    parameters.Add("IsInvaiveImage", "CONCLUSIVE");
+                else
+                    parameters.Add("IsInvaiveImage", "TRUE");
             }
             else
             {
@@ -980,7 +983,7 @@ namespace UI.Code.View
 
             }
         }
-        public async Task<Response> UploadFromGallary(VisualBuildingLocation visualLocation, String endpointUrl, IEnumerable<MultiImage> list)
+        public async Task<Response> UploadFromGallary(VisualBuildingLocation visualLocation, String endpointUrl, IEnumerable<MultiImage> list, bool isConclusive = false)
         {
 
             Response result = new Response();
@@ -1009,8 +1012,10 @@ namespace UI.Code.View
             if (App.IsInvasive == true)
             {
 
-                parameters.Add("IsInvaiveImage", "TRUE");
-                // parameters.Add("IsInvasive", "FALSE");
+                if (isConclusive)
+                    parameters.Add("IsInvaiveImage", "CONCLUSIVE");
+                else
+                    parameters.Add("IsInvaiveImage", "TRUE");
             }
             else
             {
@@ -1071,7 +1076,7 @@ namespace UI.Code.View
 
             }
         }
-        public async Task<Response> UploadFromGallary(VisualProjectLocation visualLocation, String endpointUrl, IEnumerable<MultiImage> list)
+        public async Task<Response> UploadFromGallary(VisualProjectLocation visualLocation, String endpointUrl, IEnumerable<MultiImage> list, bool isConclusive = false)
         {
 
 
@@ -1100,8 +1105,10 @@ namespace UI.Code.View
 
             if (App.IsInvasive == true)
             {
-
-                parameters.Add("IsInvaiveImage", "TRUE");
+                if(isConclusive)
+                    parameters.Add("IsInvaiveImage", "CONCLUSIVE");
+                else
+                    parameters.Add("IsInvaiveImage", "TRUE");
                 // parameters.Add("IsInvasive", "FALSE");
             }
             else
@@ -1164,5 +1171,435 @@ namespace UI.Code.View
             }
         }
 
+
+        #region conclusive
+
+        private async void SaveConclusiveData_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+            {
+                var myVM = vm as VisualProjectLocationViewModel;
+                var ds = new VisualProjectLocationService();
+                var response = await ds.UpdateItemAsync(myVM.SelectedItem);
+
+            }
+
+            if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+            {
+                var myVM = vm as VisualBuildingLocationViewModel;
+                var ds = new VisualFormBuildingLocationDataStore();
+                var response = await ds.UpdateItemAsync(myVM.SelectedItem);
+
+            }
+
+            if (vm.GetType() == typeof(VisualApartmentViewModel))
+            {
+                var myVM = vm as VisualApartmentViewModel;
+                var ds = new VisualFormApartmentDataStore();
+                var response = await ds.UpdateItemAsync(myVM.SelectedItem);
+            }
+        }
+        private async void addPicBtn_Click(object sender, RoutedEventArgs e)
+        {
+            List<string> pics = new List<string>();
+            var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+            {
+                var myVM = vm as VisualProjectLocationViewModel;
+                this.Dispatcher.Invoke(() => {
+                    myVM.IsBusy = true;
+                });
+            }
+
+            if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+            {
+                var myVM = vm as VisualBuildingLocationViewModel;
+                this.Dispatcher.Invoke(() => {
+                    myVM.IsBusy = true;
+                });
+
+            }
+
+            if (vm.GetType() == typeof(VisualApartmentViewModel))
+            {
+                var myVM = vm as VisualApartmentViewModel;
+                this.Dispatcher.Invoke(() => {
+                    myVM.IsBusy = true;
+                });
+
+            }
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = true;
+            openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                foreach (string filename in openFileDialog.FileNames)
+                    pics.Add(System.IO.Path.GetFullPath(filename));
+
+
+                var passed = await UploadGallary(pics,true);
+            }
+            else
+            {
+                if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+                {
+                    var myVM = vm as VisualProjectLocationViewModel;
+                    this.Dispatcher.Invoke(() => {
+                        myVM.IsBusy = false;
+                    });
+                }
+
+                if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+                {
+                    var myVM = vm as VisualBuildingLocationViewModel;
+                    this.Dispatcher.Invoke(() => {
+                        myVM.IsBusy = false;
+                    });
+
+                }
+
+                if (vm.GetType() == typeof(VisualApartmentViewModel))
+                {
+                    var myVM = vm as VisualApartmentViewModel;
+                    this.Dispatcher.Invoke(() => {
+                        myVM.IsBusy = false;
+                    });
+
+                }
+            }
+        }
+
+        private void HandleDoubleClick_Conclusive(object sender, MouseButtonEventArgs e)
+        {
+            var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+            {
+                var obj = ((ListBoxItem)sender).DataContext as VisualProjectLocationPhoto;
+                var viewModel = this.DataContext as VisualProjectLocationViewModel;
+
+                plPhotos = viewModel.ConclusiveImgs.ToList();
+
+
+                childImageShow.DataContext = obj;
+
+                childImageShow.Visibility = Visibility.Visible;
+                childImageShow.Show();
+            }
+
+            if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+            {
+                var obj = ((ListBoxItem)sender).DataContext as VisualBuildingLocationPhoto;
+                var viewModel = this.DataContext as VisualBuildingLocationViewModel;
+
+
+                vbPhotos = viewModel.ConclusiveImgs.ToList();
+
+                childImageShow.DataContext = obj;
+                childImageShow.Visibility = Visibility.Visible;
+                childImageShow.Show();
+            }
+
+            if (vm.GetType() == typeof(VisualApartmentViewModel))
+            {
+                var obj = ((ListBoxItem)sender).DataContext as VisualApartmentLocationPhoto;
+                var viewModel = this.DataContext as VisualApartmentViewModel;
+
+                baPhotos = viewModel.ConclusiveImgs.ToList();
+
+
+                childImageShow.DataContext = obj;
+                childImageShow.Visibility = Visibility.Visible;
+                childImageShow.Show();
+            }
+
+            
+        }
+        private void btnEditConclusive_Click(object sender, RoutedEventArgs e)
+        {
+            btnSaveConclusive.Visibility = btnCancelConclusive.Visibility = Visibility.Visible;
+            btnEditConclusive.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnSaveConclusive_Click(object sender, RoutedEventArgs e)
+        {
+            btnSaveConclusive.Visibility = btnCancelConclusive.Visibility = Visibility.Collapsed;
+            btnEditConclusive.Visibility = Visibility.Visible;
+        }
+
+        private void btnCancelConclusive_Click(object sender, RoutedEventArgs e)
+        {
+            btnSaveConclusive.Visibility = btnCancelConclusive.Visibility = Visibility.Collapsed;
+            btnEditConclusive.Visibility = Visibility.Visible;
+        }
+
+
+
+        #endregion
+
+        private void LifeEEE_Click(object sender, RoutedEventArgs e)
+        {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            
+            UpdateConclusiveLifeExp(radioButton.Content.ToString(), "EEE");
+        }
+
+        private void UpdateConclusiveLifeExp(string v1, string v2)
+        {
+            var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+            {
+                var viewModel = this.DataContext as VisualProjectLocationViewModel;
+                switch (v2)
+                {
+                    case "EEE":
+                        viewModel.SelectedItem.ConclusiveLifeExpEEE = v1;
+                        break;
+                    case "LBC":
+                        viewModel.SelectedItem.ConclusiveLifeExpLBC = v1;
+                        break;
+                    case "AWE":
+                        viewModel.SelectedItem.ConclusiveLifeExpAWE = v1;
+                        break;
+                    default:
+                        break;
+                }
+                
+            }
+
+            if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+            {
+                var viewModel = this.DataContext as VisualBuildingLocationViewModel;
+                switch (v2)
+                {
+                    case "EEE":
+                        viewModel.SelectedItem.ConclusiveLifeExpEEE = v1;
+                        break;
+                    case "LBC":
+                        viewModel.SelectedItem.ConclusiveLifeExpLBC = v1;
+                        break;
+                    case "AWE":
+                        viewModel.SelectedItem.ConclusiveLifeExpAWE = v1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (vm.GetType() == typeof(VisualApartmentViewModel))
+            {
+                var viewModel = this.DataContext as VisualApartmentViewModel;
+                switch (v2)
+                {
+                    case "EEE":
+                        viewModel.SelectedItem.ConclusiveLifeExpEEE = v1;
+                        break;
+                    case "LBC":
+                        viewModel.SelectedItem.ConclusiveLifeExpLBC = v1;
+                        break;
+                    case "AWE":
+                        viewModel.SelectedItem.ConclusiveLifeExpAWE = v1;
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        }
+
+        private void LifeLBC_Click(object sender, RoutedEventArgs e)
+        {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+
+            UpdateConclusiveLifeExp(radioButton.Content.ToString(), "LBC");
+        }
+
+        private void LifeAWE_Click(object sender, RoutedEventArgs e)
+        {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+
+            UpdateConclusiveLifeExp(radioButton.Content.ToString(), "AWE");
+        }
+
+        private void PopulateLifeExpRadioButtons()
+        {
+            var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+            {
+                var viewModel = this.DataContext as VisualProjectLocationViewModel;
+                switch (viewModel.SelectedItem.ConclusiveLifeExpEEE)
+                {
+                    case "0-1":
+                        LifeEEE.IsChecked = true;
+                        break;
+                    case "1-4":
+                        LifeEEE4.IsChecked = true;
+                        break;
+                    case "4-7":
+                        LifeEEE7.IsChecked = true;
+                        break;
+                    case "7-10":
+                        LifeEEE10.IsChecked = true;
+                        break;
+                    default:
+                        break;
+                }
+                switch (viewModel.SelectedItem.ConclusiveLifeExpLBC)
+                {
+                    case "0-1":
+                        LifeLBC.IsChecked = true;
+                        break;
+                    case "1-4":
+                        LifeLBC4.IsChecked = true;
+                        break;
+                    case "4-7":
+                        LifeLBC7.IsChecked = true;
+                        break;
+                    case "7-10":
+                        LifeLBC10.IsChecked = true;
+                        break;
+                    default:
+                        break;
+                }
+                switch (viewModel.SelectedItem.ConclusiveLifeExpAWE)
+                {
+                    case "0-1":
+                        LifeAWE.IsChecked = true;
+                        break;
+                    case "1-4":
+                        LifeAWE4.IsChecked = true;
+                        break;
+                    case "4-7":
+                        LifeAWE7.IsChecked = true;
+                        break;
+                    case "7-10":
+                        LifeAWE10.IsChecked = true;
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+            {
+                var viewModel = this.DataContext as VisualBuildingLocationViewModel;
+                switch (viewModel.SelectedItem.ConclusiveLifeExpEEE)
+                {
+                    case "0-1":
+                        LifeEEE.IsChecked = true;
+                        break;
+                    case "1-4":
+                        LifeEEE4.IsChecked = true;
+                        break;
+                    case "4-7":
+                        LifeEEE7.IsChecked = true;
+                        break;
+                    case "7-10":
+                        LifeEEE10.IsChecked = true;
+                        break;
+                    default:
+                        break;
+                }
+                switch (viewModel.SelectedItem.ConclusiveLifeExpLBC)
+                {
+                    case "0-1":
+                        LifeLBC.IsChecked = true;
+                        break;
+                    case "1-4":
+                        LifeLBC4.IsChecked = true;
+                        break;
+                    case "4-7":
+                        LifeLBC7.IsChecked = true;
+                        break;
+                    case "7-10":
+                        LifeLBC10.IsChecked = true;
+                        break;
+                    default:
+                        break;
+                }
+                switch (viewModel.SelectedItem.ConclusiveLifeExpAWE)
+                {
+                    case "0-1":
+                        LifeAWE.IsChecked = true;
+                        break;
+                    case "1-4":
+                        LifeAWE4.IsChecked = true;
+                        break;
+                    case "4-7":
+                        LifeAWE7.IsChecked = true;
+                        break;
+                    case "7-10":
+                        LifeAWE10.IsChecked = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (vm.GetType() == typeof(VisualApartmentViewModel))
+            {
+                var viewModel = this.DataContext as VisualApartmentViewModel;
+                switch (viewModel.SelectedItem.ConclusiveLifeExpEEE)
+                {
+                    case "0-1":
+                        LifeEEE.IsChecked = true;
+                        break;
+                    case "1-4":
+                        LifeEEE4.IsChecked = true;
+                        break;
+                    case "4-7":
+                        LifeEEE7.IsChecked = true;
+                        break;
+                    case "7-10":
+                        LifeEEE10.IsChecked = true;
+                        break;
+                    default:
+                        break;
+                }
+                switch (viewModel.SelectedItem.ConclusiveLifeExpLBC)
+                {
+                    case "0-1":
+                        LifeLBC.IsChecked = true;
+                        break;
+                    case "1-4":
+                        LifeLBC4.IsChecked = true;
+                        break;
+                    case "4-7":
+                        LifeLBC7.IsChecked = true;
+                        break;
+                    case "7-10":
+                        LifeLBC10.IsChecked = true;
+                        break;
+                    default:
+                        break;
+                }
+                switch (viewModel.SelectedItem.ConclusiveLifeExpAWE)
+                {
+                    case "0-1":
+                        LifeAWE.IsChecked = true;
+                        break;
+                    case "1-4":
+                        LifeAWE4.IsChecked = true;
+                        break;
+                    case "4-7":
+                        LifeAWE7.IsChecked = true;
+                        break;
+                    case "7-10":
+                        LifeAWE10.IsChecked = true;
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        }
     }
 }
