@@ -20,7 +20,7 @@ namespace UI.Code.Services
         Task<Response> FinelReportUpdateItemAsync(Project item);
         Task<Response> CreateInvasiveReport(Project item);
         Task<Response> MoveItemAsync(OrganizationDetail item);
-        Task<IEnumerable<Project>> GetItemsAsync(string search, string Type, string CreatedOn, bool forceRefresh = false);
+        Task<IEnumerable<Project>> GetItemsAsync(string search, string Type, string CreatedOn, bool forceRefresh = false,bool IsDeleted=false);
         Task<IEnumerable<Project>> TreeGetItemsAsync(string TreeID, string search, string Type, string CreatedOn, bool forceRefresh = false);
         //Task<IEnumerable<BuildingApartment>> GetItemsAsyncByBuildingId(string BuildingId);
 
@@ -350,17 +350,17 @@ namespace UI.Code.Services
             }
         }
 
-        public async Task<IEnumerable<Project>> GetItemsAsync(string search, string Type, string CreatedOn, bool forceRefresh = false)
+        public async Task<IEnumerable<Project>> GetItemsAsync(string search, string Type, string CreatedOn, bool isProjectDeleted= false,bool forceRefresh = false)
         {
 
             string Query = string.Empty;
             if (App.LogUser.RoleName == "Admin")
             {
-                Query = string.Format("api/Project/GetProjectList?CreatedOn={0}&isActive={1}&searchText={2}&ProjectType={3}", CreatedOn, false, search, Type);
+                Query = string.Format("api/Project/GetProjectList?CreatedOn={0}&isActive={1}&searchText={2}&ProjectType={3}", CreatedOn, isProjectDeleted, search, Type);
             }
             else
             {
-                Query = string.Format("api/Project/GetProjectForMobile?UserID={0}&CreatedOn={1}&isActive={2}&searchText={3}&ProjectType={4}", App.LogUser.Id.ToString(), CreatedOn, false, search, Type);
+                Query = string.Format("api/Project/GetProjectForMobile?UserID={0}&CreatedOn={1}&isActive={2}&searchText={3}&ProjectType={4}", App.LogUser.Id.ToString(), CreatedOn, isProjectDeleted, search, Type);
             }
             // string Query =string.Format("api/Project/GetProjectList?CreatedOn={0}&isActive={1}&searchText={2}&ProjectType={3}", CreatedOn,false,search,Type);
             //if(!string.IsNullOrEmpty(CreatedOn))

@@ -163,6 +163,12 @@ namespace UI.Code.ViewModel
             get { return _isc; }
             set { _isc = value; OnPropertyChanged("IsCompleted"); }
         }
+        private bool _isProjectDeleted;
+        public bool IsProjectDeleted
+        {
+            get { return _isProjectDeleted; }
+            set { _isProjectDeleted = value; OnPropertyChanged("IsProjectDeleted"); }
+        }
 
         public DelegateCommand SearchCommand => new DelegateCommand(async () => await Search());
         public async Task Search()
@@ -186,7 +192,7 @@ namespace UI.Code.ViewModel
                 SelectedeportType = "All";
             }
 
-            await Task.Run(() => LongOperation(SearchText, SelectedeportType, DateCreated));
+            await Task.Run(() => LongOperation(SearchText, SelectedeportType, DateCreated,IsProjectDeleted));
 
         }
         public DelegateCommand<Project> SelectedItemCommand => new DelegateCommand<Project>(async (Project prm) => await SelectedItemExecute(prm));
@@ -274,7 +280,7 @@ namespace UI.Code.ViewModel
             return true;
         }
 
-        public async Task<bool> LongOperation(string search, string ProjectType, string CreatedOn)
+        public async Task<bool> LongOperation(string search, string ProjectType, string CreatedOn, bool isProjectDeleted=false)
         {
             IsBusy = true;
             //IsCompleted = false;
@@ -289,7 +295,7 @@ namespace UI.Code.ViewModel
             }
           
             //TreeItems = MakeTree(new ObservableCollection<Organization>(await treeService.GetItemAsync(SearchText)), null);
-            Projects = new ObservableCollection<Project>(await projectService.GetItemsAsync(search, SelectedeportType, CreatedOn));
+            Projects = new ObservableCollection<Project>(await projectService.GetItemsAsync(search, SelectedeportType, CreatedOn,isProjectDeleted));
 
             IsBusy = false;
             return await Task.FromResult(true);
@@ -430,8 +436,7 @@ namespace UI.Code.ViewModel
 
             Title = "Project(s)";
 
-            //ImageHeight= Properties.Settings.Default.ImageHeight;
-            //ImageWidth = Properties.Settings.Default.ImageWidth;
+            
             ImageQuality = Properties.Settings.Default.ImageQuality;
             Factor = Properties.Settings.Default.Factor;
             //  SubmitCommand = new DelegateCommand(async () => await Submit());

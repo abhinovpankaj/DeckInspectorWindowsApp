@@ -140,56 +140,7 @@ namespace UI.Code.ViewModel
                 err.Status = "Error";
                 err.Message = result.Message;
             }
-            //  var message = "This is a message that should be shown in the dialog.";
-            //  ErrorModel err = new ErrorModel();
-            //  //using the dialog service as-is
-            //  _dialogService.ShowDialog("NotificationDialog", new DialogParameters($"message={message}"),async r =>
-            //  {
-
-            //      if (r.Result == ButtonResult.None)
-            //          Title = "Result is None";
-            //      else if (r.Result == ButtonResult.OK)
-            //      {
-
-
-            //          try
-            //          {
-            //              Response result = await VisualBuildingLocationPhotoDataStore.DeleteItemAsync(prm);
-            //              if (result.Status == ApiResult.Success)
-            //              {
-            //                  RegionManger.RequestNavigate("MainRegion", "Projects");
-            //                  err.Status = "Success";
-            //                  err.Message = result.Message;
-            //              }
-            //              else
-            //              {
-            //                  err.Status = "Error";
-            //                  err.Message = result.Message;
-            //              }
-
-            //          }
-            //          catch (Exception ex)
-            //          {
-            //              err.Status = "Error";
-            //              err.Message = ex.Message;
-            //          }
-
-            //          Title = "Result is OK";
-            //      }
-
-            //      else if (r.Result == ButtonResult.Cancel)
-            //          Title = "Result is Cancel";
-            //      else
-            //          Title = "I Don't know what you did!?";
-            //  });
-            ////  return await Task.FromResult(err);
-
-            //  //  RegionManger.RequestNavigate("MainRegion", "ProjectAddOrEdit", parameters);
-            //  //if (ProjectBuilding != null)
-            //  //{
-            //  //    var parameters = new NavigationParameters { { "ProjectBuilding", ProjectBuilding }, { "Project", Project } };
-
-            //  //}
+            
         }
 
         public async Task DeleteMain()

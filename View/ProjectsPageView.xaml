@@ -52,11 +52,16 @@
                       
                     </Grid>
                     <StackPanel Grid.Column="2"
-  Margin="12,15">
+  Margin="12,15" Orientation="Horizontal">
                         <CheckBox Name="chbIsCompleted" 
     IsChecked="{Binding IsCompleted}"
     materialDesign:CheckBoxAssist.CheckBoxSize="30">
                             Completed
+                        </CheckBox>
+                        <CheckBox Name="chbIsDeleted" 
+    IsChecked="{Binding IsProjectDeleted}"
+    materialDesign:CheckBoxAssist.CheckBoxSize="30">
+                            Deleted Project
                         </CheckBox>
                     </StackPanel>
                     <!--<ComboBox Grid.Column="1" SelectedItem="{Binding SelectedeportType}" ItemsSource="{Binding ProjectTypeList}" Width="200" Name="CbProType" HorizontalAlignment="Left" Margin="20,2,0,5" VerticalAlignment="Center"
