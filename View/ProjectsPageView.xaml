@@ -58,7 +58,7 @@
     materialDesign:CheckBoxAssist.CheckBoxSize="30">
                             Completed
                         </CheckBox>
-                        <CheckBox Name="chbIsDeleted" 
+                        <CheckBox Name="chbIsDeleted" Margin="10,0,0,0"
     IsChecked="{Binding IsProjectDeleted}"
     materialDesign:CheckBoxAssist.CheckBoxSize="30">
                             Deleted Project
@@ -216,13 +216,29 @@
                                             </Button>
 
 
-                                            <Button   IsEnabled="{Binding FinelReport}" HorizontalAlignment="Right" Visibility="{Binding IsRoleAdmin,Converter={StaticResource BooleanToVisibilityConverter }}"   VerticalAlignment="Center"
+                                            <Button   IsEnabled="{Binding FinelReport}" HorizontalAlignment="Right" 
+                                                      Visibility="{Binding IsRoleAdmin,Converter={StaticResource BooleanToVisibilityConverter }}"  
+                                                      VerticalAlignment="Center"
   Style="{StaticResource ImgBtn}" Margin="5" Name="btnMove" Click="BtnMove_Click"
   ToolTip="Move">
                                                 <materialDesign:PackIcon Background="Transparent"
     Kind="FolderMove"
     
      />
+                                            </Button>
+                                            <Button   HorizontalAlignment="Right" 
+                                                      Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path= DataContext.Showhide,Converter={StaticResource BooleanToVisibilityConverter }}"  
+                                                      VerticalAlignment="Center" 
+                                                      Style="{StaticResource ImgBtn}" Foreground="Green"
+                                                      Margin="5" Name="btnRestore" Click="btnRestore_Click" ToolTip="Restore Project">
+                                                <materialDesign:PackIcon Background="Transparent" Kind="Restore"/>
+                                            </Button>
+                                            <Button   HorizontalAlignment="Right" 
+                                                      Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path= DataContext.Showhide,Converter={StaticResource BooleanToVisibilityConverter }}"  
+                                                      VerticalAlignment="Center" 
+                                                      Style="{StaticResource ImgBtn}" Foreground="Red"
+                                                      Margin="5" Name="btnDelete" Click="btnDelete_Click" ToolTip="Delete Permanently">
+                                                <materialDesign:PackIcon Background="Transparent" Kind="DeleteCircleOutline"/>
                                             </Button>
 
                                         </StackPanel>

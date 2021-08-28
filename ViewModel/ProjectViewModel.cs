@@ -183,13 +183,9 @@ namespace UI.Code.ViewModel
                 err.Message = ex.Message;
             }
             return await Task.FromResult(err);
-            //  RegionManger.RequestNavigate("MainRegion", "ProjectAddOrEdit", parameters);
-            //if (ProjectBuilding != null)
-            //{
-            //    var parameters = new NavigationParameters { { "ProjectBuilding", ProjectBuilding }, { "Project", Project } };
-
-            //}
+            
         }
+       
         public async Task<ErrorModel> ReorderProjectLocation()
         {
             ErrorModel err = new ErrorModel();

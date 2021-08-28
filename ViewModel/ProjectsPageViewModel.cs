@@ -124,7 +124,7 @@ namespace UI.Code.ViewModel
             get { return _selecteType; }
             set { _selecteType = value; OnPropertyChanged("SelectedeportType"); }
         }
-        public async void ReloadLocation()
+        public async void ReloadLocation(bool isActive=false)
         {
             IsBusy = true;
             var s = SearchText;
@@ -146,7 +146,8 @@ namespace UI.Code.ViewModel
             {
                 DateCreated = CreatedOn?.ToString("dd-MMM-yyyy");
             }
-            Projects = new ObservableCollection<Project>(await projectService.GetItemsAsync(SearchText, SelectedeportType, DateCreated));
+            Projects = new ObservableCollection<Project>(await projectService.GetItemsAsync(SearchText, SelectedeportType, DateCreated,isActive));
+            IsBusy = false;
         }
 
         private string _us;
@@ -279,7 +280,7 @@ namespace UI.Code.ViewModel
         {
             return true;
         }
-
+        public bool Showhide { get; set; }
         public async Task<bool> LongOperation(string search, string ProjectType, string CreatedOn, bool isProjectDeleted=false)
         {
             IsBusy = true;
@@ -298,7 +299,10 @@ namespace UI.Code.ViewModel
             Projects = new ObservableCollection<Project>(await projectService.GetItemsAsync(search, SelectedeportType, CreatedOn,isProjectDeleted));
 
             IsBusy = false;
+            Showhide = IsProjectDeleted;
+            OnPropertyChanged("Showhide");
             return await Task.FromResult(true);
+            
         }
         public async Task<bool> CallTreeLongOperation(string Id)
         {
@@ -347,10 +351,7 @@ namespace UI.Code.ViewModel
             IsBusy = true;
             ErrorModel err = new ErrorModel();
 
-            //AssignLocationAndBuilding item = new AssignLocationAndBuilding();
-            //item.Users = UsersAssignList.ToList();
-            //item.ParentID = SelectedItem.Id;
-            //item.Type = "Project";
+            
             try
             {
 

@@ -289,6 +289,64 @@ namespace UI.Code.Services
             }
         }
 
+        public async Task<Response> DeletePermanentlyItemAsync(string id)
+        {
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(App.AppUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+                using (HttpResponseMessage response = await client.DeleteAsync($"api/Project/Delete?id=" + id))
+                {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    Response result = JsonConvert.DeserializeObject<Response>(responseBody);
+
+                    response.EnsureSuccessStatusCode();
+                    //if (response.IsSuccessStatusCode == false)
+                    //{
+                    //    throw new ApiException
+                    //    {
+                    //        StatusCode = (int)response.StatusCode,
+                    //        Content = result.Message
+                    //    };
+                    //}
+                    return await Task.FromResult(result);
+
+
+                }
+            }
+        }
+        public async Task<Response> RestoreItemAsync(Project item)
+        {
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(App.AppUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+                using (HttpResponseMessage response = await client.PostAsJsonAsync($"api/Project/RestoreProject", item))
+                {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    Response result = JsonConvert.DeserializeObject<Response>(responseBody);
+
+                    response.EnsureSuccessStatusCode();
+                    //if (response.IsSuccessStatusCode == false)
+                    //{
+                    //    throw new ApiException
+                    //    {
+                    //        StatusCode = (int)response.StatusCode,
+                    //        Content = result.Message
+                    //    };
+                    //}
+                    return await Task.FromResult(result);
+
+
+                }
+            }
+        }
         public async Task<Response> GetItemAsync(string id)
         {
             // string Query = string.Format("api/Project/GetProjectByIDMobile?Id={0}&UserId={1}", id, App.LogUser.Id.ToString());

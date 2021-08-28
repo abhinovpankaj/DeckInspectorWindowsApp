@@ -331,29 +331,6 @@ namespace UI.Code.View
 
             btnFinelReport_Wicr.Tag = btnWICR_FinelReport_Word.Tag = p.Id;
 
-
-            //btnFinelReport_Deck.Tag = p.Id;
-
-            //btnReport_Invasive.Tag=WICR_Invasive_Word.Tag = p.InvasiveProjectID;
-
-            //btnFilelReport_Deck_Word.Tag = btnWICR_FinelReport_Word.Tag = p.Id;
-
-            //btnReport_Visual_WICR.Tag = p.Id;
-            //btnReport_Invasive_wicr.Tag= btnDIInvasiveWord.Tag = p.InvasiveProjectID;
-
-
-           
-            //btnFinelReport_Wicr.Tag = p.Id;
-            //vm.SelectedItem = p;
-            //bool complete = await vm.GetUserListForAssign(App.LogUser.Id, p.Id, string.Empty, string.Empty, "Project", vm.UserSearch);
-            //if (complete == true)
-            //{
-            //    vm.IsBusy = false;
-            //    childWindowAssign.Caption = "Assign project - " + p.Name + " to user(s)";
-            //    childWindowAssign.FontWeight = FontWeights.Bold;
-            //    childWindowAssign.Visibility = Visibility.Visible;
-            //    childWindowAssign.Show();
-            //}
         }
         //Report VISUAL FOR DI PDF
         private void BtnReport_Visual_Word_Click(object sender, RoutedEventArgs e)
@@ -567,6 +544,73 @@ namespace UI.Code.View
             int intIndex = Convert.ToInt32(radioButton.Content.ToString());
             vm.Factor = intIndex;
             //MessageBox.Show(intIndex.ToString(CultureInfo.InvariantCulture));
+        }
+
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var myVM = this.DataContext as ProjectsPageViewModel;
+            Project p = ((Button)sender).DataContext as Project;
+            ErrorModel err = new ErrorModel();
+            p.IsDelete = false;
+            try
+            {
+                Response result = await myVM.projectService.DeletePermanentlyItemAsync(p.Id);
+                if (result.Status == ApiResult.Success)
+                {
+
+                    err.Status = "Project deleted successfully.";
+                    err.Message = result.Message;
+                }
+                else
+                {
+                    err.Status = "Error";
+                    err.Message = result.Message;
+                }
+            }
+            catch (Exception ex)
+            {
+                err.Status = "Error";
+                err.Message = ex.Message;
+            }
+            childWindowMessageBox.DataContext = err;
+            childWindowMessageBox.Visibility = Visibility.Visible;
+            childWindowMessageBox.Show();
+            myVM.ReloadLocation(true);
+        }
+
+        
+
+        private async void btnRestore_Click(object sender, RoutedEventArgs e)
+        {
+            var myVM = this.DataContext as ProjectsPageViewModel;
+            Project p = ((Button)sender).DataContext as Project;
+            ErrorModel err = new ErrorModel();
+            p.IsDelete = false;
+            try
+            {
+                Response result = await myVM.projectService.RestoreItemAsync(p);
+                if (result.Status == ApiResult.Success)
+                {
+                    
+                    err.Status = "Project restored successfully.";
+                    err.Message = result.Message;
+                }
+                else
+                {
+                    err.Status = "Error"; 
+                    err.Message = result.Message;
+                }
+            }
+            catch (Exception ex)
+            {
+                err.Status = "Error";
+                err.Message = ex.Message;
+            }
+            childWindowMessageBox.DataContext = err;
+            childWindowMessageBox.Visibility = Visibility.Visible;
+            childWindowMessageBox.Show();
+            myVM.ReloadLocation(true);
+           
         }
     }
 }
