@@ -589,26 +589,35 @@
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <ScrollViewer>
-                                                <StackPanel >
-                                                    <Button x:Name="SaveConclusiveData" Click="SaveConclusiveData_Click"
-                                Margin="0,0,10,0"
+                                        <Button x:Name="SaveConclusiveData" Click="SaveConclusiveData_Click"
+                                Margin="0,0,10,0" VerticalAlignment="Top" Panel.ZIndex="10"
                                 Style="{StaticResource ImgBtn}" HorizontalAlignment="Right">
-                                                        <Button.Content>
-                                                            <materialDesign:PackIcon Kind="Floppy" />
-                                                        </Button.Content>
-                                                    </Button>
-                                                    <CheckBox Content="PROP OWNER AGREED TO REPAIRS" Margin="10,2"
-                                  IsChecked="{Binding SelectedItem.IsInvasiveRepairApproved}"
-                              Style="{StaticResource  MaterialDesignFilterChipAccentCheckBox }"/>
-                                                    <!--<CheckBox Content="INVASIVE REPAIRS COMPLETED"  Margin="10,5" 
-                              Style="{StaticResource MaterialDesignFilterChipAccentCheckBox}"/>-->
-                                                    <CheckBox Content="INVASIVE REPAIRS INSPECTED AND COMPLETED"  Margin="10,2" IsChecked="{Binding SelectedItem.IsInvasiveRepairComplete}"
+                                            <Button.Content>
+                                                <materialDesign:PackIcon Kind="Floppy" />
+                                            </Button.Content>
+                                        </Button>
+                                        <ScrollViewer>
+                                                <StackPanel >
+                                                    
+                                                    
+                                  
+                                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                                    <Label Content="PROP OWNER AGREED TO REPAIRS" Margin="10,2"/>
+                                                    <RadioButton x:Name="ownerBoxYes" GroupName="prop" IsChecked="True" Content="Yes" Margin="10,2" Checked="ownerBoxYes_Checked"/>
+                                                    <RadioButton x:Name="ownerBoxNo" GroupName="prop" Content="No" Margin="10,2" Checked="ownerBoxNo_Checked"/>
+                                                </StackPanel>
+
+                                                <StackPanel Orientation="Horizontal" Margin="0">
+                                                    <Label Content="INVASIVE REPAIRS INSPECTED AND COMPLETED" Margin="10,2"/>
+                                                    <RadioButton x:Name="repairYes" GroupName="prop" IsChecked="True" Content="Yes" Margin="10,2" Checked="repairYes_Checked"/>
+                                                    <RadioButton x:Name="repairNo" GroupName="prop" Content="No" Margin="10,2" Checked="repairNo_Checked"/>
+                                                </StackPanel>
+                                                <CheckBox Content="INVASIVE REPAIRS INSPECTED AND COMPLETED"  Margin="10,2" IsChecked="{Binding SelectedItem.IsInvasiveRepairComplete}"
                               Style="{StaticResource MaterialDesignFilterChipAccentCheckBox}"/>
-                                                    <Label Content="Repair Observations" HorizontalAlignment="Center"
-                           BorderThickness="0,0,0,1" BorderBrush="Black"/>
-                                                    <TextBox  TextWrapping="Wrap" Margin="10,2" Style="{StaticResource MaterialDesignFilledTextBox}" AcceptsReturn="True"
-                                  Text="{Binding SelectedItem.ConclusiveComments}"/>
+                                                    <!--<Label Content="Repair Observations" HorizontalAlignment="Center"
+                           BorderThickness="0,0,0,1" BorderBrush="Black"/>-->
+                                                    <!--<TextBox  TextWrapping="Wrap" Margin="10,2" Style="{StaticResource MaterialDesignFilledTextBox}" AcceptsReturn="True"
+                                  Text="{Binding SelectedItem.ConclusiveComments}"/>-->
                                                     <materialDesign:Card Margin="10,2" materialDesign:ShadowAssist.ShadowDepth="Depth4" UniformCornerRadius="10">
                                                         <StackPanel Orientation="Vertical"  HorizontalAlignment="Left"
                             VerticalAlignment="Center">

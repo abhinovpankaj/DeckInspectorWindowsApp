@@ -641,12 +641,10 @@ namespace UI.Code.View
 
 
                 childImageShow.DataContext = obj;
-
                 childImageShow.Visibility = Visibility.Visible;
                 childImageShow.Show();
             }
-
-            if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+             if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
             {
                 var obj = ((ListBoxItem)sender).DataContext as VisualBuildingLocationPhoto;
                 var viewModel = this.DataContext as VisualBuildingLocationViewModel;
@@ -1449,6 +1447,7 @@ namespace UI.Code.View
                         LifeEEE10.IsChecked = true;
                         break;
                     default:
+                        CleanBoxes();
                         break;
                 }
                 switch (viewModel.SelectedItem.ConclusiveLifeExpLBC)
@@ -1466,6 +1465,7 @@ namespace UI.Code.View
                         LifeLBC10.IsChecked = true;
                         break;
                     default:
+                        CleanBoxes();
                         break;
                 }
                 switch (viewModel.SelectedItem.ConclusiveLifeExpAWE)
@@ -1483,6 +1483,7 @@ namespace UI.Code.View
                         LifeAWE10.IsChecked = true;
                         break;
                     default:
+                        CleanBoxes();
                         break;
                 }
 
@@ -1506,6 +1507,7 @@ namespace UI.Code.View
                         LifeEEE10.IsChecked = true;
                         break;
                     default:
+                        CleanBoxes();
                         break;
                 }
                 switch (viewModel.SelectedItem.ConclusiveLifeExpLBC)
@@ -1523,6 +1525,7 @@ namespace UI.Code.View
                         LifeLBC10.IsChecked = true;
                         break;
                     default:
+                        CleanBoxes();
                         break;
                 }
                 switch (viewModel.SelectedItem.ConclusiveLifeExpAWE)
@@ -1540,6 +1543,7 @@ namespace UI.Code.View
                         LifeAWE10.IsChecked = true;
                         break;
                     default:
+                        CleanBoxes();
                         break;
                 }
             }
@@ -1562,6 +1566,7 @@ namespace UI.Code.View
                         LifeEEE10.IsChecked = true;
                         break;
                     default:
+                        CleanBoxes();
                         break;
                 }
                 switch (viewModel.SelectedItem.ConclusiveLifeExpLBC)
@@ -1579,6 +1584,7 @@ namespace UI.Code.View
                         LifeLBC10.IsChecked = true;
                         break;
                     default:
+                        CleanBoxes();
                         break;
                 }
                 switch (viewModel.SelectedItem.ConclusiveLifeExpAWE)
@@ -1596,9 +1602,97 @@ namespace UI.Code.View
                         LifeAWE10.IsChecked = true;
                         break;
                     default:
+                        CleanBoxes();
                         break;
                 }
 
+            }
+        }
+
+        private void CleanBoxes()
+        {
+            LifeEEE.IsChecked = false;
+           
+            LifeEEE4.IsChecked = false;
+            
+            LifeEEE7.IsChecked = false;
+            
+            LifeEEE10.IsChecked = false;
+
+            LifeAWE.IsChecked = false;
+            
+            LifeAWE4.IsChecked = false;
+            
+            LifeAWE7.IsChecked = false;
+           
+            LifeAWE10.IsChecked = false;
+            LifeLBC.IsChecked = false;
+            
+            LifeLBC4.IsChecked = false;
+            
+            LifeLBC7.IsChecked = false;
+            
+            LifeLBC10.IsChecked = false;
+        }
+
+        private void ownerBoxYes_Checked(object sender, RoutedEventArgs e)
+        {
+            UpdateOwnerStatus(true);
+        }
+
+        private void ownerBoxNo_Checked(object sender, RoutedEventArgs e)
+        {
+            UpdateOwnerStatus(false);
+        }
+
+        private void repairYes_Checked(object sender, RoutedEventArgs e)
+        {
+            UpdateRepairStatus(true);
+
+
+        }
+        private void repairNo_Checked(object sender, RoutedEventArgs e)
+        {
+            UpdateRepairStatus(false);
+        }
+
+        private void UpdateRepairStatus(bool state)
+        {
+            var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+            {
+                var viewModel = this.DataContext as VisualProjectLocationViewModel;
+                viewModel.SelectedItem.IsInvasiveRepairComplete = state;
+            }
+            if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+            {
+                var viewModel = this.DataContext as VisualBuildingLocationViewModel;
+                viewModel.SelectedItem.IsInvasiveRepairComplete = state;
+            }
+            if (vm.GetType() == typeof(VisualApartmentViewModel))
+            {
+                var viewModel = this.DataContext as VisualApartmentViewModel;
+                viewModel.SelectedItem.IsInvasiveRepairComplete = state;
+            }
+        }
+
+        private void UpdateOwnerStatus(bool state)
+        {
+            var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+            {
+                var viewModel = this.DataContext as VisualProjectLocationViewModel;
+                viewModel.SelectedItem.IsInvasiveRepairApproved = state;
+            }
+            if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+            {
+                var viewModel = this.DataContext as VisualBuildingLocationViewModel;
+                viewModel.SelectedItem.IsInvasiveRepairApproved = state;
+            }
+            if (vm.GetType() == typeof(VisualApartmentViewModel))
+            {
+                var viewModel = this.DataContext as VisualApartmentViewModel;
+                viewModel.SelectedItem.IsInvasiveRepairApproved = state;
             }
         }
     }
