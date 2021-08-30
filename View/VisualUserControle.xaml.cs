@@ -32,8 +32,8 @@ namespace UI.Code.View
         public event EventHandler ClickSave;
         // public event EventHandler ClickCancel;
         public event EventHandler ClickEdit;
-        public event EventHandler ClickSearch;
 
+        public event EventHandler ClickSearch;
         public event EventHandler InvasiveClickSave;
 
         public event EventHandler InvasiveClickEdit;
@@ -158,7 +158,11 @@ namespace UI.Code.View
                 VisualProjectLocationViewModel db = vm as VisualProjectLocationViewModel;
                 var obj = ((ListBoxItem)sender).DataContext as VisualProjectLocation;
                 db.GetImagesCommand.Execute(obj);
+                if (db.SelectedItem.IsPostInvasiveRepairsRequired)
+                {
+                    PopulateLifeExpRadioButtons();
 
+                }
 
             }
             if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
@@ -166,16 +170,26 @@ namespace UI.Code.View
                 VisualBuildingLocationViewModel db = vm as VisualBuildingLocationViewModel;
                 var obj = ((ListBoxItem)sender).DataContext as VisualBuildingLocation;
                 db.GetImagesCommand.Execute(obj);
+                if (db.SelectedItem.IsPostInvasiveRepairsRequired)
+                {
+                    PopulateLifeExpRadioButtons();
+
+                }
             }
             if (vm.GetType() == typeof(VisualApartmentViewModel))
             {
                 VisualApartmentViewModel db = vm as VisualApartmentViewModel;
                 var obj = ((ListBoxItem)sender).DataContext as VisualBuildingApartment;
                 db.GetImagesCommand.Execute(obj);
+                if (db.SelectedItem.IsPostInvasiveRepairsRequired)
+                {
+                    PopulateLifeExpRadioButtons();
+
+                }
+
             }
 
-            PopulateLifeExpRadioButtons();
-            
+
         }
 
        
@@ -1175,11 +1189,12 @@ namespace UI.Code.View
         private async void SaveConclusiveData_Click(object sender, RoutedEventArgs e)
         {
             var vm = this.DataContext;
+            Response response;
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var myVM = vm as VisualProjectLocationViewModel;
                 var ds = new VisualProjectLocationService();
-                var response = await ds.UpdateItemAsync(myVM.SelectedItem);
+                response = await ds.UpdateItemAsync(myVM.SelectedItem);
 
             }
 
@@ -1187,7 +1202,7 @@ namespace UI.Code.View
             {
                 var myVM = vm as VisualBuildingLocationViewModel;
                 var ds = new VisualFormBuildingLocationDataStore();
-                var response = await ds.UpdateItemAsync(myVM.SelectedItem);
+                response = await ds.UpdateItemAsync(myVM.SelectedItem);
 
             }
 
@@ -1195,8 +1210,10 @@ namespace UI.Code.View
             {
                 var myVM = vm as VisualApartmentViewModel;
                 var ds = new VisualFormApartmentDataStore();
-                var response = await ds.UpdateItemAsync(myVM.SelectedItem);
+                response = await ds.UpdateItemAsync(myVM.SelectedItem);
+                
             }
+           
         }
         private async void addPicBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -1487,6 +1504,27 @@ namespace UI.Code.View
                         break;
                 }
 
+                if(viewModel.SelectedItem.IsInvasiveRepairApproved)
+                {
+                    ownerBoxYes.IsChecked = true;
+                    //ownerBoxNo.IsChecked = false;
+                }
+                else
+                {
+                    //ownerBoxYes.IsChecked = false;
+                    ownerBoxNo.IsChecked = true;
+                }
+                if (viewModel.SelectedItem.IsInvasiveRepairComplete)
+                {
+                    //repairNo.IsChecked = false;
+                    repairYes.IsChecked = true;
+                }
+                else
+                {
+                    repairNo.IsChecked = true;
+                    //repairYes.IsChecked = false;
+                }
+
             }
 
             if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
@@ -1546,6 +1584,27 @@ namespace UI.Code.View
                         CleanBoxes();
                         break;
                 }
+
+                if (viewModel.SelectedItem.IsInvasiveRepairApproved)
+                {
+                    ownerBoxYes.IsChecked = true;
+                    ownerBoxNo.IsChecked = false;
+                }
+                else
+                {
+                    ownerBoxYes.IsChecked = false;
+                    ownerBoxNo.IsChecked = true;
+                }
+                if (viewModel.SelectedItem.IsInvasiveRepairComplete)
+                {
+                    repairNo.IsChecked = false;
+                    repairYes.IsChecked = true;
+                }
+                else
+                {
+                    repairNo.IsChecked = true;
+                    repairYes.IsChecked = false;
+                }
             }
 
             if (vm.GetType() == typeof(VisualApartmentViewModel))
@@ -1604,6 +1663,27 @@ namespace UI.Code.View
                     default:
                         CleanBoxes();
                         break;
+                }
+
+                if (viewModel.SelectedItem.IsInvasiveRepairApproved)
+                {
+                    ownerBoxYes.IsChecked = true;
+                    //ownerBoxNo.IsChecked = false;
+                }
+                else
+                {
+                    //ownerBoxYes.IsChecked = false;
+                    ownerBoxNo.IsChecked = true;
+                }
+                if (viewModel.SelectedItem.IsInvasiveRepairComplete)
+                {
+                    //repairNo.IsChecked = false;
+                    repairYes.IsChecked = true;
+                }
+                else
+                {
+                    repairNo.IsChecked = true;
+                    //repairYes.IsChecked = false;
                 }
 
             }
@@ -1659,6 +1739,8 @@ namespace UI.Code.View
         private void UpdateRepairStatus(bool state)
         {
             var vm = this.DataContext;
+            if (vm == null)
+                return;
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var viewModel = this.DataContext as VisualProjectLocationViewModel;
@@ -1679,6 +1761,8 @@ namespace UI.Code.View
         private void UpdateOwnerStatus(bool state)
         {
             var vm = this.DataContext;
+            if (vm == null)
+                return;
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var viewModel = this.DataContext as VisualProjectLocationViewModel;

@@ -1,16 +1,17 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:UI.Code.Style">
-    <SolidColorBrush x:Key="MainColor" Color="#008080"/>
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:UI.Code.Style">
+    <SolidColorBrush x:Key="MainColor" Color="#008080" />
 
 
-    <ControlTemplate x:Key="FieldTemplate" >
+    <ControlTemplate x:Key="FieldTemplate">
         <Border Background="LightGray">
-            <DockPanel >
-                <TextBlock DockPanel.Dock="Left" Text="Enter your name:"/>
-                <TextBox  Margin="3"/>
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" Text="Enter your name:" />
+                <TextBox Margin="3" />
             </DockPanel>
         </Border>
     </ControlTemplate>
-    
+
 </ResourceDictionary>
