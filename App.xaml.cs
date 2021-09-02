@@ -33,7 +33,7 @@ public enum Skin { Dark, Light }
     ///  public enum Skin { Red, Blue }
     public partial class App : PrismApplication
     {
-        public static string AppUrl = "http://localhost:1169/";
+        public static string AppUrl = "http://localhost/";
         
         //public static string AppUrl = "http://api.deckinspectors.com/";
         public static readonly Guid UserID = new Guid("5C60F693-BEF5-E011-A485-80EE7300C695");

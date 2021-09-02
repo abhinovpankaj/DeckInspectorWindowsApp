@@ -1371,13 +1371,13 @@ namespace UI.Code.View
                 switch (v2)
                 {
                     case "EEE":
-                        viewModel.SelectedItem.ConclusiveLifeExpEEE = v1;
+                        viewModel.SelectedItem.ConclusiveLifeExpEEE = v1 + " Years";
                         break;
                     case "LBC":
-                        viewModel.SelectedItem.ConclusiveLifeExpLBC = v1;
+                        viewModel.SelectedItem.ConclusiveLifeExpLBC = v1 + " Years";
                         break;
                     case "AWE":
-                        viewModel.SelectedItem.ConclusiveLifeExpAWE = v1;
+                        viewModel.SelectedItem.ConclusiveLifeExpAWE = v1 + " Years";
                         break;
                     default:
                         break;
@@ -1391,13 +1391,13 @@ namespace UI.Code.View
                 switch (v2)
                 {
                     case "EEE":
-                        viewModel.SelectedItem.ConclusiveLifeExpEEE = v1;
+                        viewModel.SelectedItem.ConclusiveLifeExpEEE = v1 + " Years";
                         break;
                     case "LBC":
-                        viewModel.SelectedItem.ConclusiveLifeExpLBC = v1;
+                        viewModel.SelectedItem.ConclusiveLifeExpLBC = v1 + " Years";
                         break;
                     case "AWE":
-                        viewModel.SelectedItem.ConclusiveLifeExpAWE = v1;
+                        viewModel.SelectedItem.ConclusiveLifeExpAWE = v1 + " Years";
                         break;
                     default:
                         break;
@@ -1410,13 +1410,13 @@ namespace UI.Code.View
                 switch (v2)
                 {
                     case "EEE":
-                        viewModel.SelectedItem.ConclusiveLifeExpEEE = v1;
+                        viewModel.SelectedItem.ConclusiveLifeExpEEE = v1 + " Years";
                         break;
                     case "LBC":
-                        viewModel.SelectedItem.ConclusiveLifeExpLBC = v1;
+                        viewModel.SelectedItem.ConclusiveLifeExpLBC = v1 + " Years";
                         break;
                     case "AWE":
-                        viewModel.SelectedItem.ConclusiveLifeExpAWE = v1;
+                        viewModel.SelectedItem.ConclusiveLifeExpAWE = v1 + " Years";
                         break;
                     default:
                         break;
@@ -1451,16 +1451,16 @@ namespace UI.Code.View
                 var viewModel = this.DataContext as VisualProjectLocationViewModel;
                 switch (viewModel.SelectedItem.ConclusiveLifeExpEEE)
                 {
-                    case "0-1":
+                    case "0-1" + " Years":
                         LifeEEE.IsChecked = true;
                         break;
-                    case "1-4":
+                    case "1-4" + " Years":
                         LifeEEE4.IsChecked = true;
                         break;
-                    case "4-7":
+                    case "4-7" + " Years":
                         LifeEEE7.IsChecked = true;
                         break;
-                    case "7-10":
+                    case "7+" + " Years":
                         LifeEEE10.IsChecked = true;
                         break;
                     default:
@@ -1469,16 +1469,16 @@ namespace UI.Code.View
                 }
                 switch (viewModel.SelectedItem.ConclusiveLifeExpLBC)
                 {
-                    case "0-1":
+                    case "0-1" + " Years":
                         LifeLBC.IsChecked = true;
                         break;
-                    case "1-4":
+                    case "1-4" + " Years":
                         LifeLBC4.IsChecked = true;
                         break;
-                    case "4-7":
+                    case "4-7" + " Years":
                         LifeLBC7.IsChecked = true;
                         break;
-                    case "7-10":
+                    case "7+" + " Years":
                         LifeLBC10.IsChecked = true;
                         break;
                     default:
@@ -1487,16 +1487,16 @@ namespace UI.Code.View
                 }
                 switch (viewModel.SelectedItem.ConclusiveLifeExpAWE)
                 {
-                    case "0-1":
+                    case "0-1" + " Years":
                         LifeAWE.IsChecked = true;
                         break;
-                    case "1-4":
+                    case "1-4" + " Years":
                         LifeAWE4.IsChecked = true;
                         break;
-                    case "4-7":
+                    case "4-7" + " Years":
                         LifeAWE7.IsChecked = true;
                         break;
-                    case "7-10":
+                    case "7+" + " Years":
                         LifeAWE10.IsChecked = true;
                         break;
                     default:
@@ -1532,16 +1532,16 @@ namespace UI.Code.View
                 var viewModel = this.DataContext as VisualBuildingLocationViewModel;
                 switch (viewModel.SelectedItem.ConclusiveLifeExpEEE)
                 {
-                    case "0-1":
+                    case "0-1" + " Years":
                         LifeEEE.IsChecked = true;
                         break;
-                    case "1-4":
+                    case "1-4" + " Years":
                         LifeEEE4.IsChecked = true;
                         break;
-                    case "4-7":
+                    case "4-7" + " Years":
                         LifeEEE7.IsChecked = true;
                         break;
-                    case "7-10":
+                    case "7+" + " Years":
                         LifeEEE10.IsChecked = true;
                         break;
                     default:
@@ -1550,16 +1550,16 @@ namespace UI.Code.View
                 }
                 switch (viewModel.SelectedItem.ConclusiveLifeExpLBC)
                 {
-                    case "0-1":
+                    case "0-1" + " Years":
                         LifeLBC.IsChecked = true;
                         break;
-                    case "1-4":
+                    case "1-4" + " Years":
                         LifeLBC4.IsChecked = true;
                         break;
-                    case "4-7":
+                    case "4-7" + " Years":
                         LifeLBC7.IsChecked = true;
                         break;
-                    case "7-10":
+                    case "7+" + " Years":
                         LifeLBC10.IsChecked = true;
                         break;
                     default:
@@ -1568,16 +1568,16 @@ namespace UI.Code.View
                 }
                 switch (viewModel.SelectedItem.ConclusiveLifeExpAWE)
                 {
-                    case "0-1":
+                    case "0-1" + " Years":
                         LifeAWE.IsChecked = true;
                         break;
-                    case "1-4":
+                    case "1-4" + " Years":
                         LifeAWE4.IsChecked = true;
                         break;
-                    case "4-7":
+                    case "4-7" + " Years":
                         LifeAWE7.IsChecked = true;
                         break;
-                    case "7-10":
+                    case "7+" + " Years":
                         LifeAWE10.IsChecked = true;
                         break;
                     default:
@@ -1612,16 +1612,16 @@ namespace UI.Code.View
                 var viewModel = this.DataContext as VisualApartmentViewModel;
                 switch (viewModel.SelectedItem.ConclusiveLifeExpEEE)
                 {
-                    case "0-1":
+                    case "0-1" + " Years":
                         LifeEEE.IsChecked = true;
                         break;
-                    case "1-4":
+                    case "1-4" + " Years":
                         LifeEEE4.IsChecked = true;
                         break;
-                    case "4-7":
+                    case "4-7" + " Years":
                         LifeEEE7.IsChecked = true;
                         break;
-                    case "7-10":
+                    case "7+" + " Years":
                         LifeEEE10.IsChecked = true;
                         break;
                     default:
@@ -1630,16 +1630,16 @@ namespace UI.Code.View
                 }
                 switch (viewModel.SelectedItem.ConclusiveLifeExpLBC)
                 {
-                    case "0-1":
+                    case "0-1" + " Years":
                         LifeLBC.IsChecked = true;
                         break;
-                    case "1-4":
+                    case "1-4" + " Years":
                         LifeLBC4.IsChecked = true;
                         break;
-                    case "4-7":
+                    case "4-7" + " Years":
                         LifeLBC7.IsChecked = true;
                         break;
-                    case "7-10":
+                    case "7+" + " Years":
                         LifeLBC10.IsChecked = true;
                         break;
                     default:
@@ -1648,16 +1648,16 @@ namespace UI.Code.View
                 }
                 switch (viewModel.SelectedItem.ConclusiveLifeExpAWE)
                 {
-                    case "0-1":
+                    case "0-1" + " Years":
                         LifeAWE.IsChecked = true;
                         break;
-                    case "1-4":
+                    case "1-4" + " Years":
                         LifeAWE4.IsChecked = true;
                         break;
-                    case "4-7":
+                    case "4-7" + " Years":
                         LifeAWE7.IsChecked = true;
                         break;
-                    case "7-10":
+                    case "7+" + " Years":
                         LifeAWE10.IsChecked = true;
                         break;
                     default:

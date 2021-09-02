@@ -142,10 +142,6 @@
                                     <EventSetter Event="PreviewMouseMove" Handler="lbox_PreviewMouseMoveEvent" />
                                     <EventSetter Event="Drop" Handler="lboxViusal_Drop" />
                                     <EventSetter Event="MouseDoubleClick" Handler="VisualDoubleClick" />
-
-
-
-
                                 </Style>
 
                             </ListBox.ItemContainerStyle>
@@ -1000,8 +996,7 @@
                                                         Margin="10,2"
                                                         Checked="ownerBoxYes_Checked"
                                                         Content="Yes"
-                                                        GroupName="prop"
-                                                        />
+                                                        GroupName="prop" />
                                                     <RadioButton
                                                         x:Name="ownerBoxNo"
                                                         Margin="10,2"
@@ -1057,7 +1052,7 @@
                                                                     x:Name="LifeEEE10"
                                                                     Margin="10,5"
                                                                     Checked="LifeEEE_Click"
-                                                                    Content="7-10" />
+                                                                    Content="7+" />
                                                             </StackPanel>
 
                                                         </StackPanel>
@@ -1095,7 +1090,7 @@
                                                                     x:Name="LifeLBC10"
                                                                     Margin="10,5"
                                                                     Checked="LifeLBC_Click"
-                                                                    Content="7-10" />
+                                                                    Content="7+" />
                                                             </StackPanel>
 
                                                         </StackPanel>
@@ -1132,7 +1127,7 @@
                                                                     x:Name="LifeAWE10"
                                                                     Margin="10,5"
                                                                     Checked="LifeAWE_Click"
-                                                                    Content="7-10" />
+                                                                    Content="7+" />
                                                             </StackPanel>
 
                                                         </StackPanel>
