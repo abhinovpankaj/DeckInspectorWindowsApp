@@ -289,9 +289,9 @@ namespace UI.Code.ViewModel
         private async Task<bool> LongOperationGetImage(string Id)
         {
             var res = new ObservableCollection<VisualProjectLocationPhoto>(await VisualProjectLocationPhotoDataStore.GetItemsAsyncByVisualProjectLocationId(Id));
-            Images = new ObservableCollection<VisualProjectLocationPhoto>(res.Where(c => c.ImageDescription != "TRUE").OrderBy(c => c.SeqNo));
+            Images = new ObservableCollection<VisualProjectLocationPhoto>(res.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").OrderBy(c => c.SeqNo));
             InvasiveImgs = new ObservableCollection<VisualProjectLocationPhoto>(res.Where(c => c.ImageDescription == "TRUE").OrderBy(c=>c.SeqNo));
-                
+            ConclusiveImgs = new ObservableCollection<VisualProjectLocationPhoto>(res.Where(c => c.ImageDescription == "CONCLUSIVE").OrderBy(c => c.SeqNo));
             return await Task.FromResult(true);
         }
         private ObservableCollection<VisualProjectLocationPhoto> Imgs;

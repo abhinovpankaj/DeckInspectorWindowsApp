@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using UI.Code.Model;
 
 namespace UI.Code.Services
@@ -232,6 +234,51 @@ namespace UI.Code.Services
             //return await Task.FromResult(items.Where(c=>c.ProjectId== projectId));
         }
 
+        private static string _orientationQuery = "System.Photo.Orientation";
+        public static BitmapSource LoadImageFile(String path)
+        {
+            Rotation rotation = Rotation.Rotate0;
+            using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                BitmapFrame bitmapFrame = BitmapFrame.Create(fileStream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+                BitmapMetadata bitmapMetadata = bitmapFrame.Metadata as BitmapMetadata;
 
+                if ((bitmapMetadata != null) && (bitmapMetadata.ContainsQuery(_orientationQuery)))
+                {
+                    object o = bitmapMetadata.GetQuery(_orientationQuery);
+
+                    if (o != null)
+                    {
+                        switch ((ushort)o)
+                        {
+                            case 6:
+                                {
+                                    rotation = Rotation.Rotate90;
+                                }
+                                break;
+                            case 3:
+                                {
+                                    rotation = Rotation.Rotate180;
+                                }
+                                break;
+                            case 8:
+                                {
+                                    rotation = Rotation.Rotate270;
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+
+            BitmapImage _image = new BitmapImage();
+            _image.BeginInit();
+            _image.UriSource = new Uri(path);
+            _image.Rotation = rotation;
+            _image.EndInit();
+            _image.Freeze();
+
+            return _image;
+        }
     }
 }

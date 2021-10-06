@@ -240,9 +240,9 @@ namespace UI.Code.ViewModel
         private async Task<bool> LongOperationGetImage(string Id)
         {
             var res = new ObservableCollection<VisualBuildingLocationPhoto>(await VisualBuildingLocationPhotoDataStore.GetVisualBuildingLocationImageByVisualBuildingId(Id));
-            Images = new ObservableCollection<VisualBuildingLocationPhoto>(res.Where(c => c.ImageDescription != "TRUE").OrderBy(c => c.SeqNo));
+            Images = new ObservableCollection<VisualBuildingLocationPhoto>(res.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription!="CONCLUSIVE").OrderBy(c => c.SeqNo));
             InvasiveImgs = new ObservableCollection<VisualBuildingLocationPhoto>(res.Where(c => c.ImageDescription == "TRUE").OrderBy(c => c.SeqNo));
-
+            ConclusiveImgs = new ObservableCollection<VisualBuildingLocationPhoto>(res.Where(c => c.ImageDescription == "CONCLUSIVE").OrderBy(c => c.SeqNo));
             return await Task.FromResult(true);
         }
         private ObservableCollection<VisualBuildingLocationPhoto> Imgs;
@@ -360,26 +360,6 @@ namespace UI.Code.ViewModel
                     if (string.IsNullOrEmpty(DataModel.Id))
                     {
 
-                        //Response result = await projectService.AddItemAsync(Project);
-                        //if (result.Status == ApiResult.Success)
-                        //{
-                        //    Response getObj = await projectService.GetItemAsync(result.ID);
-                        //    if (getObj.Status == ApiResult.Success)
-                        //    {
-                        //        App.ProjectID = result.ID;
-                        //        //  Project project = JsonConvert.DeserializeObject<Project>(getObj.Data.ToString());
-                        //        // var parameters = new NavigationParameters { { "ProjectID", result.ID } };
-                        //        RegionManger.RequestNavigate("MainRegion", "Project");
-                        //    }
-                        //    err.Status = "Success";
-                        //    err.Message = result.Message;
-                        //    // RegionManger.RequestNavigate("MainRegion", "Projects");
-                        //}
-                        //else
-                        //{
-                        //    err.Status = "Error";
-                        //    err.Message = result.Message;
-                        //}
                     }
                     else
                     {
@@ -464,9 +444,6 @@ namespace UI.Code.ViewModel
         {
             //throw new NotImplementedException();
         }
-
-
-
 
 
         private readonly new IDialogService _dialogService;

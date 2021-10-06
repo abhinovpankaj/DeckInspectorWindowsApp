@@ -995,14 +995,12 @@
                                                         x:Name="ownerBoxYes"
                                                         Margin="10,2"
                                                         Checked="ownerBoxYes_Checked"
-                                                        Content="Yes"
-                                                        GroupName="prop" />
+                                                        Content="Yes" />
                                                     <RadioButton
                                                         x:Name="ownerBoxNo"
                                                         Margin="10,2"
                                                         Checked="ownerBoxNo_Checked"
-                                                        Content="No"
-                                                        GroupName="prop" />
+                                                        Content="No" />
                                                 </StackPanel>
                                                 <StackPanel Visibility="{Binding ElementName=ownerBoxYes, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                                                     <StackPanel Margin="0" Orientation="Horizontal">
@@ -1142,6 +1140,7 @@
                                                         Height="120"
                                                         Margin="10,5"
                                                         AcceptsReturn="True"
+                                                        SpellCheck.IsEnabled="True"
                                                         Style="{StaticResource MaterialDesignFilledTextBox}"
                                                         Text="{Binding SelectedItem.ConclusiveAdditionalConcerns}"
                                                         TextWrapping="Wrap" />

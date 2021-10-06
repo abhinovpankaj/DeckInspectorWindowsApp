@@ -35,7 +35,8 @@ public enum Skin { Dark, Light }
     {
         //public static string AppUrl = "http://localhost:1169/";
 
-        public static string AppUrl = "http://xoricwebapi-prod.us-east-1.elasticbeanstalk.com/";
+        //public static string AppUrl = "http://xoricwebapi-prod.us-east-1.elasticbeanstalk.com/";
+        public static string AppUrl = "http://api.deckinspectors.com/v2/";
         public static readonly Guid UserID = new Guid("5C60F693-BEF5-E011-A485-80EE7300C695");
         public static User LogUser = null;
         public static string ProjectID = string.Empty;

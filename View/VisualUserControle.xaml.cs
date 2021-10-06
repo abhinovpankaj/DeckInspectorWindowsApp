@@ -803,7 +803,7 @@ namespace UI.Code.View
             }
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = true;
-            openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
+            openFileDialog.Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             if (openFileDialog.ShowDialog() == true)
             {
@@ -860,7 +860,7 @@ namespace UI.Code.View
 
 
                 //bool result = await UploadFromGallary(myVM.SelectedItem.Name, "/api/ProjectLocationImage/AddEdit?ParentId=" + myVM.SelectedItem.ProjectLocationId + "&UserId=" + App.LogUser.Id.ToString(), images);
-                Response result = await UploadFromGallary(myVM.SelectedItem, "api/VisualProjectLocation/Edit", locImages);
+                Response result = await UploadFromGallary(myVM.SelectedItem, "api/VisualProjectLocation/Edit", locImages,isConclusive);
 
                 await myVM.GetImages(myVM.SelectedItem);
             }
@@ -877,7 +877,7 @@ namespace UI.Code.View
                 }
 
 
-                Response result = await UploadFromGallary(myVM.SelectedItem, "api/VisualBuildingLocation/Edit", locImages);
+                Response result = await UploadFromGallary(myVM.SelectedItem, "api/VisualBuildingLocation/Edit", locImages,isConclusive);
 
                 await myVM.GetImages(myVM.SelectedItem);
             }
@@ -926,7 +926,16 @@ namespace UI.Code.View
             parameters.Add("LifeExpectancyAWE", visualLocation.LifeExpectancyAWE);
             parameters.Add("ImageDescription", visualLocation.ImageDescription);
             parameters.Add("UserID", App.LogUser.Id.ToString());
+            parameters.Add("IsPostInvasiveRepairsRequired", visualLocation.IsPostInvasiveRepairsRequired.ToString());
+            parameters.Add("ConclusiveComments", visualLocation.ConclusiveComments);
+            parameters.Add("ConclusiveLifeExpLBC", visualLocation.ConclusiveLifeExpLBC);
+            parameters.Add("ConclusiveLifeExpEEE", visualLocation.ConclusiveLifeExpEEE);
+            parameters.Add("ConclusiveLifeExpAWE", visualLocation.ConclusiveLifeExpAWE);
 
+            parameters.Add("ConclusiveAdditionalConcerns", visualLocation.ConclusiveAdditionalConcerns);
+
+            parameters.Add("IsInvasiveRepairApproved", visualLocation.IsInvasiveRepairApproved.ToString());
+            parameters.Add("IsInvasiveRepairComplete", visualLocation.IsInvasiveRepairComplete.ToString());
 
             if (App.IsInvasive == true)
             {
@@ -1019,7 +1028,16 @@ namespace UI.Code.View
             parameters.Add("LifeExpectancyAWE", visualLocation.LifeExpectancyAWE);
             parameters.Add("ImageDescription", visualLocation.ImageDescription);
             parameters.Add("UserID", App.LogUser.Id.ToString());
+            parameters.Add("IsPostInvasiveRepairsRequired", visualLocation.IsPostInvasiveRepairsRequired.ToString());
+            parameters.Add("ConclusiveComments", visualLocation.ConclusiveComments);
+            parameters.Add("ConclusiveLifeExpLBC", visualLocation.ConclusiveLifeExpLBC);
+            parameters.Add("ConclusiveLifeExpEEE", visualLocation.ConclusiveLifeExpEEE);
+            parameters.Add("ConclusiveLifeExpAWE", visualLocation.ConclusiveLifeExpAWE);
 
+            parameters.Add("ConclusiveAdditionalConcerns", visualLocation.ConclusiveAdditionalConcerns);
+
+            parameters.Add("IsInvasiveRepairApproved", visualLocation.IsInvasiveRepairApproved.ToString());
+            parameters.Add("IsInvasiveRepairComplete", visualLocation.IsInvasiveRepairComplete.ToString());
 
             if (App.IsInvasive == true)
             {
@@ -1114,6 +1132,16 @@ namespace UI.Code.View
             parameters.Add("ImageDescription", visualLocation.ImageDescription);
             parameters.Add("UserID", App.LogUser.Id.ToString());
 
+            parameters.Add("IsPostInvasiveRepairsRequired", visualLocation.IsPostInvasiveRepairsRequired.ToString());
+            parameters.Add("ConclusiveComments", visualLocation.ConclusiveComments);
+            parameters.Add("ConclusiveLifeExpLBC", visualLocation.ConclusiveLifeExpLBC);
+            parameters.Add("ConclusiveLifeExpEEE", visualLocation.ConclusiveLifeExpEEE);
+            parameters.Add("ConclusiveLifeExpAWE", visualLocation.ConclusiveLifeExpAWE);
+
+            parameters.Add("ConclusiveAdditionalConcerns", visualLocation.ConclusiveAdditionalConcerns);
+
+            parameters.Add("IsInvasiveRepairApproved", visualLocation.IsInvasiveRepairApproved.ToString());
+            parameters.Add("IsInvasiveRepairComplete", visualLocation.IsInvasiveRepairComplete.ToString());
 
             if (App.IsInvasive == true)
             {
@@ -1246,7 +1274,7 @@ namespace UI.Code.View
             }
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = true;
-            openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
+            openFileDialog.Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             if (openFileDialog.ShowDialog() == true)
             {

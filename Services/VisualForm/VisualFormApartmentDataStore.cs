@@ -40,6 +40,7 @@ namespace UI.Code.Services
 
             using (HttpClient client = new HttpClient())
             {
+               
                 client.BaseAddress = new Uri(App.AppUrl);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(

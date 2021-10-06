@@ -10,69 +10,7 @@ using UI.Code.Model;
 
 namespace UI.Code.Services
 {
-    //public interface IVisualFormBuildingLocationDataStore
-    //{
-    //    Task<bool> AddItemAsync(BuildingLocation_Visual item);
-    //    Task<bool> UpdateItemAsync(BuildingLocation_Visual item);
-    //    Task<bool> DeleteItemAsync(string id);
-    //    Task<BuildingLocation_Visual> GetItemAsync(string id);
-    //    Task<IEnumerable<BuildingLocation_Visual>> GetItemsAsync(bool forceRefresh = false);
-    //    Task<IEnumerable<BuildingLocation_Visual>> GetItemsAsyncByBuildingLocationId(string buildingLocationId);
-
-    //}
-    //public class VisualFormBuildingLocationDataStore : IVisualFormBuildingLocationDataStore
-    //{
-    //    readonly List<BuildingLocation_Visual> items;
-
-    //    public VisualFormBuildingLocationDataStore()
-    //    {
-    //        items = new List<BuildingLocation_Visual>();
-
-    //    }
-    //    public async Task<bool> AddItemAsync(BuildingLocation_Visual item)
-    //    {
-    //        items.Add(item);
-
-    //        return await Task.FromResult(true);
-    //    }
-
-    //    public async Task<bool> UpdateItemAsync(BuildingLocation_Visual item)
-    //    {
-    //        var oldItem = items.Where((BuildingLocation_Visual arg) => arg.Id == item.Id).FirstOrDefault();
-    //        items.Remove(oldItem);
-    //        items.Add(item);
-
-    //        return await Task.FromResult(true);
-    //    }
-
-    //    public async Task<bool> DeleteItemAsync(string id)
-    //    {
-    //        var oldItem = items.Where((BuildingLocation_Visual arg) => arg.Id == id).FirstOrDefault();
-    //        items.Remove(oldItem);
-
-    //        return await Task.FromResult(true);
-    //    }
-
-    //    public async Task<BuildingLocation_Visual> GetItemAsync(string id)
-    //    {
-    //        return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
-    //    }
-
-    //    public async Task<IEnumerable<BuildingLocation_Visual>> GetItemsAsync(bool forceRefresh = false)
-    //    {
-    //        return await Task.FromResult(items);
-    //    }
-
-
-    //    public async Task<IEnumerable<BuildingLocation_Visual>> GetItemsAsyncByBuildingLocationId(string buildingLocationId)
-    //    {
-    //        return await Task.FromResult(items.Where(c=>c.BuildingLocationId == buildingLocationId));
-    //    }
-
-
-
-
-    //}
+   
 
     public interface IVisualFormBuildingLocationDataStore
     {
@@ -102,6 +40,7 @@ namespace UI.Code.Services
 
             using (HttpClient client = new HttpClient())
             {
+                client.Timeout = TimeSpan.FromSeconds(60);
                 client.BaseAddress = new Uri(App.AppUrl);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
@@ -127,6 +66,7 @@ namespace UI.Code.Services
 
             using (HttpClient client = new HttpClient())
             {
+                client.Timeout = TimeSpan.FromSeconds(60);
                 client.BaseAddress = new Uri(App.AppUrl);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
@@ -150,6 +90,7 @@ namespace UI.Code.Services
             item.IsDelete = true;
             using (HttpClient client = new HttpClient())
             {
+                client.Timeout = TimeSpan.FromSeconds(60);
                 client.BaseAddress = new Uri(App.AppUrl);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
@@ -190,6 +131,7 @@ namespace UI.Code.Services
         {
             using (HttpClient client = new HttpClient())
             {
+                client.Timeout = TimeSpan.FromSeconds(60);
                 client.BaseAddress = new Uri(App.AppUrl);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(

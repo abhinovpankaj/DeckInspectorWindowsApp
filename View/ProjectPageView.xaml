@@ -1,115 +1,135 @@
-﻿<UserControl x:Class="UI.Code.View.ProjectPageView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:UI.Code.View"
-             xmlns:control="clr-namespace:UI.Code.Controls"
-            xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
- xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
-            xmlns:con="clr-namespace:UI.Code.Convertor"
-              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" 
-             
-              xmlns:prism="http://prismlibrary.com/"
+﻿<UserControl
+    x:Class="UI.Code.View.ProjectPageView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:con="clr-namespace:UI.Code.Convertor"
+    xmlns:control="clr-namespace:UI.Code.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:UI.Code.View"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     prism:ViewModelLocator.AutoWireViewModel="True"
-            >
+    mc:Ignorable="d">
     <UserControl.Resources>
-        <con:ColorErrorConverter x:Key="err"></con:ColorErrorConverter>
-        <con:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></con:BooleanToVisibilityConverter>
+        <con:ColorErrorConverter x:Key="err" />
+        <con:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
 
         <Grid Margin="80,0">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <control:AddEditHeader Grid.Row="0" IsAddress="True" x:Name="UCAddEdit"></control:AddEditHeader>
-        
-            <Grid Grid.Row="1" >
+            <control:AddEditHeader
+                x:Name="UCAddEdit"
+                Grid.Row="0"
+                IsAddress="True" />
+
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" Background="White" Margin="10">
+                <Grid
+                    Grid.Column="0"
+                    Margin="10"
+                    Background="White">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Project Common Location(s)" VerticalAlignment="Center"  Padding="20"
-    Style="{StaticResource MaterialDesignHeadline6TextBlock}">
+                        <TextBlock
+                            Grid.Column="0"
+                            Padding="20"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                            Text="Project Common Location(s)" />
+                        <StackPanel
+                            Grid.Column="2"
+                            Margin="0,0,20,0"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
 
-                        </TextBlock>
-                        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,20,0">
-
-                            <Button Visibility="{Binding IsInvasiveControlDisable,Converter={StaticResource BooleanToVisibilityConverter }}" Name="btnNewLocation" HorizontalAlignment="Left" Command="{Binding NewLocationItemCommand}"
-  Style="{StaticResource ImgBtn}" Margin="10"
-  ToolTip="Add Common Location">
-                                <materialDesign:PackIcon
-    Kind="PlusCircleOutline"
-    
-     />
+                            <Button
+                                Name="btnNewLocation"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                Command="{Binding NewLocationItemCommand}"
+                                Style="{StaticResource ImgBtn}"
+                                ToolTip="Add Common Location"
+                                Visibility="{Binding IsInvasiveControlDisable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <materialDesign:PackIcon Kind="PlusCircleOutline" />
                             </Button>
 
-                            <Button  Name="btnEdit"  HorizontalAlignment="Right"  Click="BtnEdit_Click"
-  Style="{StaticResource ImgBtn}" 
-  ToolTip="Reorder">
-                                <materialDesign:PackIcon 
-    Kind="ReorderHorizontal"
-    
-     />
+                            <Button
+                                Name="btnEdit"
+                                HorizontalAlignment="Right"
+                                Click="BtnEdit_Click"
+                                Style="{StaticResource ImgBtn}"
+                                ToolTip="Reorder">
+                                <materialDesign:PackIcon Kind="ReorderHorizontal" />
                             </Button>
-                            <Button  Name="btnSave" Visibility="Collapsed"  HorizontalAlignment="Right" Click="BtnSave_Click"
-  Style="{StaticResource ImgBtn}" 
-  ToolTip="Save">
-                                <materialDesign:PackIcon
-    Kind="Floppy"
-    
-     />
+                            <Button
+                                Name="btnSave"
+                                HorizontalAlignment="Right"
+                                Click="BtnSave_Click"
+                                Style="{StaticResource ImgBtn}"
+                                ToolTip="Save"
+                                Visibility="Collapsed">
+                                <materialDesign:PackIcon Kind="Floppy" />
                             </Button>
-                            <Button  Name="btnCancel"  Visibility="Collapsed" HorizontalAlignment="Right" Click="BtnCancel_Click"
-  Style="{StaticResource ImgBtn}" 
-  ToolTip="Cancel">
-                                <materialDesign:PackIcon
-    Kind="Close"
-    
-     />
+                            <Button
+                                Name="btnCancel"
+                                HorizontalAlignment="Right"
+                                Click="BtnCancel_Click"
+                                Style="{StaticResource ImgBtn}"
+                                ToolTip="Cancel"
+                                Visibility="Collapsed">
+                                <materialDesign:PackIcon Kind="Close" />
                             </Button>
                         </StackPanel>
                     </Grid>
 
-                   
-                    <ScrollViewer Grid.Row="1" >
 
-                        <ListBox   ScrollViewer.CanContentScroll="False"
-         ScrollViewer.VerticalScrollBarVisibility="Auto"  HorizontalContentAlignment="Stretch"    Name="lboxProjectLocation"  ItemsSource="{Binding ProjectLocations}" SelectedItem="{Binding ProjectLocation}"  >
+                    <ScrollViewer Grid.Row="1">
+
+                        <ListBox
+                            Name="lboxProjectLocation"
+                            HorizontalContentAlignment="Stretch"
+                            ItemsSource="{Binding ProjectLocations}"
+                            ScrollViewer.CanContentScroll="False"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            SelectedItem="{Binding ProjectLocation}">
                             <ListBox.Resources>
-                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                                    <Setter Property="Background" Value="Transparent"/>
+                                <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="ListBoxItem">
+                                    <Setter Property="Background" Value="Transparent" />
                                 </Style>
                             </ListBox.Resources>
-                           
+
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
 
                                     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                                    <Setter Property="Margin" Value="10,5"/>
-                                    <Setter Property="AllowDrop" Value="true"/>
+                                    <Setter Property="Margin" Value="10,5" />
+                                    <Setter Property="AllowDrop" Value="true" />
 
-                                    <EventSetter Event="PreviewMouseMove" Handler="lbox_PreviewMouseMoveEvent"/>
-                                    <EventSetter Event="Drop" Handler="lboxProjectLocationDataBinding_Drop"/>
+                                    <EventSetter Event="PreviewMouseMove" Handler="lbox_PreviewMouseMoveEvent" />
+                                    <EventSetter Event="Drop" Handler="lboxProjectLocationDataBinding_Drop" />
                                     <EventSetter Event="MouseDoubleClick" Handler="LocationHandleDoubleClick" />
 
-                                    
+
 
                                 </Style>
 
@@ -121,7 +141,9 @@
                                     <!--<Border HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch"
                     BorderThickness="1"
                     BorderBrush="#2e479b">
-                                        --><!--<local:CachedImage ImageUrl="{Binding ProjectImage}" Width="200" Height="200" />--><!--
+                                    -->
+                                    <!--<local:CachedImage ImageUrl="{Binding ProjectImage}" Width="200" Height="200" />-->
+                                    <!--
                                         <Grid Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"></RowDefinition>
@@ -133,7 +155,9 @@
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="{Binding Name}" Grid.Row="0" Grid.Column="0"  Style="{StaticResource MaterialDesignHeadline3TextBlock}" HorizontalAlignment="Left" FontSize="16" VerticalAlignment="Center" Margin="20,0,0,0"/>
-                                                --><!--<TextBlock HorizontalAlignment="Left" Text="{Binding CreatedOn,StringFormat='- {0}'}" Grid.Row="0" Grid.Column="0"  Style="{StaticResource MaterialDesignHeadline3TextBlock}"  FontSize="12" VerticalAlignment="Center" Margin="2,2,0,0"/>--><!--
+                                    -->
+                                    <!--<TextBlock HorizontalAlignment="Left" Text="{Binding CreatedOn,StringFormat='- {0}'}" Grid.Row="0" Grid.Column="0"  Style="{StaticResource MaterialDesignHeadline3TextBlock}"  FontSize="12" VerticalAlignment="Center" Margin="2,2,0,0"/>-->
+                                    <!--
                                             </StackPanel>
                                             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="20,0">
 
@@ -149,81 +173,112 @@
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal"  Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
                                                 <Button HorizontalAlignment="Right" Click="btnLocationAgging_click"    VerticalAlignment="Center"
-  Style="{StaticResource ImgBtn}" Margin="5" 
+  Style="{StaticResource ImgBtn}" Margin="5"
   ToolTip="Assign">
                                                     <materialDesign:PackIcon Background="Transparent"
     Kind="UserCircleOutline"
-    
+
      />
                                                 </Button>
 
 
                                             </StackPanel>
 
-                                          
+
                                         </Grid>
 
                                     </Border>-->
-                                    <Border HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Center"
-                    BorderThickness="1"
-                    BorderBrush="#2e479b">
+                                    <Border
+                                        Margin="0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        BorderBrush="#2e479b"
+                                        BorderThickness="1">
                                         <!--<local:CachedImage ImageUrl="{Binding ProjectImage}" Width="200" Height="200" />-->
-                                        <Grid Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                        <Grid
+                                            Margin="5"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                                <RowDefinition Height="Auto"></RowDefinition>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Name}" Grid.Row="0" Grid.Column="0"  Style="{StaticResource MaterialDesignHeadline3TextBlock}" HorizontalAlignment="Left" FontSize="16" VerticalAlignment="Center" Margin="20,0,0,0"/>
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Margin="20,0,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="16"
+                                                    Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                                                    Text="{Binding Name}" />
                                                 <!--<TextBlock HorizontalAlignment="Left" Text="{Binding CreatedOn,StringFormat='- {0}'}" Grid.Row="0" Grid.Column="0"  Style="{StaticResource MaterialDesignHeadline3TextBlock}"  FontSize="12" VerticalAlignment="Center" Margin="2,2,0,0"/>-->
                                             </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="20,0">
+                                            <StackPanel
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Margin="20,0"
+                                                Orientation="Horizontal">
 
 
-                                                <TextBlock Margin="0"  VerticalAlignment="Center" 
-    Style="{StaticResource MaterialDesignCaptionTextBlock}" Text="{Binding CreatedOn,StringFormat='CreatedOn {0} '}">
-
-                                                </TextBlock>
-                                                <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" 
-    Style="{StaticResource MaterialDesignCaptionTextBlock}" Text="{Binding Username,StringFormat='By {0} '}">
-
-                                                </TextBlock>
-                                                <TextBlock Margin="5,0,0,0" Foreground="Green"  VerticalAlignment="Center"  MaxWidth="300" TextWrapping="WrapWithOverflow"
-    Style="{StaticResource MaterialDesignCaptionTextBlock}" Text="{Binding AssignTo,StringFormat='Assigned To - {0} '}"></TextBlock>
+                                                <TextBlock
+                                                    Margin="0"
+                                                    VerticalAlignment="Center"
+                                                    Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                                    Text="{Binding CreatedOn, StringFormat='CreatedOn {0} '}" />
+                                                <TextBlock
+                                                    Margin="5,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                                    Text="{Binding Username, StringFormat='By {0} '}" />
+                                                <TextBlock
+                                                    MaxWidth="300"
+                                                    Margin="5,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Foreground="Green"
+                                                    Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                                    Text="{Binding AssignTo, StringFormat='Assigned To - {0} '}"
+                                                    TextWrapping="WrapWithOverflow" />
 
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal"  Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
-                                                <Button HorizontalAlignment="Right" Click="btnLocationAgging_click"    VerticalAlignment="Center"
-  Style="{StaticResource ImgBtn}" Margin="5" 
-  ToolTip="Assign">
-                                                    <materialDesign:PackIcon Background="Transparent"
-    Kind="UserCircleOutline"
-    
-     />
+                                            <StackPanel
+                                                Grid.Row="0"
+                                                Grid.RowSpan="2"
+                                                Grid.Column="1"
+                                                Orientation="Horizontal">
+                                                <Button
+                                                    Margin="5"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Click="btnLocationAgging_click"
+                                                    Style="{StaticResource ImgBtn}"
+                                                    ToolTip="Assign">
+                                                    <materialDesign:PackIcon Background="Transparent" Kind="UserCircleOutline" />
                                                 </Button>
 
 
                                             </StackPanel>
                                             <!--<StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
                                                 <Button HorizontalAlignment="Right" Click="btnAgging_click"    VerticalAlignment="Center"
-  Style="{StaticResource ImgBtn}" Margin="10,5" 
+  Style="{StaticResource ImgBtn}" Margin="10,5"
   ToolTip="Edit">
                                                     <materialDesign:PackIcon Background="Transparent"
     Kind="PencilCircleOutline"
-    
+
      />
                                                 </Button>
-                                                -->
+                                            -->
                                             <!--<Button HorizontalAlignment="Right" Command="{Binding DataContext.ProjBuildingSelectedItemCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}"   VerticalAlignment="Center"
-  Style="{StaticResource ImgBtn}" Margin="5,5" 
+  Style="{StaticResource ImgBtn}" Margin="5,5"
   ToolTip="View">
                                                     <materialDesign:PackIcon Background="Transparent"
     Kind="EyeCircleOutline"
-    
+
      />
                                                 </Button>-->
                                             <!--
@@ -236,83 +291,104 @@
                                 </DataTemplate>
 
                             </ListBox.ItemTemplate>
-                           
+
                         </ListBox>
 
                     </ScrollViewer>
-                  
+
 
 
                 </Grid>
 
-                <Grid Grid.Column="1" Background="White" Margin="10">
+                <Grid
+                    Grid.Column="1"
+                    Margin="10"
+                    Background="White">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Project Building(s)" VerticalAlignment="Center"  Padding="20"
-    Style="{StaticResource MaterialDesignHeadline6TextBlock}">
+                        <TextBlock
+                            Grid.Column="0"
+                            Padding="20"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                            Text="Project Building(s)" />
+                        <StackPanel
+                            Grid.Column="2"
+                            Margin="0,0,20,0"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
 
-                        </TextBlock>
-                        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,20,0">
-
-                            <Button  Visibility="{Binding IsInvasiveControlDisable,Converter={StaticResource BooleanToVisibilityConverter }}" HorizontalAlignment="Left" Command="{Binding NewBuildingItemCommand}"
-  Style="{StaticResource ImgBtn}" Margin="10"
-  ToolTip="Add Building">
-                                <materialDesign:PackIcon
-    Kind="PlusCircleOutline"
-    
-     />
+                            <Button
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                Command="{Binding NewBuildingItemCommand}"
+                                Style="{StaticResource ImgBtn}"
+                                ToolTip="Add Building"
+                                Visibility="{Binding IsInvasiveControlDisable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <materialDesign:PackIcon Kind="PlusCircleOutline" />
                             </Button>
-                            <Button  Name="btnBuildingEdit"  HorizontalAlignment="Right"  Click="btnBuildingEdit_Click"
-  Style="{StaticResource ImgBtn}" 
-  ToolTip="Reorder">
-                                <materialDesign:PackIcon 
-    Kind="ReorderHorizontal"
-    
-     />
+                            <Button
+                                Name="btnBuildingEdit"
+                                HorizontalAlignment="Right"
+                                Click="btnBuildingEdit_Click"
+                                Style="{StaticResource ImgBtn}"
+                                ToolTip="Reorder">
+                                <materialDesign:PackIcon Kind="ReorderHorizontal" />
                             </Button>
-                            <Button  Name="btnBuildingSave" Visibility="Collapsed"  HorizontalAlignment="Right" Click="btnBuildingSave_Click"
-  Style="{StaticResource ImgBtn}" 
-  ToolTip="Save">
-                                <materialDesign:PackIcon
-    Kind="Floppy"
-    
-     />
+                            <Button
+                                Name="btnBuildingSave"
+                                HorizontalAlignment="Right"
+                                Click="btnBuildingSave_Click"
+                                Style="{StaticResource ImgBtn}"
+                                ToolTip="Save"
+                                Visibility="Collapsed">
+                                <materialDesign:PackIcon Kind="Floppy" />
                             </Button>
-                            <Button  Name="btnBuildingCancel"  Visibility="Collapsed" HorizontalAlignment="Right" Click="btnBuildingCancel_Click"
-  Style="{StaticResource ImgBtn}" 
-  ToolTip="Cancel">
-                                <materialDesign:PackIcon
-    Kind="Close"
-    
-     />
+                            <Button
+                                Name="btnBuildingCancel"
+                                HorizontalAlignment="Right"
+                                Click="btnBuildingCancel_Click"
+                                Style="{StaticResource ImgBtn}"
+                                ToolTip="Cancel"
+                                Visibility="Collapsed">
+                                <materialDesign:PackIcon Kind="Close" />
                             </Button>
                         </StackPanel>
                     </Grid>
-                    <ScrollViewer Grid.Row="1"  >
-                        <ListBox VerticalAlignment="Stretch"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto"  Name="lboxBuildingLocation" SelectionMode="Single" ItemsSource="{Binding ProjectBuildings}" SelectedItem="{Binding ProjectBuilding}"  >
+                    <ScrollViewer Grid.Row="1">
+                        <ListBox
+                            Name="lboxBuildingLocation"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            ItemsSource="{Binding ProjectBuildings}"
+                            ScrollViewer.CanContentScroll="False"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            SelectedItem="{Binding ProjectBuilding}"
+                            SelectionMode="Single">
                             <ListBox.Resources>
-                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                                    <Setter Property="Background" Value="Transparent"/>
+                                <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="ListBoxItem">
+                                    <Setter Property="Background" Value="Transparent" />
                                 </Style>
                             </ListBox.Resources>
-                            
+
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
 
                                     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                                    <Setter Property="Margin" Value="10,5"/>
-                                    <Setter Property="AllowDrop" Value="true"/>
+                                    <Setter Property="Margin" Value="10,5" />
+                                    <Setter Property="AllowDrop" Value="true" />
 
-                                    <EventSetter Event="PreviewMouseMove" Handler="lbox_PreviewMouseMoveEvent"/>
-                                    <EventSetter Event="Drop" Handler="lboxBuildingLocation_Drop"/>
+                                    <EventSetter Event="PreviewMouseMove" Handler="lbox_PreviewMouseMoveEvent" />
+                                    <EventSetter Event="Drop" Handler="lboxBuildingLocation_Drop" />
                                     <EventSetter Event="MouseDoubleClick" Handler="BuildingHandleDoubleClick" />
 
 
@@ -358,79 +434,114 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Border HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch"
-                    BorderThickness="1"
-                    BorderBrush="#2e479b">
+                                    <Border
+                                        Margin="0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        BorderBrush="#2e479b"
+                                        BorderThickness="1">
                                         <!--<local:CachedImage ImageUrl="{Binding ProjectImage}" Width="200" Height="200" />-->
-                                        <Grid Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Grid
+                                            Margin="5"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                                <RowDefinition Height="Auto"></RowDefinition>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Name}" Grid.Row="0" Grid.Column="0"  Style="{StaticResource MaterialDesignHeadline3TextBlock}" HorizontalAlignment="Left" FontSize="16" VerticalAlignment="Center" Margin="20,0,0,0"/>
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Margin="20,0,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="16"
+                                                    Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                                                    Text="{Binding Name}" />
                                                 <!--<TextBlock HorizontalAlignment="Left" Text="{Binding CreatedOn,StringFormat='- {0}'}" Grid.Row="0" Grid.Column="0"  Style="{StaticResource MaterialDesignHeadline3TextBlock}"  FontSize="12" VerticalAlignment="Center" Margin="2,2,0,0"/>-->
                                             </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="20,0">
+                                            <StackPanel
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Margin="20,0"
+                                                Orientation="Horizontal">
 
 
-                                                <TextBlock Margin="0"  VerticalAlignment="Center" HorizontalAlignment="Stretch"
-    Style="{StaticResource MaterialDesignCaptionTextBlock}" Text="{Binding CreatedOn,StringFormat='CreatedOn {0} '}">
+                                                <TextBlock
+                                                    Margin="0"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Center"
+                                                    Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                                    Text="{Binding CreatedOn, StringFormat='CreatedOn {0} '}" />
+                                                <TextBlock
+                                                    Margin="5,0,0,0"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Center"
+                                                    Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                                    Text="{Binding Username, StringFormat='By {0} '}" />
+                                                <TextBlock
+                                                    MaxWidth="300"
+                                                    Margin="5,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Foreground="Green"
+                                                    Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                                    Text="{Binding AssignTo, StringFormat='Assigned To - {0} '}"
+                                                    TextWrapping="WrapWithOverflow" />
 
-                                                </TextBlock>
-                                                <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" HorizontalAlignment="Stretch"
-    Style="{StaticResource MaterialDesignCaptionTextBlock}" Text="{Binding Username,StringFormat='By {0} '}">
 
-                                                </TextBlock>
-                                                <TextBlock Margin="5,0,0,0" Foreground="Green"  VerticalAlignment="Center"  MaxWidth="300" TextWrapping="WrapWithOverflow"
-    Style="{StaticResource MaterialDesignCaptionTextBlock}" Text="{Binding AssignTo,StringFormat='Assigned To - {0} '}"></TextBlock>
 
-                                                
-                                                
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal"  Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
-                                                <Button HorizontalAlignment="Right" Click="btnBuildingAgging_click"    VerticalAlignment="Center"
-  Style="{StaticResource ImgBtn}" Margin="5" 
-  ToolTip="Assign">
-                                                    <materialDesign:PackIcon Background="Transparent"
-    Kind="UserCircleOutline"
-    
-     />
+                                            <StackPanel
+                                                Grid.Row="0"
+                                                Grid.RowSpan="2"
+                                                Grid.Column="1"
+                                                Orientation="Horizontal">
+                                                <Button
+                                                    Margin="5"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Click="btnBuildingAgging_click"
+                                                    Style="{StaticResource ImgBtn}"
+                                                    ToolTip="Assign">
+                                                    <materialDesign:PackIcon Background="Transparent" Kind="UserCircleOutline" />
                                                 </Button>
 
 
                                             </StackPanel>
                                             <!--<StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
                                                 <Button HorizontalAlignment="Right" Click="btnAgging_click"    VerticalAlignment="Center"
-  Style="{StaticResource ImgBtn}" Margin="10,5" 
+  Style="{StaticResource ImgBtn}" Margin="10,5"
   ToolTip="Edit">
                                                     <materialDesign:PackIcon Background="Transparent"
     Kind="PencilCircleOutline"
-    
+
      />
                                                 </Button>
-                                                --><!--<Button HorizontalAlignment="Right" Command="{Binding DataContext.ProjBuildingSelectedItemCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}"   VerticalAlignment="Center"
-  Style="{StaticResource ImgBtn}" Margin="5,5" 
+                                            -->
+                                            <!--<Button HorizontalAlignment="Right" Command="{Binding DataContext.ProjBuildingSelectedItemCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}"   VerticalAlignment="Center"
+  Style="{StaticResource ImgBtn}" Margin="5,5"
   ToolTip="View">
                                                     <materialDesign:PackIcon Background="Transparent"
     Kind="EyeCircleOutline"
-    
+
      />
-                                                </Button>--><!--
+                                                </Button>-->
+                                            <!--
                                             </StackPanel>-->
                                         </Grid>
 
                                     </Border>
 
-                                   
+
                                 </DataTemplate>
 
                             </ListBox.ItemTemplate>
-                          
+
 
                         </ListBox>
 
@@ -443,7 +554,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                 
+
                 </Grid.RowDefinitions>
                 <materialDesign:ColorZone >
                     <StackPanel Orientation="Horizontal" Margin="2" >
@@ -455,10 +566,10 @@
                 <Border Grid.Row="1" BorderThickness="1 0 1 1" BorderBrush="White" Padding="16">
                     <Grid>
                         <Grid Visibility="{Binding IsChecked, ElementName=rbTab1, Converter={StaticResource BooleanToVisibilityConverter}}">
-                          
+
                         </Grid>
                         <Grid Visibility="{Binding IsChecked, ElementName=rbTab2, Converter={StaticResource BooleanToVisibilityConverter}}">
-                          
+
                         </Grid>
 
                     </Grid>
@@ -470,34 +581,54 @@
 
         </materialDesign:Card>-->
             <Grid Grid.Row="2">
-                <StackPanel Height="30">
-                    
-                </StackPanel>
+                <StackPanel Height="30" />
 
             </Grid>
 
         </Grid>
-        <Border Style="{StaticResource brdProgress}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" >
-            <control:progress></control:progress>
+        <Border Style="{StaticResource brdProgress}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <control:progress />
         </Border>
 
-        <xctk:ChildWindow Padding="20"   CloseButtonVisibility="Collapsed"  BorderThickness="0"    WindowBorderBrush="White" Visibility="Collapsed"   Name="childDeleteConfirmation" WindowStartupLocation="Center" IsModal="True"    WindowState="Open"
-                   
-                    >
+        <xctk:ChildWindow
+            Name="childDeleteConfirmation"
+            Padding="20"
+            BorderThickness="0"
+            CloseButtonVisibility="Collapsed"
+            IsModal="True"
+            Visibility="Collapsed"
+            WindowBorderBrush="White"
+            WindowStartupLocation="Center"
+            WindowState="Open">
 
 
             <StackPanel Margin="20">
-                <TextBlock Style="{StaticResource Title}" Name="txtDelete"  FontSize="14" Foreground="Black"  Margin="5"  Text="Project will be deleted completely. Are you sure?"></TextBlock>
+                <TextBlock
+                    Name="txtDelete"
+                    Margin="5"
+                    FontSize="14"
+                    Foreground="Black"
+                    Style="{StaticResource Title}"
+                    Text="Project will be deleted completely. Are you sure?" />
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Yes" Name="btnDeleteOk" Click="btnDeleteOk_Click" HorizontalContentAlignment="Center" Height="25" HorizontalAlignment="Right" Margin="10" 
-    Style="{StaticResource btn}"
-    ToolTip="Yes">
-
-                    </Button>
-                    <Button   HorizontalAlignment="Center" Margin="10" Name="btnDeleteClose" Click="btnDeleteClose_Click" 
-    Style="{StaticResource btn}"
-    ToolTip="No">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Button
+                        Name="btnDeleteOk"
+                        Height="25"
+                        Margin="10"
+                        HorizontalAlignment="Right"
+                        HorizontalContentAlignment="Center"
+                        Click="btnDeleteOk_Click"
+                        Content="Yes"
+                        Style="{StaticResource btn}"
+                        ToolTip="Yes" />
+                    <Button
+                        Name="btnDeleteClose"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        Click="btnDeleteClose_Click"
+                        Style="{StaticResource btn}"
+                        ToolTip="No">
                         No
                     </Button>
                 </StackPanel>
@@ -505,20 +636,39 @@
             </StackPanel>
 
         </xctk:ChildWindow>
-        <xctk:ChildWindow Padding="20"   CloseButtonVisibility="Collapsed"  BorderThickness="0"    WindowBorderBrush="White" Visibility="Collapsed"   Name="childWindowFeedback" WindowStartupLocation="Center" IsModal="True"    WindowState="Open"
-                   
-                    >
+        <xctk:ChildWindow
+            Name="childWindowFeedback"
+            Padding="20"
+            BorderThickness="0"
+            CloseButtonVisibility="Collapsed"
+            IsModal="True"
+            Visibility="Collapsed"
+            WindowBorderBrush="White"
+            WindowStartupLocation="Center"
+            WindowState="Open">
 
 
             <StackPanel Margin="20">
-                <TextBlock Style="{StaticResource Title}" Text="{Binding Status}"  Margin="5"  Foreground="{Binding Status,Converter={StaticResource err}}"></TextBlock>
+                <TextBlock
+                    Margin="5"
+                    Foreground="{Binding Status, Converter={StaticResource err}}"
+                    Style="{StaticResource Title}"
+                    Text="{Binding Status}" />
 
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
 
-                    <TextBlock Margin="5" Style="{StaticResource Error}" Foreground="{Binding Status,Converter={StaticResource err}}" Text="{Binding Message}"></TextBlock>
-                    <Button   HorizontalAlignment="Center" Margin="10" Name="btnErrorClose" Click="btnErrorClose_Click"
-    Style="{StaticResource btn}"
-    ToolTip="Close">
+                    <TextBlock
+                        Margin="5"
+                        Foreground="{Binding Status, Converter={StaticResource err}}"
+                        Style="{StaticResource Error}"
+                        Text="{Binding Message}" />
+                    <Button
+                        Name="btnErrorClose"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        Click="btnErrorClose_Click"
+                        Style="{StaticResource btn}"
+                        ToolTip="Close">
                         Close
                     </Button>
                 </StackPanel>
@@ -527,23 +677,40 @@
 
         </xctk:ChildWindow>
 
-        <xctk:ChildWindow Caption="Assign To User(s)" Width="550" CloseButtonVisibility="Collapsed"  BorderThickness="0"    WindowBorderBrush="White" Visibility="Collapsed"   Name="childWindowAssign" WindowStartupLocation="Center" IsModal="True"    WindowState="Open"
-                   
-                    >
+        <xctk:ChildWindow
+            Name="childWindowAssign"
+            Width="550"
+            BorderThickness="0"
+            Caption="Assign To User(s)"
+            CloseButtonVisibility="Collapsed"
+            IsModal="True"
+            Visibility="Collapsed"
+            WindowBorderBrush="White"
+            WindowStartupLocation="Center"
+            WindowState="Open">
 
 
 
             <StackPanel>
-                <control:AssginControl x:Name="assignControl"></control:AssginControl>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Save" HorizontalContentAlignment="Center" Height="25" HorizontalAlignment="Right" Margin="10" Name="btnAssign" Click="btnAssign_Click"
-    Style="{StaticResource btn}"
-    ToolTip="Save">
-
-                    </Button>
-                    <Button   HorizontalAlignment="Center" Margin="10" Name="btnAssignClose" Click="btnAssignClose_Click"
-    Style="{StaticResource btn}"
-    ToolTip="Close">
+                <control:AssginControl x:Name="assignControl" />
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Button
+                        Name="btnAssign"
+                        Height="25"
+                        Margin="10"
+                        HorizontalAlignment="Right"
+                        HorizontalContentAlignment="Center"
+                        Click="btnAssign_Click"
+                        Content="Save"
+                        Style="{StaticResource btn}"
+                        ToolTip="Save" />
+                    <Button
+                        Name="btnAssignClose"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        Click="btnAssignClose_Click"
+                        Style="{StaticResource btn}"
+                        ToolTip="Close">
                         Close
                     </Button>
                 </StackPanel>
@@ -551,30 +718,54 @@
 
         </xctk:ChildWindow>
 
-        <xctk:ChildWindow Padding="20"   CloseButtonVisibility="Collapsed"  BorderThickness="0"    WindowBorderBrush="White" Visibility="Collapsed"   Name="childWindowMessageBox" WindowStartupLocation="Center" IsModal="True"    WindowState="Open"
-                   
-                    >
+        <xctk:ChildWindow
+            Name="childWindowMessageBox"
+            Padding="20"
+            BorderThickness="0"
+            CloseButtonVisibility="Collapsed"
+            IsModal="True"
+            Visibility="Collapsed"
+            WindowBorderBrush="White"
+            WindowStartupLocation="Center"
+            WindowState="Open">
 
 
             <StackPanel Margin="20">
-                <TextBlock Style="{StaticResource Title}" Text="{Binding Status}"  Margin="5"  Foreground="Orange"></TextBlock>
+                <TextBlock
+                    Margin="5"
+                    Foreground="Orange"
+                    Style="{StaticResource Title}"
+                    Text="{Binding Status}" />
 
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
 
-                    <TextBlock Margin="5" Style="{StaticResource Error}" Foreground="{Binding Status,Converter={StaticResource err}}" Text="{Binding Message}"></TextBlock>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Content="OK" HorizontalContentAlignment="Center" Height="25" HorizontalAlignment="Right" Margin="10" Name="btnBackOk" Click="btnBackOk_Click"
-    Style="{StaticResource btn}"
-    ToolTip="Ok">
-
-                        </Button>
-                        <Button   HorizontalAlignment="Center" Margin="10" Name="btnBackClose" Click="btnBackClose_Click"
-    Style="{StaticResource btn}"
-    ToolTip="Close">
+                    <TextBlock
+                        Margin="5"
+                        Foreground="{Binding Status, Converter={StaticResource err}}"
+                        Style="{StaticResource Error}"
+                        Text="{Binding Message}" />
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Button
+                            Name="btnBackOk"
+                            Height="25"
+                            Margin="10"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Center"
+                            Click="btnBackOk_Click"
+                            Content="OK"
+                            Style="{StaticResource btn}"
+                            ToolTip="Ok" />
+                        <Button
+                            Name="btnBackClose"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            Click="btnBackClose_Click"
+                            Style="{StaticResource btn}"
+                            ToolTip="Close">
                             Close
                         </Button>
                     </StackPanel>
-                 
+
                 </StackPanel>
 
             </StackPanel>
