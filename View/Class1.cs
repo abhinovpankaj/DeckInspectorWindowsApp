@@ -178,7 +178,7 @@ namespace UI.Code.View
                 {
 
                     FixImage(objImage, path);
-                    //objImage.Save(path);
+                    objImage.Save(path);
                 }
 
                 inst.Source = new BitmapImage(new Uri(path));

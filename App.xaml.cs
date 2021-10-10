@@ -45,7 +45,7 @@ public enum Skin { Dark, Light }
         public static bool IsInvasive { get; set; }
         public App()
         {
-            
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NTE0NzI1QDMxMzkyZTMzMmUzMGtFOXVrNGJLWk52MXNYUFNoTWNybW9ybXExRU1ZK1BVUXN1ME1iVXcxQkU9");
         }
        
         protected override Window CreateShell()
@@ -54,6 +54,7 @@ public enum Skin { Dark, Light }
             //con.Register<IRegionManager, RegionManager>();
             // Prism.Ioc.ContainerLocator.Container
             var w = Container.Resolve<Shell>();
+
             return w;
         }
         public static string Role { get; set; }

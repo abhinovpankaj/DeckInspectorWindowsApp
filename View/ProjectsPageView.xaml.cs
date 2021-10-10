@@ -336,29 +336,49 @@ namespace UI.Code.View
         private void BtnReport_Visual_Word_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordVisual?quality="+ vm.ImageQuality+"&height="+vm.Factor+"&width="+vm.ImageWidth +"&projectID=" + projectId + "&company=DI&Type=Word");
+            Task.Run(()=>vm.WordVisual(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId));
+
+            ShowHideUI();
+           // System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordVisual?quality="+ vm.ImageQuality+"&height="+vm.Factor+"&width="+vm.ImageWidth +"&projectID=" + projectId + "&company=DI&Type=Word");
         }
         //Report VISUAL FOR DI WORD
         private void BtnReport_Visual_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
+            Task.Run(()=>vm.WordVisual(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId,"DI","pdf"));
 
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordVisual?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=pdf");
+            ShowHideUI();
+
+            //System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordVisual?quality=" + vm.ImageQuality + 
+            //"&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=pdf");
         }
         //Report Invasive  DI PDF
         private void BtnReport_Invasive_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
-            //  string url = App.AppUrl + "/api/values/GetInvasivelDI?projectID=" + projectId;
-            //  System.Diagnostics.Process.Start(App.AppUrl +"/api/values/GetInvasivelDI?projectID=" + projectId + "&company=DI");
+
             System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=pdf");
-            // System.Diagnostics.Process.Start("http://techcodevity.com/api/values/GetVisualDI?projectID=11D6DFDB-EF89-42E4-A127-7565CCE65DC0");
+
         }
+
+        private void ShowHideUI()
+        {
+            
+            childWindowdownload.Visibility = Visibility.Collapsed;
+            childWindowdownload.Close();
+
+            childWindowMessageBox.DataContext = new ErrorModel { Message = "Report generation may take sometme, you can continue to work while we create it.You will be notified once  it's ready", Status = "Report" };
+            childWindowMessageBox.Visibility = Visibility.Visible;
+            childWindowMessageBox.Show();
+        }
+
         //Report Invasive  DI Word
         private void BtnDIInvasiveWord_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=Word");
+            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + 
+                vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=Word");
+
         }
         //FINEL DI PDF
         private void btnFinelReport_Deck_Click(object sender, RoutedEventArgs e)
@@ -382,16 +402,20 @@ namespace UI.Code.View
         private void BtnReport_Visual_WICR_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordVisual?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=pdf");
+            Task.Run(()=>vm.WordVisual(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId,"WICR","pdf"));
+
+            ShowHideUI();
+           // System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordVisual?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=pdf");
         }
         private void WICR_Visual_Word_Click(object sender, RoutedEventArgs e)
         {
 
             string projectId = ((Button)sender).Tag.ToString();
-            //  string url = App.AppUrl + "/api/values/GetInvasivelDI?projectID=" + projectId;
-            //  System.Diagnostics.Process.Start(App.AppUrl +"/api/values/GetInvasivelDI?projectID=" + projectId + "&company=DI");
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordVisual?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=Word");
-            // S
+            Task.Run(()=>vm.WordVisual(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId,"WICR","Word"));
+
+            ShowHideUI();
+            //System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordVisual?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=Word");
+            
         }
 
 
