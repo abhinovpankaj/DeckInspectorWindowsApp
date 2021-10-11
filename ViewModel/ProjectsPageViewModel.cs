@@ -1162,7 +1162,7 @@ namespace UI.Code.ViewModel
                     document.Close();
                 }
                 //update the processing status
-                NotificationUI("Report Created successfully.");
+                NotificationUI("Report Created Successfully, please navigate to Downlaods folder to access it.");
             }
             
             catch (Exception ex)
@@ -1321,7 +1321,1117 @@ namespace UI.Code.ViewModel
 
         #region Invasive
 
-       
+        public async Task WordInvasive(long quality, int height, int width, string projectID = "11D6DFDB-EF89-42E4-A127-7565CCE65DC0", string company = "DI", string Type = "Word")
+        {
+            int factor = height;
+            
+
+            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
+            string download = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads\\";
+            if (Directory.Exists(download + "\\compressed"))
+            {
+                Directory.Delete(download + "\\compressed", true);
+            }
+            Directory.CreateDirectory(download + "\\compressed");
+            NotificationUI("Report Creation Started.");
+            string path = System.AppDomain.CurrentDomain.BaseDirectory + "Report\\";
+            string html = System.IO.File.ReadAllText(path + "Invasive.html", iso);
+
+            try
+            {
+
+
+                Response result = await projectService.GetItemAsync(projectID);
+                //if (result.Status == ApiResult.Success)
+                //{
+                Project project = JsonConvert.DeserializeObject<Project>(result.Data.ToString());
+                //}
+                StringBuilder mainHtml = new StringBuilder();
+
+                mainHtml.Append("<!DOCTYPE html><html lang='en' xmlns='http://www.w3.org/1999/xhtml'><head><meta charset='utf-8'/> <title></title>" +
+
+                    "</head><body>");
+                if (project != null)
+                {
+                    html = html.Replace("{projectName}", project.Name);
+                    html = html.Replace("{projectAdd}", project.Address);
+                    html = html.Replace("{projectDes}", project.Description);
+                    html = html.Replace("{projectDate}", project.CreatedOn);
+
+                    //get the Project Image
+                    if (project.ImageUrl != null)
+                    {
+
+                        html = html.Replace("{projectImagePath}", project.ImageUrl);
+                    }
+
+
+
+                    if (company == "DI")
+                    {
+                        html = html.Replace("{projectCreated}", "Deck Inspectors");
+                    }
+                    else
+                        html = html.Replace("{projectCreated}", "WICR Waterproofing and Construction");
+                    //html = html.Replace("{projectCreated}", project.Username);
+
+                    IEnumerable<ProjectBuilding> buildingList = await ProjectBuildingDataStore.GetItemsAsyncByProjectID(projectID);
+                    IEnumerable<ProjectLocation> ProjectLocationList = await projectLocationService.GetItemsAsyncByProjectID(projectID);
+
+
+                    html = html.Replace("{heading}", "Invasive Inspection Report");
+
+                    mainHtml.Append(html);
+                    if (buildingList.Count() != 0)//Check Building Exists
+                    {
+
+                        foreach (var building in buildingList)////open foreach building
+                        {
+
+                            // html_Header = string.Empty;
+                            //APARTMENT
+
+                            IEnumerable<BuildingApartment> buildingapartmentList = await BuildingApartmentDataStore.GetItemsAsyncByBuildingId(building.Id);
+                            if (buildingapartmentList.Count() != 0)
+                            {
+                                foreach (var apartment in buildingapartmentList)////open building apartment list
+                                {
+
+
+                                    IEnumerable<VisualBuildingApartment> visualBuildingApartment = await VisualFormApartmentDataStore.GetVisualBuildingApartmentByBuildingApartmentId(apartment.Id);
+                                    if (visualBuildingApartment.Count() != 0)
+                                    {
+                                        foreach (var visualApt in visualBuildingApartment)
+                                        {
+                                            //Table_B_Apartment
+                                            string html_Header = System.IO.File.ReadAllText(path + "\\VisualDetail.html", iso);
+                                            html_Header = html_Header.Replace("{BuildingName}", building.Name);
+                                            html_Header = html_Header.Replace("{AptName}", apartment.Name);
+                                            html_Header = html_Header.Replace("{LocName}", visualApt.Name);
+
+                                            html_Header = html_Header.Replace("{TitleName}", "Building Name");
+                                            html_Header = html_Header.Replace("{TitleApt}", "Apartment Name");
+                                            html_Header = html_Header.Replace("{TitleLoc}", "Location Name");
+
+                                            html_Header = html_Header.Replace("{ExteriorElements}", visualApt.ExteriorElements.Replace(",", ", ").Replace("Thershold", "Threshold"));
+                                            html_Header = html_Header.Replace("{WaterProofingElements}", visualApt.WaterProofingElements.Replace(",", ", "));
+
+
+
+                                            if (visualApt.VisualReview == "Bad")
+                                            {
+                                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualApt.VisualReview + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{VisualReview}", "<p>&nbsp;" + visualApt.VisualReview + "</p>");
+                                            if (visualApt.AnyVisualSign == "Yes")
+                                            {
+                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualApt.AnyVisualSign + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p>&nbsp;" + visualApt.AnyVisualSign + "</p>");
+
+                                            if (visualApt.FurtherInasive == "Yes")
+                                            {
+                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualApt.FurtherInasive + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p>&nbsp;" + visualApt.FurtherInasive + "</p>");
+                                            if (visualApt.ConditionAssessment == "Fail")
+                                            {
+                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualApt.ConditionAssessment + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p>&nbsp;" + visualApt.ConditionAssessment + "</p>");
+
+
+                                            html_Header = html_Header.Replace("{Additional}", visualApt.AdditionalConsideration.Replace("\n", "<br/>"));
+
+                                            if (visualApt.LifeExpectancyEEE == "0-1 Years")
+                                            {
+                                                html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualApt.LifeExpectancyEEE + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualApt.LifeExpectancyEEE + "</p>");
+
+                                            if (visualApt.LifeExpectancyLBC == "0-1 Years")
+                                            {
+                                                html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualApt.LifeExpectancyLBC + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualApt.LifeExpectancyLBC + "</p>");
+
+                                            if (visualApt.LifeExpectancyAWE == "0-1 Years")
+                                            {
+                                                html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualApt.LifeExpectancyAWE + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualApt.LifeExpectancyAWE + "</p>");
+
+
+                                            html_Header = html_Header.Replace("{detailheading}", "Invasive Inspection Details");
+                                            mainHtml.Append(html_Header);
+
+                                            string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
+
+                                            IEnumerable<VisualApartmentLocationPhoto> imageApartment = await VisualApartmentLocationPhotoDataStore.GetVisualBuildingApartmentImageByVisualApartmentId(visualApt.Id.ToString());
+                                            imageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
+
+                                            StringBuilder visual_Images_apartment = new StringBuilder();
+                                            int apCount = 0;
+                                            if (imageApartment.Count() <= factor)
+                                            {
+
+                                                visual_Images_apartment.Append(trWithStyle);
+                                                foreach (var item in imageApartment)
+                                                {
+                                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+
+                                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                                }
+                                                visual_Images_apartment.Append("</tr>");
+                                            }
+                                            else
+                                            {
+                                                visual_Images_apartment.Append(trWithStyle);
+                                                foreach (var item in imageApartment)
+                                                {
+
+                                                    if ((apCount % factor) == 0)
+                                                    {
+
+                                                        visual_Images_apartment.Append("</tr>");
+                                                        visual_Images_apartment.Append(trWithStyle);
+                                                    }
+
+                                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                                                    apCount++;
+                                                }
+                                                visual_Images_apartment.Append("</tr>");
+                                            }
+                                            html_VisualImages = html_VisualImages.Replace("{VisualImages}", visual_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                            html_VisualImages = html_VisualImages.Replace("{imageCount}", factor.ToString());
+                                            mainHtml.Append(html_VisualImages);
+
+
+                                            List<VisualApartmentLocationPhoto> InvasiveimageApartment = imageApartment.Where(c => c.ImageDescription == "TRUE").ToList();
+
+
+                                            //Invasive Images
+                                            string html_InvasiveImages = System.IO.File.ReadAllText(path + "\\VisualInvasiveImage.html", iso);
+
+
+
+                                            StringBuilder Inv_Images_apartment = new StringBuilder();
+                                            if (InvasiveimageApartment.Count <= factor)
+                                            {
+
+                                                Inv_Images_apartment.Append(trWithStyle);
+                                                foreach (var item in InvasiveimageApartment)
+                                                {
+
+                                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                                    Inv_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                                                }
+                                                Inv_Images_apartment.Append("</tr>");
+                                            }
+                                            else
+                                            {
+                                                int apCountInv = 0;
+                                                Inv_Images_apartment.Append(trWithStyle);
+                                                foreach (var item in InvasiveimageApartment)
+                                                {
+
+
+                                                    if ((apCountInv % factor) == 0)
+                                                    {
+
+                                                        Inv_Images_apartment.Append("</tr>");
+                                                        Inv_Images_apartment.Append(trWithStyle);
+                                                    }
+                                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+
+                                                    Inv_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                                    apCountInv++;
+                                                }
+                                                Inv_Images_apartment.Append("</tr>");
+                                            }
+
+
+
+                                            html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualApt.ImageDescription).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                            html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
+
+                                            mainHtml.Append(html_InvasiveImages);
+
+                                            //Add Conclusive Part 
+                                            string ConclusiveHtml = await getConclusiveHTMLContent(visualApt, quality, factor);
+                                            mainHtml.Append(ConclusiveHtml);
+
+                                        }
+
+                                    }
+
+                                }//close building apartment list
+                            }
+
+                        }//close foreach building
+
+                        foreach (var building in buildingList)////open foreach building
+                        {
+
+                            IEnumerable<BuildingLocation> buildingLocationList = await BuildingLocationDataStore.GetItemsAsyncByBuildingId(building.Id);
+                            if (buildingLocationList.Count() != 0)
+                            {
+                                ////open building location list
+                                foreach (var blocation in buildingLocationList)
+                                {
+
+
+                                    IEnumerable<VisualBuildingLocation> visualBuildingLocationList = await VisualFormBuildingLocationDataStore.GetVisualBuildingLocationByBuildingLocationId(blocation.Id);
+                                    if (visualBuildingLocationList.Count() != 0)
+                                    {
+                                        foreach (var visualbuildingLocation in visualBuildingLocationList)
+                                        {
+
+                                            //Table_B_Apartment
+                                            string html_Header = System.IO.File.ReadAllText(path + "\\VisualDetail.html", iso);
+                                            html_Header = html_Header.Replace("{BuildingName}", building.Name);
+                                            html_Header = html_Header.Replace("{AptName}", blocation.Name);
+                                            html_Header = html_Header.Replace("{LocName}", visualbuildingLocation.Name);
+
+                                            html_Header = html_Header.Replace("{TitleName}", "Building Name");
+                                            html_Header = html_Header.Replace("{TitleApt}", "Building Common Location Name");
+                                            html_Header = html_Header.Replace("{TitleLoc}", "Location Name");
+
+                                            html_Header = html_Header.Replace("{ExteriorElements}", visualbuildingLocation.ExteriorElements.Replace(",", ", ").Replace("Thershold", "Threshold"));
+                                            html_Header = html_Header.Replace("{WaterProofingElements}", visualbuildingLocation.WaterProofingElements.Replace(",", ", "));
+
+                                            if (visualbuildingLocation.VisualReview == "Bad")
+                                            {
+                                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.VisualReview + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{VisualReview}", "<p>&nbsp;" + visualbuildingLocation.VisualReview + "</p>");
+                                            if (visualbuildingLocation.AnyVisualSign == "Yes")
+                                            {
+                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.AnyVisualSign + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p>&nbsp;" + visualbuildingLocation.AnyVisualSign + "</p>");
+
+                                            if (visualbuildingLocation.FurtherInasive == "Yes")
+                                            {
+                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.FurtherInasive + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p>&nbsp;" + visualbuildingLocation.FurtherInasive + "</p>");
+                                            if (visualbuildingLocation.ConditionAssessment == "Fail")
+                                            {
+                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.ConditionAssessment + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p>&nbsp;" + visualbuildingLocation.ConditionAssessment + "</p>");
+
+
+                                            //html_Header = html_Header.Replace("{Additional}", visualbuildingLocation.AdditionalConsideration);
+                                            html_Header = html_Header.Replace("{Additional}", visualbuildingLocation.AdditionalConsideration.Replace("\n", "<br/>"));
+
+                                            if (visualbuildingLocation.LifeExpectancyEEE == "0-1 Years")
+                                            {
+                                                html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.LifeExpectancyEEE + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualbuildingLocation.LifeExpectancyEEE + "</p>");
+
+                                            if (visualbuildingLocation.LifeExpectancyLBC == "0-1 Years")
+                                            {
+                                                html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.LifeExpectancyLBC + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualbuildingLocation.LifeExpectancyLBC + "</p>");
+
+                                            if (visualbuildingLocation.LifeExpectancyAWE == "0-1 Years")
+                                            {
+                                                html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.LifeExpectancyAWE + "</font></p>");
+                                            }
+                                            else
+                                                html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualbuildingLocation.LifeExpectancyAWE + "</p>");
+
+
+                                            html_Header = html_Header.Replace("{detailheading}", "Invasive Inspection Details");
+                                            mainHtml.Append(html_Header);
+
+
+
+                                            IEnumerable<VisualBuildingLocationPhoto> imageApartment = await VisualBuildingLocationPhotoDataStore.GetVisualBuildingLocationImageByVisualBuildingId(visualbuildingLocation.Id.ToString());
+                                            imageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
+
+                                            string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
+
+                                            StringBuilder visual_Images_apartment = new StringBuilder();
+                                            int apCount = 0;
+                                            if (imageApartment.Count() <= factor)
+                                            {
+
+                                                visual_Images_apartment.Append(trWithStyle);
+                                                foreach (var item in imageApartment)
+                                                {
+                                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                                    // visual_Images_apartment.Append("<td><img  width=\"100%\"   src='" + newCompressedPath + "'/></td>");
+                                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                                }
+                                                visual_Images_apartment.Append("</tr>");
+                                            }
+                                            else
+                                            {
+                                                visual_Images_apartment.Append(trWithStyle);
+                                                foreach (var item in imageApartment)
+                                                {
+
+                                                    if ((apCount % factor) == 0)
+                                                    {
+
+                                                        visual_Images_apartment.Append("</tr>");
+                                                        visual_Images_apartment.Append(trWithStyle);
+                                                    }
+                                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+
+                                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                                                    apCount++;
+                                                }
+                                                visual_Images_apartment.Append("</tr>");
+                                            }
+                                            html_VisualImages = html_VisualImages.Replace("{VisualImages}", visual_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                            html_VisualImages = html_VisualImages.Replace("{imageCount}", factor.ToString());
+                                            mainHtml.Append(html_VisualImages);
+
+
+
+                                            List<VisualBuildingLocationPhoto> InvasiveimageApartment = imageApartment.Where(c => c.ImageDescription == "TRUE").ToList();
+
+                                            string html_InvasiveImages = System.IO.File.ReadAllText(path + "\\VisualInvasiveImage.html", iso);
+
+                                            StringBuilder Inv_Images_apartment = new StringBuilder();
+                                            if (InvasiveimageApartment.Count <= factor)
+                                            {
+
+                                                Inv_Images_apartment.Append(trWithStyle);
+                                                foreach (var item in InvasiveimageApartment)
+                                                {
+
+
+                                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                                    Inv_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                                                }
+                                                Inv_Images_apartment.Append("</tr>");
+                                            }
+                                            else
+                                            {
+                                                int apCountInv = 0;
+                                                Inv_Images_apartment.Append(trWithStyle);
+                                                foreach (var item in InvasiveimageApartment)
+                                                {
+
+                                                    if ((apCountInv % factor) == 0)
+                                                    {
+
+                                                        Inv_Images_apartment.Append("</tr>");
+                                                        Inv_Images_apartment.Append(trWithStyle);
+                                                    }
+                                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                                    Inv_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                                                    apCountInv++;
+                                                }
+                                                Inv_Images_apartment.Append("</tr>");
+                                            }
+
+
+
+                                            html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", blocation.Description).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                            html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
+                                            mainHtml.Append(html_InvasiveImages);
+
+                                            //add Conclusive Part
+                                            string ConclusiveHtml = await getConclusiveHTMLContent(visualbuildingLocation, quality, factor);
+                                            mainHtml.Append(ConclusiveHtml);
+
+
+                                        }
+
+                                    }
+
+                                }//close building apartment list
+                            }
+                        }
+
+                    }
+                    if (ProjectLocationList.Count() != 0)
+                    {
+                        foreach (var projectlocation in ProjectLocationList)////open project location list
+                        {
+
+
+                            IEnumerable<VisualProjectLocation> visualprojectLocation = await VisualProjectLocationService.GetItemsAsyncByVisualProjectLocationId(projectlocation.Id);
+                            if (visualprojectLocation.Count() != 0)
+                            {
+                                foreach (var visualPloc in visualprojectLocation)
+                                {
+                                    string html_Header = System.IO.File.ReadAllText(path + "\\VisualDeatilForProjectLocation.html", iso);
+                                    html_Header = html_Header.Replace("{BuildingName}", projectlocation.Name);
+                                    html_Header = html_Header.Replace("{AptName}", projectlocation.Name);
+                                    html_Header = html_Header.Replace("{LocName}", visualPloc.Name);
+
+                                    // html_Header = html_Header.Replace("{TitleName}", "Project Common Location Name");
+                                    html_Header = html_Header.Replace("{TitleApt}", "Project Common Location Name");
+                                    html_Header = html_Header.Replace("{TitleLoc}", "Location Name");
+
+                                    html_Header = html_Header.Replace("{ExteriorElements}", visualPloc.ExteriorElements.Replace(",", ", ").Replace("Thershold", "Threshold"));
+                                    html_Header = html_Header.Replace("{WaterProofingElements}", visualPloc.WaterProofingElements.Replace(",", ", "));
+
+                                    if (visualPloc.VisualReview == "Bad")
+                                    {
+                                        html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
+                                    }
+                                    else
+                                        html_Header = html_Header.Replace("{VisualReview}", "<p>&nbsp;" + visualPloc.VisualReview + "</p>");
+                                    if (visualPloc.AnyVisualSign == "Yes")
+                                    {
+                                        html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
+                                    }
+                                    else
+                                        html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p>&nbsp;" + visualPloc.AnyVisualSign + "</p>");
+
+                                    if (visualPloc.FurtherInasive == "Yes")
+                                    {
+                                        html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
+                                    }
+                                    else
+                                        html_Header = html_Header.Replace("{FurtherInvasive}", "<p>&nbsp;" + visualPloc.FurtherInasive + "</p>");
+                                    if (visualPloc.ConditionAssessment == "Fail")
+                                    {
+                                        html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
+                                    }
+                                    else
+                                        html_Header = html_Header.Replace("{ConditionAssessment}", "<p>&nbsp;" + visualPloc.ConditionAssessment + "</p>");
+
+                                    //html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration);
+                                    html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration.Replace("\n", "<br/>"));
+
+                                    if (visualPloc.LifeExpectancyEEE == "0-1 Years")
+                                    {
+                                        html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyEEE + "</font></p>");
+                                    }
+                                    else
+                                        html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualPloc.LifeExpectancyEEE + "</p>");
+
+                                    if (visualPloc.LifeExpectancyLBC == "0-1 Years")
+                                    {
+                                        html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyLBC + "</font></p>");
+                                    }
+                                    else
+                                        html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualPloc.LifeExpectancyLBC + "</p>");
+
+                                    if (visualPloc.LifeExpectancyAWE == "0-1 Years")
+                                    {
+                                        html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyAWE + "</font></p>");
+                                    }
+                                    else
+                                        html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualPloc.LifeExpectancyAWE + "</p>");
+
+                                    mainHtml.Append(html_Header);
+
+
+
+
+                                    IEnumerable<VisualProjectLocationPhoto> imageApartment = await VisualProjectLocationPhotoDataStore.GetItemsAsyncByVisualProjectLocationId(visualPloc.Id.ToString());
+                                    imageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
+                                    string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
+
+                                    StringBuilder visual_Images_apartment = new StringBuilder();
+                                    int apCount = 0;
+                                    if (imageApartment.Count() <= factor)
+                                    {
+
+                                        visual_Images_apartment.Append(trWithStyle);
+                                        foreach (var item in imageApartment)
+                                        {
+                                            string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                            var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                            visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                        }
+                                        visual_Images_apartment.Append("</tr>");
+                                    }
+                                    else
+                                    {
+                                        visual_Images_apartment.Append(trWithStyle);
+                                        foreach (var item in imageApartment)
+                                        {
+
+                                            if ((apCount % factor) == 0)
+                                            {
+
+                                                visual_Images_apartment.Append("</tr>");
+                                                visual_Images_apartment.Append(trWithStyle);
+                                            }
+                                            string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                            var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+
+                                            visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                            apCount++;
+                                        }
+                                        visual_Images_apartment.Append("</tr>");
+                                    }
+                                    html_VisualImages = html_VisualImages.Replace("{VisualImages}", visual_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                    html_VisualImages = html_VisualImages.Replace("{imageCount}", factor.ToString());
+                                    mainHtml.Append(html_VisualImages);
+                                    //Invasive
+
+
+                                    List<VisualProjectLocationPhoto> InvasiveimageApartment = imageApartment.Where(c => c.ImageDescription == "TRUE").ToList();
+                                    string html_InvasiveImages = System.IO.File.ReadAllText(path + "\\VisualInvasiveImage.html", iso);
+
+
+
+                                    StringBuilder Inv_Images_apartment = new StringBuilder();
+
+                                    if (InvasiveimageApartment.Count <= factor)
+                                    {
+
+                                        Inv_Images_apartment.Append(trWithStyle);
+                                        foreach (var item in InvasiveimageApartment)
+                                        {
+
+
+                                            string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                            var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                            Inv_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                                        }
+                                        Inv_Images_apartment.Append("</tr>");
+                                    }
+                                    else
+                                    {
+                                        int apCountInv = 0;
+                                        Inv_Images_apartment.Append(trWithStyle);
+                                        foreach (var item in InvasiveimageApartment)
+                                        {
+                                            if ((apCountInv % factor) == 0)
+                                            {
+
+                                                Inv_Images_apartment.Append("</tr>");
+                                                Inv_Images_apartment.Append(trWithStyle);
+                                            }
+                                            string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                            var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                            Inv_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                                            apCountInv++;
+                                        }
+                                        Inv_Images_apartment.Append("</tr>");
+                                    }
+
+                                    html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualPloc.ImageDescription).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                    html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
+                                    mainHtml.Append(html_InvasiveImages);
+
+                                    string conclusiveHTML = await getConclusiveHTMLContent(visualPloc, quality, factor);
+                                    mainHtml.Append(conclusiveHTML);
+                                }
+
+                            }
+
+                        }
+                    }
+
+                }
+
+                mainHtml.Append("</body></html>");
+                //to save html file.
+                var projPath = path + "\\" + "ProjectReport.html";
+                using (StreamWriter sr = File.CreateText(projPath))
+                {
+                    sr.Write(mainHtml.ToString());
+                    sr.Close();
+
+                }
+                using (Stream fileStreamPath = GenerateStreamFromString(mainHtml.ToString()))
+                {
+                    //Creates a new instance of WordDocument
+                    WordDocument document = new WordDocument();
+
+                    document.Open(fileStreamPath, FormatType.Html);
+                    //var destPath = HttpContext.Current.Server.MapPath("~/Report/" + "report123.docx");
+                    ////save document locally.
+                    //document.Save(destPath);
+
+                    if (company == "WICR")
+                    {
+                        foreach (WSection section in document.Sections)
+                        {
+                            // Add a new table to the header
+                            IWParagraph headerPar = section.HeadersFooters.Header.AddParagraph();
+
+                            RowFormat format = new RowFormat();
+                            format.HorizontalAlignment = RowAlignment.Center;
+                            // Setting Single table border style.
+                            format.Borders.BorderType = Syncfusion.DocIO.DLS.BorderStyle.None;
+
+
+                            string s = path + "wicrlogo.jpg";
+
+                            headerPar.AppendPicture(System.Drawing.Image.FromFile(s));
+                            headerPar.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+                            //Set Image size.
+                            (headerPar.Items[0] as WPicture).Width = 132.5f;
+                            (headerPar.Items[0] as WPicture).Height = 44.75f;
+                            (headerPar.Items[0] as WPicture).HorizontalAlignment = ShapeHorizontalAlignment.Center;
+                            headerPar.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+                            // Inserting text to the table second cell.
+                            WParagraph headerPar1 = new WParagraph(document);
+                            IWTextRange txt = headerPar1.AppendText("State Contractor’s License No.: 745936\nVisit our website: www.WICR.net \n888-388-9427");
+                            txt.CharacterFormat.FontSize = 6;
+                            txt.CharacterFormat.Bold = false;
+                            txt.CharacterFormat.FontName = "Arial Narrow";
+                            txt.CharacterFormat.TextColor = System.Drawing.ColorTranslator.FromHtml("#8EAADB");
+                            txt.CharacterFormat.CharacterSpacing = 1.4f;
+                            headerPar1.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
+                            section.HeadersFooters.Header.Paragraphs.Add(headerPar1);
+                            // Add a footer paragraph text to the document.
+                            WParagraph footerPar = new WParagraph(document);
+                            footerPar.ParagraphFormat.Tabs.AddTab(523f, TabJustification.Centered, TabLeader.NoLeader);
+                            // Add text.
+
+                            IWTextRange firstText = footerPar.AppendText("www.WICR.net");
+                            firstText.CharacterFormat.TextColor = Color.BlueViolet;
+                            // Add page and Number of pages field to the document.
+                            WParagraph footerPar1 = new WParagraph(document);
+                            footerPar1.AppendText("\tPage ");
+                            footerPar1.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
+
+                            IWField ff = footerPar1.AppendField("Page", FieldType.FieldPage);
+
+                            section.HeadersFooters.Footer.Paragraphs.Add(footerPar);
+                            section.HeadersFooters.Footer.Paragraphs.Add(footerPar1);
+
+                            #region Page Number Settings
+                            section.PageSetup.RestartPageNumbering = true;
+                            section.PageSetup.PageStartingNumber = 1;
+                            section.PageSetup.PageNumberStyle = PageNumberStyle.Arabic;
+                            #endregion Page Number Settings
+
+                        }
+                    }
+                    else
+                    {
+                        foreach (WSection section in document.Sections)
+                        {
+
+
+
+                            // Add a new table to the header
+                            // IWTable table = section.HeadersFooters.Header.AddTable();
+                            IWParagraph headerPar = section.HeadersFooters.Header.AddParagraph();
+                            RowFormat format = new RowFormat();
+                            format.HorizontalAlignment = RowAlignment.Center;
+                            // Setting Single table border style.
+                            format.Borders.BorderType = Syncfusion.DocIO.DLS.BorderStyle.None;
+
+                            string s = path + "decklogo.jpg";
+
+                            headerPar.AppendPicture(System.Drawing.Image.FromFile(s));
+                            //Set Image size.
+                            (headerPar.Items[0] as WPicture).Width = 132.5f;
+                            (headerPar.Items[0] as WPicture).Height = 44.75f;
+                            (headerPar.Items[0] as WPicture).HorizontalAlignment = ShapeHorizontalAlignment.Center;
+                            // Inserting text to the table second cell.
+                            // headerPar = table[0, 0].AddParagraph() as WParagraph;
+                            headerPar.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+
+                            // Add a footer paragraph text to the document.
+                            WParagraph footerPar = new WParagraph(document);
+
+                            //footerPar.ParagraphFormat.Tabs.AddTab(523f, TabJustification.Centered, TabLeader.NoLeader);
+                            // Add text.
+                            footerPar.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+                            IWTextRange firstText = footerPar.AppendText("WWW.DECKINSPECTORS.COM");
+                            firstText.CharacterFormat.TextColor = Color.Orange;
+                            // Add page and Number of pages field to the document.
+                            WParagraph footerPar1 = new WParagraph(document);
+                            footerPar1.AppendText("\tPage ");
+                            footerPar1.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
+
+                            IWField ff = footerPar1.AppendField("Page", FieldType.FieldPage);
+
+                            section.HeadersFooters.Footer.Paragraphs.Add(footerPar);
+                            section.HeadersFooters.Footer.Paragraphs.Add(footerPar1);
+                            #region Page Number Settings
+                            section.PageSetup.RestartPageNumbering = true;
+                            section.PageSetup.PageStartingNumber = 1;
+                            section.PageSetup.PageNumberStyle = PageNumberStyle.Arabic;
+
+                            #endregion Page Number Settings
+
+                        }
+                    }
+
+
+                    string fname = string.Empty;
+                    if (Type == "Word")
+                    {
+
+                        if (company == "DI")
+                        {
+                            fname = "Deck_Invasive" + project.Name.Replace(" ", "_").ToString() + DateTime.Now.ToString("ddMMMyyyHHmmss") + ".docx";
+                        }
+                        else
+                        {
+                            fname = "WICR_Invasive" + project.Name.Replace(" ", "_").ToString() + DateTime.Now.ToString("ddMMMyyyHHmmss") + ".docx";
+                        }
+                        document.Save(download + fname, FormatType.Docx);
+
+
+                    }
+                    else
+                    {
+                        if (company == "DI")
+                        {
+                            fname = "Deck_Invasive" + project.Name.Replace(" ", "_").ToString() + DateTime.Now.ToString("ddMMMyyyHHmmss") + ".pdf";
+                        }
+                        else
+                        {
+                            fname = "WICR_Invasive" + project.Name.Replace(" ", "_").ToString() + DateTime.Now.ToString("ddMMMyyyHHmmss") + ".pdf";
+                        }
+
+                        DocToPDFConverter converter = new DocToPDFConverter();
+                        PdfDocument pdfDocument = converter.ConvertToPDF(document);
+                        converter.Dispose();
+
+                        pdfDocument.Save(download + fname);
+                        pdfDocument.Close();
+                    }
+                    document.Close();
+                }
+
+                NotificationUI("Report Created Successfully, please navigate to Downlaods folder to access it.");
+            }
+            catch(Exception ex)
+            {
+                NotificationUI("Report Creation failed, please try again later," + ex.Message);
+            }
+        }
+
+        private async Task<string> getConclusiveHTMLContent(VisualProjectLocation visualPloc, long quality, int factor)
+        {
+            
+            string path = System.AppDomain.CurrentDomain.BaseDirectory + "Report\\";
+            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
+            string conclusiveHtml = System.IO.File.ReadAllText(path + "\\NoConclusive.html", iso);
+            if (!visualPloc.IsPostInvasiveRepairsRequired)
+            {
+                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs NOT required");
+                return conclusiveHtml;
+            }
+
+            if (!visualPloc.IsInvasiveRepairApproved)
+            {
+                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs required, Owner has NOT agreed for Conclusive reort.");
+                return conclusiveHtml;
+            }
+
+            if (!visualPloc.IsInvasiveRepairComplete)
+            {
+                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs required, Conclusive analysis NOT Complete.");
+                return conclusiveHtml;
+            }
+
+
+            string html_Header = System.IO.File.ReadAllText(path + "\\ConclusiveDetails.html", iso);
+
+            html_Header = html_Header.Replace("{ConclusiveApproved}", visualPloc.IsInvasiveRepairComplete.ToString());
+
+
+            if (visualPloc.LifeExpectancyEEE == "0-1 Years")
+            {
+                html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConclusiveLifeExpEEE + "</font></p>");
+            }
+            else
+                html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualPloc.ConclusiveLifeExpEEE + "</p>");
+
+            if (visualPloc.LifeExpectancyLBC == "0-1 Years")
+            {
+                html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConclusiveLifeExpLBC + "</font></p>");
+            }
+            else
+                html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualPloc.ConclusiveLifeExpLBC + "</p>");
+
+            if (visualPloc.LifeExpectancyAWE == "0-1 Years")
+            {
+                html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConclusiveLifeExpAWE + "</font></p>");
+            }
+            else
+                html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualPloc.ConclusiveLifeExpAWE + "</p>");
+
+            html_Header = html_Header.Replace("{AdditonalConsiderations}", "<p>&nbsp;" + visualPloc.ConclusiveAdditionalConcerns + "</p>");
+
+            string html_ConclusiveImages = System.IO.File.ReadAllText(path + "\\ConclusiveImages.html", iso);
+
+            IEnumerable<VisualProjectLocationPhoto> imageApartment = await VisualProjectLocationPhotoDataStore.GetItemsAsyncByVisualProjectLocationId(visualPloc.Id.ToString());
+            imageApartment = imageApartment.Where(c => c.ImageDescription == "CONCLUSIVE").ToList();
+
+            StringBuilder conclusive_Images_apartment = new StringBuilder();
+            int apCount = 0;
+            if (imageApartment.Count() <= factor)
+            {
+
+                conclusive_Images_apartment.Append(trWithStyle);
+                foreach (var item in imageApartment)
+                {
+                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+
+                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                    conclusive_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                }
+                conclusive_Images_apartment.Append("</tr>");
+            }
+            else
+            {
+                conclusive_Images_apartment.Append(trWithStyle);
+                foreach (var item in imageApartment)
+                {
+
+                    if ((apCount % factor) == 0)
+                    {
+
+                        conclusive_Images_apartment.Append("</tr>");
+                        conclusive_Images_apartment.Append(trWithStyle);
+                    }
+                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                    conclusive_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                    apCount++;
+                }
+                conclusive_Images_apartment.Append("</tr>");
+            }
+
+            html_ConclusiveImages = html_ConclusiveImages.Replace("{ConclusiveImages}", conclusive_Images_apartment.ToString()).Replace("<tr></tr>", "");
+            html_ConclusiveImages = html_ConclusiveImages.Replace("{imageCount}", factor.ToString());
+            return html_Header + html_ConclusiveImages;
+        }
+
+        private async Task<string> getConclusiveHTMLContent(VisualBuildingLocation visualbuildingLocation, long quality, int factor)
+        {
+
+            string path = System.AppDomain.CurrentDomain.BaseDirectory + "Report\\";
+            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
+            string conclusiveHtml = System.IO.File.ReadAllText(path + "\\NoConclusive.html", iso);
+            if (!visualbuildingLocation.IsPostInvasiveRepairsRequired)
+            {
+                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs NOT required");
+                return conclusiveHtml;
+            }
+
+            if (!visualbuildingLocation.IsInvasiveRepairApproved)
+            {
+                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs required, Owner has NOT agreed for Conclusive reort.");
+                return conclusiveHtml;
+            }
+
+            if (!visualbuildingLocation.IsInvasiveRepairComplete)
+            {
+                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs required, Conclusive analysis NOT Complete.");
+                return conclusiveHtml;
+            }
+
+
+            string html_Header = System.IO.File.ReadAllText(path + "\\ConclusiveDetails.html", iso);
+
+            html_Header = html_Header.Replace("{ConclusiveApproved}", visualbuildingLocation.IsInvasiveRepairComplete.ToString());
+
+
+            if (visualbuildingLocation.LifeExpectancyEEE == "0-1 Years")
+            {
+                html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.ConclusiveLifeExpEEE + "</font></p>");
+            }
+            else
+                html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualbuildingLocation.ConclusiveLifeExpEEE + "</p>");
+
+            if (visualbuildingLocation.LifeExpectancyLBC == "0-1 Years")
+            {
+                html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.ConclusiveLifeExpLBC + "</font></p>");
+            }
+            else
+                html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualbuildingLocation.ConclusiveLifeExpLBC + "</p>");
+
+            if (visualbuildingLocation.LifeExpectancyAWE == "0-1 Years")
+            {
+                html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.ConclusiveLifeExpAWE + "</font></p>");
+            }
+            else
+                html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualbuildingLocation.ConclusiveLifeExpAWE + "</p>");
+
+            html_Header = html_Header.Replace("{AdditonalConsiderations}", "<p>&nbsp;" + visualbuildingLocation.ConclusiveAdditionalConcerns + "</p>");
+
+            string html_ConclusiveImages = System.IO.File.ReadAllText(path + "\\ConclusiveImages.html", iso);
+
+            IEnumerable<VisualBuildingLocationPhoto> imageApartment = await VisualBuildingLocationPhotoDataStore.GetVisualBuildingLocationImageByVisualBuildingId(visualbuildingLocation.Id.ToString());
+            imageApartment = imageApartment.Where(c => c.ImageDescription == "CONCLUSIVE").ToList();
+
+            StringBuilder conclusive_Images_apartment = new StringBuilder();
+            int apCount = 0;
+            if (imageApartment.Count() <= factor)
+            {
+
+                conclusive_Images_apartment.Append(trWithStyle);
+                foreach (var item in imageApartment)
+                {
+                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+
+                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                    conclusive_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                }
+                conclusive_Images_apartment.Append("</tr>");
+            }
+            else
+            {
+                conclusive_Images_apartment.Append(trWithStyle);
+                foreach (var item in imageApartment)
+                {
+
+                    if ((apCount % factor) == 0)
+                    {
+
+                        conclusive_Images_apartment.Append("</tr>");
+                        conclusive_Images_apartment.Append(trWithStyle);
+                    }
+                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                    conclusive_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                    apCount++;
+                }
+                conclusive_Images_apartment.Append("</tr>");
+            }
+
+            html_ConclusiveImages = html_ConclusiveImages.Replace("{ConclusiveImages}", conclusive_Images_apartment.ToString()).Replace("<tr></tr>", "");
+            html_ConclusiveImages = html_ConclusiveImages.Replace("{imageCount}", factor.ToString());
+            return html_Header + html_ConclusiveImages;
+        }
+
+        private async Task<string> getConclusiveHTMLContent(VisualBuildingApartment visualApt, long quality, int factor)
+        {
+
+            string path = System.AppDomain.CurrentDomain.BaseDirectory + "Report\\";
+            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
+            string conclusiveHtml = System.IO.File.ReadAllText(path + "\\NoConclusive.html", iso);
+            if (!visualApt.IsPostInvasiveRepairsRequired)
+            {
+                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs NOT required");
+                return conclusiveHtml;
+            }
+
+            if (!visualApt.IsInvasiveRepairApproved)
+            {
+                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs required, Owner has NOT agreed for Conclusive reort.");
+                return conclusiveHtml;
+            }
+
+            if (!visualApt.IsInvasiveRepairComplete)
+            {
+                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs required, Conclusive analysis NOT Complete.");
+                return conclusiveHtml;
+            }
+
+
+            string html_Header = System.IO.File.ReadAllText(path + "\\ConclusiveDetails.html", iso);
+
+            html_Header = html_Header.Replace("{ConclusiveApproved}", visualApt.IsInvasiveRepairComplete.ToString());
+
+
+            if (visualApt.LifeExpectancyEEE == "0-1 Years")
+            {
+                html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualApt.ConclusiveLifeExpEEE + "</font></p>");
+            }
+            else
+                html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualApt.ConclusiveLifeExpEEE + "</p>");
+
+            if (visualApt.LifeExpectancyLBC == "0-1 Years")
+            {
+                html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualApt.ConclusiveLifeExpLBC + "</font></p>");
+            }
+            else
+                html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualApt.ConclusiveLifeExpLBC + "</p>");
+
+            if (visualApt.LifeExpectancyAWE == "0-1 Years")
+            {
+                html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualApt.ConclusiveLifeExpAWE + "</font></p>");
+            }
+            else
+                html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualApt.ConclusiveLifeExpAWE + "</p>");
+
+            html_Header = html_Header.Replace("{AdditonalConsiderations}", "<p>&nbsp;" + visualApt.ConclusiveAdditionalConcerns + "</p>");
+
+            string html_ConclusiveImages = System.IO.File.ReadAllText(path + "\\ConclusiveImages.html", iso);
+
+            IEnumerable<VisualApartmentLocationPhoto> imageApartment = await VisualApartmentLocationPhotoDataStore.GetVisualBuildingApartmentImageByVisualApartmentId(visualApt.Id.ToString());
+            imageApartment = imageApartment.Where(c => c.ImageDescription == "CONCLUSIVE").ToList();
+
+            StringBuilder conclusive_Images_apartment = new StringBuilder();
+            int apCount = 0;
+            if (imageApartment.Count() <= factor)
+            {
+
+                conclusive_Images_apartment.Append(trWithStyle);
+                foreach (var item in imageApartment)
+                {
+                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                    conclusive_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                }
+                conclusive_Images_apartment.Append("</tr>");
+            }
+            else
+            {
+                conclusive_Images_apartment.Append(trWithStyle);
+                foreach (var item in imageApartment)
+                {
+
+                    if ((apCount % factor) == 0)
+                    {
+
+                        conclusive_Images_apartment.Append("</tr>");
+                        conclusive_Images_apartment.Append(trWithStyle);
+                    }
+                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                    conclusive_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                    apCount++;
+                }
+                conclusive_Images_apartment.Append("</tr>");
+            }
+
+            html_ConclusiveImages = html_ConclusiveImages.Replace("{ConclusiveImages}", conclusive_Images_apartment.ToString()).Replace("<tr></tr>", "");
+            html_ConclusiveImages = html_ConclusiveImages.Replace("{imageCount}", factor.ToString());
+
+            return html_Header + html_ConclusiveImages;
+        }
+
         #endregion
     }
 }

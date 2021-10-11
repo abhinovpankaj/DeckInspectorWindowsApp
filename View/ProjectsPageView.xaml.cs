@@ -192,12 +192,7 @@ namespace UI.Code.View
         }
         private void LvDataBinding_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //var item = (ListBox)sender;
-            //var obj = (Project)item.SelectedItem;
-            //if (obj != null)
-            //{
-            //  vm.SelectedItemCommand.Execute();
-            //}
+           
         }
 
         private void HandleDoubleClick(object sender, MouseButtonEventArgs e)
@@ -222,11 +217,7 @@ namespace UI.Code.View
                 childWindowAssign.Show();
             }
 
-            //   ListBoxItem selectedItem = (ListBoxItem)lboxProjectLocation.ItemContainerGenerator.
-            //                  ContainerFromItem(((Button)sender).DataContext);
-            //selectedItem.IsSelected = true;
-            //var obj = ((ListBoxItem)sender).DataContext as ProjectBuilding;
-            //vm.ProjBuildingSelectedItemCommand.Execute(obj);
+           
         }
 
         private void btnAssignClose_Click(object sender, RoutedEventArgs e)
@@ -240,16 +231,7 @@ namespace UI.Code.View
             vm.IsBusy = true;
             Project p = ((Button)sender).DataContext as Project;
             vm.InvasiveItemCommand.Execute(p);
-            //vm.SelectedItem = p;
-            //bool complete = await vm.GetUserListForAssign(App.LogUser.Id, p.Id, string.Empty, string.Empty, "Project", vm.UserSearch);
-            //if (complete == true)
-            //{
-            //    vm.IsBusy = false;
-            //    childWindowAssign.Caption = "Assign project - " + p.Name + " to user(s)";
-            //    childWindowAssign.FontWeight = FontWeights.Bold;
-            //    childWindowAssign.Visibility = Visibility.Visible;
-            //    childWindowAssign.Show();
-         //  }
+           
             
         }
         private async void btnAssign_Click(object sender, RoutedEventArgs e)
@@ -356,18 +338,27 @@ namespace UI.Code.View
         private void BtnReport_Invasive_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
+            Task.Run(() => vm.WordInvasive(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId, "DI", "pdf"));
 
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=pdf");
+            ShowHideUI();
+            //System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=pdf");
 
         }
 
-        private void ShowHideUI()
+        private void informUser(Task obj)
         {
-            
+            childWindowMessageBox.DataContext = new ErrorModel { Message = "Reported Created Successfully in your Downloads folder.", Status = "Deck Inspectors Report" };
+            childWindowMessageBox.Visibility = Visibility.Visible;
+            childWindowMessageBox.Show();
+        }
+
+      
+        private void ShowHideUI()
+        {           
             childWindowdownload.Visibility = Visibility.Collapsed;
             childWindowdownload.Close();
-
-            childWindowMessageBox.DataContext = new ErrorModel { Message = "Report generation may take sometme, you can continue to work while we create it.You will be notified once  it's ready", Status = "Report" };
+            childWindowMessageBox.DataContext = new ErrorModel { Message = "Report creation will start in background, continue your work while we create it for you.Report will be saved in Downloads folder.",
+                Status = "Deck Inspectors Report" };
             childWindowMessageBox.Visibility = Visibility.Visible;
             childWindowMessageBox.Show();
         }
@@ -376,8 +367,11 @@ namespace UI.Code.View
         private void BtnDIInvasiveWord_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + 
-                vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=Word");
+            Task.Run(() => vm.WordInvasive(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId, "DI", "Word"));
+
+            ShowHideUI();
+            //System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + 
+            //    vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=Word");
 
         }
         //FINEL DI PDF
@@ -385,9 +379,7 @@ namespace UI.Code.View
         {
             string projectId = ((Button)sender).Tag.ToString();
             System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordFinel?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=DI&Type=PDF");
-            //string projectId = ((Button)sender).Tag.ToString();
-            //string url = App.AppUrl + "/api/values/GetInvasivelDI?projectID=" + projectId;
-            // System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/WordFinel?projectID=" + projectId);
+            
         }
         //FINEL DI WORD
         private void BtnFilelReport_Deck_Word_Click(object sender, RoutedEventArgs e)
@@ -405,7 +397,8 @@ namespace UI.Code.View
             Task.Run(()=>vm.WordVisual(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId,"WICR","pdf"));
 
             ShowHideUI();
-           // System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordVisual?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=pdf");
+           // System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordVisual?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" +
+           // projectId + "&company=WICR&Type=pdf");
         }
         private void WICR_Visual_Word_Click(object sender, RoutedEventArgs e)
         {
@@ -414,7 +407,8 @@ namespace UI.Code.View
             Task.Run(()=>vm.WordVisual(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId,"WICR","Word"));
 
             ShowHideUI();
-            //System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordVisual?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=Word");
+            //System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordVisual?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" +
+            //vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=Word");
             
         }
 
@@ -422,15 +416,22 @@ namespace UI.Code.View
         private void BtnReport_Invasive_wicr_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=pdf");
+            Task.Run(() => vm.WordInvasive(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId, "WICR", "pdf"));
+
+            ShowHideUI();
+            //System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + vm.Factor +
+            //"&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=pdf");
         }
         private void WICR_Invasive_Word_Click(object sender, RoutedEventArgs e)
         {
 
             string projectId = ((Button)sender).Tag.ToString();
-           
-            System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" + vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=Word");
-            
+            Task.Run(() => vm.WordInvasive(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId, "WICR", "Word"));
+
+            ShowHideUI();
+            //System.Diagnostics.Process.Start(App.AppUrl + "/api/SF/wordInvasive?quality=" + vm.ImageQuality + "&height=" + vm.Factor + "&width=" +
+            //vm.ImageWidth + "&projectID=" + projectId + "&company=WICR&Type=Word");
+
         }
 
         private void btnFinelReport_Wicr_Click(object sender, RoutedEventArgs e)

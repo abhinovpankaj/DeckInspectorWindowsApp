@@ -34,10 +34,10 @@
     <ProductName>Deck inspectors</ProductName>
     <PublisherName>Deck inspectors</PublisherName>
     <SuiteName>Deck inspectors</SuiteName>
-    <MinimumRequiredVersion>1.0.0.35</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.0.43</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>43</ApplicationRevision>
+    <ApplicationRevision>44</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -731,7 +731,9 @@
     <Content Include="Report\Invasive.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Report\NoConclusive.html" />
+    <Content Include="Report\NoConclusive.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Report\styles.html" />
     <Content Include="Report\VisualDeatilForProjectLocation.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
