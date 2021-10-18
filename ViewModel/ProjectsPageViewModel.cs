@@ -506,6 +506,8 @@ namespace UI.Code.ViewModel
         #region reporting
         public  async Task WordVisual(long quality, int height, int width, string projectID = "11D6DFDB-EF89-42E4-A127-7565CCE65DC0", string company = "DI", string Type = "Word")
         {
+
+            IsReportInProgress = System.Windows.Visibility.Visible;
             int factor = height;
             string download = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads\\";
             if (Directory.Exists(download+ "\\compressed"))
@@ -572,7 +574,7 @@ namespace UI.Code.ViewModel
                                 foreach (var apartment in buildingapartmentList)////open building apartment list
                                 {
 
-
+                                    StatusMessage = "Fetching details for Apartments...";                                  
                                     IEnumerable<VisualBuildingApartment> visualBuildingApartment = await VisualFormApartmentDataStore.GetVisualBuildingApartmentByBuildingApartmentId(apartment.Id);
                                     if (visualBuildingApartment.Count() != 0)
                                     {
@@ -709,7 +711,7 @@ namespace UI.Code.ViewModel
                                 foreach (var blocation in buildingLocationList)////open building apartment list
                                 {
 
-
+                                    StatusMessage = "Fetching details for Building Locations...";
                                     IEnumerable<VisualBuildingLocation> visualBuildingLocationList = await VisualFormBuildingLocationDataStore.GetVisualBuildingLocationByBuildingLocationId(blocation.Id);
                                     if (visualBuildingLocationList.Count() != 0)
                                     {
@@ -842,7 +844,7 @@ namespace UI.Code.ViewModel
                         foreach (var projectlocation in ProjectLocationList)////open building apartment list
                         {
 
-
+                            StatusMessage = "Fetching details for Project Locations...";
                             IEnumerable<VisualProjectLocation> visualprojectLocation = await VisualProjectLocationService.GetItemsAsyncByVisualProjectLocationId(projectlocation.Id);
                             if (visualprojectLocation.Count() != 0)
                             {
@@ -979,7 +981,7 @@ namespace UI.Code.ViewModel
                     sr.Close();
 
                 }
-
+                StatusMessage = "Creating the document...";
                 using (Stream fileStreamPath = GenerateStreamFromString(mainHtml.ToString()))
                 {
 
@@ -1170,7 +1172,7 @@ namespace UI.Code.ViewModel
                 NotificationUI("Report creation failed, please retry." + ex.Message);
             }
 
-
+            IsReportInProgress = System.Windows.Visibility.Collapsed;
         }
 
         public void NotificationUI(string message)
@@ -1211,7 +1213,44 @@ namespace UI.Code.ViewModel
             return "<img style = \"display: block; width:" + strWid + "px ;height:" + strHeight + "px; margin: 0px;\" src = \"" + fPath + "\" /></td>";
         }
 
-        
+
+        #endregion
+
+        #region ReportStatus
+        private string _statusMessage = "Generating Report...";
+        public string StatusMessage
+        {
+            get => _statusMessage;
+            set
+            {
+                if (value == _statusMessage) return;
+                _statusMessage = value;
+                OnPropertyChanged("StatusMessage");
+            }
+        }
+        private System.Windows.Visibility _isReportInProgress= System.Windows.Visibility.Collapsed;
+        public System.Windows.Visibility IsReportInProgress
+        {
+            get => _isReportInProgress;
+            set
+            {
+                if (value == _isReportInProgress) return;
+                _isReportInProgress = value;
+                OnPropertyChanged("IsReportInProgress");
+            }
+        }
+        private int _statusProgress;
+        public int StatusProgress
+        {
+            get => _statusProgress;
+            set
+            {
+                if (value == _statusProgress) return;
+                _statusProgress = value;
+                OnPropertyChanged("StatusProgress");
+            }
+        }
+
         #endregion
 
         #region ImageCompressionForDoc
@@ -1324,7 +1363,7 @@ namespace UI.Code.ViewModel
         public async Task WordInvasive(long quality, int height, int width, string projectID = "11D6DFDB-EF89-42E4-A127-7565CCE65DC0", string company = "DI", string Type = "Word")
         {
             int factor = height;
-            
+            IsReportInProgress = System.Windows.Visibility.Visible;
 
             Encoding iso = Encoding.GetEncoding("ISO-8859-1");
             string download = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads\\";
@@ -1390,7 +1429,7 @@ namespace UI.Code.ViewModel
 
                             // html_Header = string.Empty;
                             //APARTMENT
-
+                            StatusMessage = "Fetching details for Apartments...";
                             IEnumerable<BuildingApartment> buildingapartmentList = await BuildingApartmentDataStore.GetItemsAsyncByBuildingId(building.Id);
                             if (buildingapartmentList.Count() != 0)
                             {
@@ -1590,6 +1629,7 @@ namespace UI.Code.ViewModel
                             IEnumerable<BuildingLocation> buildingLocationList = await BuildingLocationDataStore.GetItemsAsyncByBuildingId(building.Id);
                             if (buildingLocationList.Count() != 0)
                             {
+                                StatusMessage = "Fetching details for Building locations...";
                                 ////open building location list
                                 foreach (var blocation in buildingLocationList)
                                 {
@@ -1782,6 +1822,7 @@ namespace UI.Code.ViewModel
                     }
                     if (ProjectLocationList.Count() != 0)
                     {
+                        StatusMessage = "Fetching details for Project locations...";
                         foreach (var projectlocation in ProjectLocationList)////open project location list
                         {
 
@@ -1969,6 +2010,7 @@ namespace UI.Code.ViewModel
                     sr.Close();
 
                 }
+                StatusMessage = "Creating document...";
                 using (Stream fileStreamPath = GenerateStreamFromString(mainHtml.ToString()))
                 {
                     //Creates a new instance of WordDocument
@@ -2133,6 +2175,7 @@ namespace UI.Code.ViewModel
             {
                 NotificationUI("Report Creation failed, please try again later," + ex.Message);
             }
+            IsReportInProgress = System.Windows.Visibility.Collapsed;
         }
 
         private async Task<string> getConclusiveHTMLContent(VisualProjectLocation visualPloc, long quality, int factor)

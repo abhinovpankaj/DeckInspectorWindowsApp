@@ -125,6 +125,18 @@
                             <materialDesign:PackIcon Kind="PlusCircleOutline" />
                         </Button>
                     </StackPanel>
+                    <StackPanel
+                        Grid.Column="4"
+                        VerticalAlignment="Center"
+                        Visibility="{Binding IsReportInProgress}">
+                        <TextBlock Margin="10,0" Text="{Binding StatusMessage}" />
+                        <ProgressBar
+                            Height="5"
+                            Margin="10"
+                            Background="White"
+                            IsIndeterminate="True"
+                            Style="{StaticResource MaterialDesignLinearProgressBar}" />
+                    </StackPanel>
 
                 </Grid>
             </materialDesign:Card>
@@ -361,7 +373,7 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Bottom"
             MessageQueue="{Binding ReportMessageQueue}" />
-        
+
         <Border Style="{StaticResource brdProgress}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
             <control:progress />
         </Border>
