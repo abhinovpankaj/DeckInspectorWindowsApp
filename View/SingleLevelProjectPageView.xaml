@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="UI.Code.View.VisualProjectLocationView"
+    x:Class="UI.Code.View.SingleLevelProjectPageView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:con="clr-namespace:UI.Code.Convertor"
@@ -36,7 +36,8 @@
         </Grid>
 
 
-        <Border Style="{StaticResource brdProgress}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Border Style="{StaticResource brdProgress}" 
+                Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
             <control:progress />
         </Border>
 

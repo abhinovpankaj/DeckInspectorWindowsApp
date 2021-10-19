@@ -211,6 +211,7 @@
     <Compile Include="Convertor\InversBooleanToVisibilityConverter.cs" />
     <Compile Include="Convertor\PasswordToVisibilityConverter.cs" />
     <Compile Include="Convertor\Class1.cs" />
+    <Compile Include="Convertor\ProjCategoryConverter.cs" />
     <Compile Include="Model\BaseDetail.cs" />
     <Compile Include="Model\ApiException.cs" />
     <Compile Include="Model\CheckboxItem.cs" />
@@ -229,6 +230,7 @@
     <Compile Include="Services\TreeServices.cs" />
     <Compile Include="ViewModel\AssigeProjectViewModel.cs" />
     <Compile Include="ViewModel\BuildingViewModel.cs" />
+    <Compile Include="ViewModel\SingleVisualLocationViewModel.cs" />
     <Compile Include="ViewModel\UCFilePageViewModel.cs" />
     <Compile Include="ViewModel\LogInfoViewModel.cs" />
     <Compile Include="ViewModel\FilePageViewModel.cs" />
@@ -270,6 +272,9 @@
     </Compile>
     <Compile Include="View\FilePageImageSettings.xaml.cs">
       <DependentUpon>FilePageImageSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SingleLevelProjectPageView.xaml.cs">
+      <DependentUpon>SingleLevelProjectPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UCFilePageView.xaml.cs">
       <DependentUpon>UCFilePageView.xaml</DependentUpon>
@@ -526,6 +531,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FilePageImageSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SingleLevelProjectPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

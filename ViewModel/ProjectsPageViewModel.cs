@@ -55,11 +55,6 @@ namespace UI.Code.ViewModel
             set { _date = value; OnPropertyChanged("CreatedOn"); }
         }
 
-
-
-
-
-
         private Project selectedItem;
 
         public Project SelectedItem
@@ -210,13 +205,20 @@ namespace UI.Code.ViewModel
         public async Task SelectedItemExecute(Project prm)
         {
             App.IsInvasive = false;
-            //if (SelectedItem != null)
-            //{
+            
             App.ProjectID = prm.Id;
-            var parameters = new NavigationParameters { { "Project", prm } };
-            RegionManger.RequestNavigate("MainRegion", "Project", parameters);
-            //  }
-            //var v = this.SelectedItem;
+            if (prm.Category=="SingleLevel")
+            {
+                var parameters = new NavigationParameters { { "Project", prm } };
+                RegionManger.RequestNavigate("MainRegion", "SingleLevelProject", parameters);
+            }
+            else
+            {
+                var parameters = new NavigationParameters { { "Project", prm } };
+                RegionManger.RequestNavigate("MainRegion", "Project", parameters);
+            }
+            
+            
         }
 
 

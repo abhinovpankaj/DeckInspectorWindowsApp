@@ -295,26 +295,18 @@ namespace UI.Code.ViewModel
         public DelegateCommand<ProjectLocation> ProjLocationSelectedItemCommand => new DelegateCommand<ProjectLocation>(async (ProjectLocation parm) => await ProjLocationSelectedItem(parm));
         public async Task ProjLocationSelectedItem(ProjectLocation parm)
         {
-            //if (ProjectLocation != null)
-            //{
-                if (Project.ProjectType == "Visual Report")
-                {
-                    var parameters = new NavigationParameters { { "ProjectLocation", parm }, { "Project", Project } };
-                    RegionManger.RequestNavigate("MainRegion", "VisualProjectLocation", parameters);
-                }
-                else
-                {
-                    var parameters = new NavigationParameters { { "ProjectLocation", parm }, { "Project", Project } };
-                // RegionManger.RequestNavigate("MainRegion", "DetailLocation", parameters);
-                     RegionManger.RequestNavigate("MainRegion", "InvasiveVisualProjectLocationView", parameters);
-                }
-              
-
-            //}
-            //await Task.Run(() =>
-            //{
-
-            //});
+            
+            if (Project.ProjectType == "Visual Report")
+            {
+                var parameters = new NavigationParameters { { "ProjectLocation", parm }, { "Project", Project } };
+                RegionManger.RequestNavigate("MainRegion", "VisualProjectLocation", parameters);
+            }
+            else
+            {
+                var parameters = new NavigationParameters { { "ProjectLocation", parm }, { "Project", Project } };
+            // RegionManger.RequestNavigate("MainRegion", "DetailLocation", parameters);
+                    RegionManger.RequestNavigate("MainRegion", "InvasiveVisualProjectLocationView", parameters);
+            }
 
         }
         private ProjectLocation _projectLocation;

@@ -187,13 +187,16 @@
                                     Margin="0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
+                                    materialDesign:ShadowAssist.Darken="True"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
                                     BorderBrush="#2e479b"
                                     BorderThickness="1">
                                     <!--<local:CachedImage ImageUrl="{Binding ProjectImage}" Width="200" Height="200" />-->
                                     <Grid
-                                        Margin="5"
                                         HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch">
+                                        VerticalAlignment="Stretch"
+                                        materialDesign:ShadowAssist.Darken="True"
+                                        materialDesign:ShadowAssist.ShadowDepth="Depth3">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
@@ -202,11 +205,35 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
+                                        <Label
+                                            Width="18"
+                                            Height="18"
+                                            Padding="-4"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            Background="{StaticResource AppMainColor}"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Foreground="White">
+                                            <Label.Style>
+                                                <Style BasedOn="{StaticResource MaterialDesignLabel}" TargetType="Label">
+                                                    <Setter Property="Content" Value="M" />
+                                                    <Style.Triggers>
+
+                                                        <DataTrigger Binding="{Binding Category}" Value="SingleLevel">
+                                                            <Setter Property="Content" Value="S" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Label.Style>
+                                        </Label>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock
                                                 Grid.Row="0"
                                                 Grid.Column="0"
-                                                Margin="20,0,0,0"
+                                                Margin="35,0,0,0"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Center"
                                                 FontSize="16"
@@ -228,7 +255,7 @@
                                             Margin="0,5"
                                             Orientation="Horizontal">
                                             <TextBlock
-                                                Margin="20,0"
+                                                Margin="35,0"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"
                                                 Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
@@ -247,7 +274,8 @@
                                                 Foreground="Green"
                                                 Style="{StaticResource MaterialDesignCaptionTextBlock}"
                                                 Text="{Binding AssignTo, StringFormat='Assigned To - {0} '}"
-                                                TextWrapping="WrapWithOverflow" />
+                                                TextWrapping="WrapWithOverflow"
+                                                ToolTip="{Binding AssignTo}" />
 
 
                                         </StackPanel>

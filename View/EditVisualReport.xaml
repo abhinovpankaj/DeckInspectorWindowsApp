@@ -391,7 +391,7 @@
 
                     <materialDesign:Card
                         Grid.Row="8"
-                        Height="150"
+                        Height="180"
                         Margin="10,2,10,2">
                         <Grid Margin="5">
                             <Grid.RowDefinitions>
@@ -422,7 +422,7 @@
 
                     <materialDesign:Card
                         Grid.Row="9"
-                        Height="150"
+                        Height="180"
                         Margin="10,2,10,2">
                         <Grid Margin="5">
                             <Grid.RowDefinitions>
@@ -453,7 +453,7 @@
 
                     <materialDesign:Card
                         Grid.Row="10"
-                        Height="150"
+                        Height="180"
                         Margin="10,2,10,2">
                         <Grid Margin="5">
                             <Grid.RowDefinitions>

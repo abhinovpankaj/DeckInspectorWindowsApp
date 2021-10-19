@@ -64,7 +64,18 @@ namespace UI.Code.ViewModel
             
             if (Project != null)
             {
-                if(string.IsNullOrEmpty(Project.Name))
+                if (Project.IsSingle==null)
+                {
+                    err.Status = "Validation";
+                    err.Message = "Please Select Project Category";
+
+                    return await Task.FromResult(err);
+                }
+                else
+                {
+                    Project.Category = (bool)Project.IsSingle ? "SingleLevel" : "MultiLevel";
+                }
+                if (string.IsNullOrEmpty(Project.Name))
                 {
                     err.Status = "Validation";
                     err.Message = "Please Enter Name";
@@ -79,17 +90,11 @@ namespace UI.Code.ViewModel
                         Response result = await projectService.AddItemAsync(Project);
                         if (result.Status == ApiResult.Success)
                         {
-                            //Response getObj= await projectService.GetItemAsync(result.ID);
-                            //if(getObj.Status==ApiResult.Success)
-                            //{
                              App.ProjectID = result.ID;
-                            //    //  Project project = JsonConvert.DeserializeObject<Project>(getObj.Data.ToString());
-                            //   // var parameters = new NavigationParameters { { "ProjectID", result.ID } };
-                            //    RegionManger.RequestNavigate("MainRegion", "Project");
-                            //}
+                           
                             err.Status = "Success";
                             err.Message = result.Message;
-                            // RegionManger.RequestNavigate("MainRegion", "Projects");
+                            
                         }
                         else
                         {

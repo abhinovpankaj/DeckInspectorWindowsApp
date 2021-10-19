@@ -1,142 +1,191 @@
-﻿<UserControl x:Class="UI.Code.View.ProjectAddOrEdit"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:UI.Code.View"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" 
-               xmlns:control="clr-namespace:UI.Code.Controls"
-              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-              xmlns:prism="http://prismlibrary.com/"    
-             prism:ViewModelLocator.AutoWireViewModel="True"  
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="UI.Code.View.ProjectAddOrEdit"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:control="clr-namespace:UI.Code.Controls"
+    xmlns:conv="clr-namespace:UI.Code.Convertor"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:UI.Code.View"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <conv:ProjCategoryConverter x:Key="ProjCategoryConvertor" />
+    </UserControl.Resources>
     <Grid>
         <Grid Margin="80,5,0,0" Background="Transparent">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal">
-                    <Button  Grid.Column="0" Margin="50,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding BackCommand}"
-  Style="{StaticResource ImgBtn}"
-  ToolTip="New Project">
-                        <materialDesign:PackIcon  Foreground="White"
-    Kind="ArrowBack"
-    />
+                    <Button
+                        Grid.Column="0"
+                        Margin="40,0,10,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Command="{Binding BackCommand}"
+                        Style="{StaticResource ImgBtn}"
+                        ToolTip="New Project">
+                        <materialDesign:PackIcon Foreground="White" Kind="ArrowBack" />
                     </Button>
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" Text="{Binding Title}"
-    Style="{StaticResource Title}">
-
-                    </TextBlock>
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Title}"
+                        Text="{Binding Title}" />
                 </StackPanel>
 
             </Grid>
-            <materialDesign:Card Grid.Row="1" VerticalAlignment="Top" Margin="50,5,50,0">
-                <Grid  >
+            <materialDesign:Card
+                Grid.Row="1"
+                Margin="50,5,50,0"
+                VerticalAlignment="Top">
+                <Grid>
 
 
                     <StackPanel>
-                        <StackPanel>
-                            <TextBlock Margin="10" Text="{Binding Type}"
-    Style="{StaticResource MaterialDesignSubtitle1TextBlock}">
-
-                            </TextBlock>
-
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="15"
+                                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                Text="{Binding Type}" />
+                            <RadioButton
+                                Margin="50,0,10,0"
+                                Content="Single Level"
+                                GroupName="ProjectCategory"
+                                IsChecked="{Binding Project.IsSingle}" />
+                            <RadioButton
+                                Margin="10,0"
+                                Content="Multi Level"
+                                GroupName="ProjectCategory"
+                                IsChecked="{Binding Project.IsSingle, Converter={StaticResource ProjCategoryConvertor}}" />
                         </StackPanel>
-                        <StackPanel>
+
+                        <TextBox
+                            Margin="10"
+                            VerticalAlignment="Center"
+                            materialDesign:HintAssist.FloatingScale="0.90"
+                            materialDesign:HintAssist.Hint="Project Name"
+                            FontSize="14"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Text="{Binding Project.Name, Mode=TwoWay}" />
 
 
 
-                            <TextBox Margin="10"
-  materialDesign:HintAssist.Hint="Project Name" Text="{Binding Project.Name,Mode=TwoWay}"
-                        materialDesign:TextFieldAssist.TextBoxViewMargin="1 12 1 0"
-                        materialDesign:HintAssist.FloatingScale="0.90"
-  Style="{StaticResource MaterialDesignOutlinedTextBox}"   FontSize="14"
-  VerticalAlignment="Center" />
-                        </StackPanel>
-                        <StackPanel>
+
+
+                        <TextBox
+                            Margin="10"
+                            VerticalAlignment="Center"
+                            materialDesign:HintAssist.FloatingScale="0.90"
+                            materialDesign:HintAssist.Hint="Address"
+                            FontSize="14"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Text="{Binding Project.Address, Mode=TwoWay}" />
 
 
 
-                            <TextBox Margin="10"
-  materialDesign:HintAssist.Hint="Address" Text="{Binding Project.Address,Mode=TwoWay}"
-                        materialDesign:TextFieldAssist.TextBoxViewMargin="1 12 1 0"
-                        materialDesign:HintAssist.FloatingScale="0.90"
-  Style="{StaticResource MaterialDesignOutlinedTextBox}"   FontSize="14"
-  VerticalAlignment="Center" />
-                        </StackPanel>
-                        <StackPanel>
-                            <StackPanel>
+                        <TextBox
+                            Height="80"
+                            Margin="10"
+                            VerticalAlignment="Top"
+                            materialDesign:HintAssist.Hint="Description"
+                            AcceptsReturn="True"
+                            FontSize="14"
+                            IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Text="{Binding Project.Description}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
 
-                                <TextBox Margin="10" FontSize="14" Text="{Binding Project.Description }"
-    Style="{StaticResource MaterialDesignOutlinedTextBox}"
-    VerticalAlignment="Top"
-    Height="80"
-    AcceptsReturn="True"
-    TextWrapping="Wrap"
-    VerticalScrollBarVisibility="Auto"
-                                 
-    materialDesign:HintAssist.Hint="Description"
-    IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" />
-                            </StackPanel>
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBlock Margin="10"  Text="{Binding Project.Username,Mode=TwoWay }"
-    Style="{StaticResource Label}">
 
-                            </TextBlock>
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBlock Margin="10" Text="{Binding Project.CreatedOn,Mode=TwoWay }"
-    Style="{StaticResource Label}">
 
-                            </TextBlock>
-                        </StackPanel>
-                        <StackPanel >
-                            <Button Width="100" HorizontalAlignment="Center" Margin="10" Name="btnSave" Click="btnSave_Click"
-    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
-    ToolTip="Save">
-                                Save
-                            </Button>
+                        <TextBlock
+                            Margin="10"
+                            Style="{StaticResource Label}"
+                            Text="{Binding Project.Username, Mode=TwoWay}" />
 
-                        </StackPanel>
+
+                        <TextBlock
+                            Margin="10"
+                            Style="{StaticResource Label}"
+                            Text="{Binding Project.CreatedOn, Mode=TwoWay}" />
+
+
+                        <Button
+                            Name="btnSave"
+                            Width="100"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            Click="btnSave_Click"
+                            Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                            ToolTip="Save">
+                            Save
+                        </Button>
+
+
                     </StackPanel>
                 </Grid>
             </materialDesign:Card>
 
 
         </Grid>
-        <Border Style="{StaticResource brdProgress}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" >
-            <control:progress></control:progress>
+        <Border Style="{StaticResource brdProgress}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <control:progress />
         </Border>
-        <xctk:ChildWindow Padding="20"   CloseButtonVisibility="Collapsed"  BorderThickness="0"    WindowBorderBrush="White" Visibility="Collapsed"   Name="childWindowFeedback" WindowStartupLocation="Center" IsModal="True"    WindowState="Open"
-                   
-                    >
+        <xctk:ChildWindow
+            Name="childWindowFeedback"
+            Padding="20"
+            BorderThickness="0"
+            CloseButtonVisibility="Collapsed"
+            IsModal="True"
+            Visibility="Collapsed"
+            WindowBorderBrush="White"
+            WindowStartupLocation="Center"
+            WindowState="Open">
 
 
             <StackPanel Margin="20">
-                <TextBlock Style="{StaticResource Title}" Foreground="Black"  Margin="5"  Text="{Binding Status}"></TextBlock>
+                <TextBlock
+                    Margin="5"
+                    Foreground="Black"
+                    Style="{StaticResource Title}"
+                    Text="{Binding Status}" />
 
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                  
-                    <TextBlock Margin="5" Style="{StaticResource Error}" Foreground="Black" Text="{Binding Message}"></TextBlock>
-                    <Button   HorizontalAlignment="Center" Margin="10" Name="btnErrorClose" Click="btnErrorClose_Click"
-    Style="{StaticResource btn}"
-    ToolTip="Close">
+                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+
+                    <TextBlock
+                        Margin="5"
+                        Foreground="Black"
+                        Style="{StaticResource Error}"
+                        Text="{Binding Message}" />
+                    <Button
+                        Name="btnErrorClose"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        Click="btnErrorClose_Click"
+                        Style="{StaticResource btn}"
+                        ToolTip="Close">
                         Close
                     </Button>
                 </StackPanel>
-                
+
             </StackPanel>
 
         </xctk:ChildWindow>
     </Grid>
-   
-   
+
+
 </UserControl>

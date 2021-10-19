@@ -117,63 +117,9 @@ namespace UI.Code.Services
         }
         public async Task<Response> AddItemAsync(Project item)
         {
-            //item.UserId =new Guid( App.LogUser.Id);
-            //using (HttpClient client = new HttpClient())
-            //{
-            //    Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            //    parameters.Add("Name", item.Name);
-            //    parameters.Add("Address", item.Address);
-            //    parameters.Add("Description", item.Description);
-            //    parameters.Add("ProjectType", item.ProjectType);
-            //    parameters.Add("UserID", App.LogUser.Id.ToString());
-
-            //    MultipartFormDataContent form = new MultipartFormDataContent();
-            //    HttpContent content = new StringContent("fileToUpload");
-            //    HttpContent DictionaryItems = new FormUrlEncodedContent(parameters);
-            //    form.Add(content, "fileToUpload");
-            //    form.Add(DictionaryItems, "Model");
-            //    /// System.IO.File.OpenRead(filePath)
-            //    var stream = System.IO.File.OpenRead(item.ImageUrl);
-            //    content = new StreamContent(stream);
-            //    content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
-            //    {
-            //        Name = "fileToUpload",
-            //        //  FileName = (item.Name + .Replace(" ","_") + ".png"
-            //        FileName = item.Name.Replace(" ", "_") + DateTime.Now.ToString("ddMMMyyyyHHmmss") + ".png"
-            //    };
-
-            //    form.Add(content);
-
-            //    HttpResponseMessage response = null;
-
-            //    try
-            //    {
-            //        response = (client.PostAsync(App.AppUrl + "api/Project/NewProject", form)).Result;
-            //        var responseBody = await response.Content.ReadAsStringAsync();
-            //        Response result = JsonConvert.DeserializeObject<Response>(responseBody);
-            //        item.Id = result.ID;
-            //        return await Task.FromResult(result);
-
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Console.WriteLine(ex.Message);
-            //    }
-            //    if (response.IsSuccessStatusCode == true)
-            //    {
-
-            //    }
-            //}
-            // item.ImageUrl = @"E:\UmeshWork\icon.png";
+            
             item.ImageUrl = null;
-            //item.ImageName = "tstBase2";
-            //using (var stream = System.IO.File.OpenRead(item.ImageUrl))
-            //{
-            //    byte[] filebytearray = new byte[stream.Length];
-            //    stream.Read(filebytearray, 0, (int)stream.Length);
-            //    item.ImageUrl = Convert.ToBase64String(filebytearray);
-            //}
+            
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(App.AppUrl);

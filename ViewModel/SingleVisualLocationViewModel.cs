@@ -13,7 +13,7 @@ using UI.Code.View.Dialog;
 
 namespace UI.Code.ViewModel
 {
-    public class VisualProjectLocationViewModel : BaseViewModel, INavigationAware
+    public class VisualSingleLevelProjectLocationViewModel : BaseViewModel, INavigationAware
     {
         private string _title;
 
@@ -47,7 +47,7 @@ namespace UI.Code.ViewModel
 
         public async Task<ErrorModel> Reorder()
         {
-            
+
             ErrorModel err = new ErrorModel();
             try
             {
@@ -149,15 +149,15 @@ namespace UI.Code.ViewModel
         {
 
             var parameters = new NavigationParameters { { "Project", Project } };
-            RegionManger.RequestNavigate("MainRegion", "Project", parameters);
+            RegionManger.RequestNavigate("MainRegion", "Projects", parameters);
         }
-       
+
         public DelegateCommand<VisualProjectLocationPhoto> DeleteCommand => new DelegateCommand<VisualProjectLocationPhoto>(async (VisualProjectLocationPhoto prm) => await Delete(prm));
 
         public async Task DeleteMain()
         {
             ErrorModel err = new ErrorModel();
-            Response result = await projectLocationService.DeleteItemAsync(Data);
+            Response result = await projectService.DeleteItemAsync(Data);
             if (result.Status == ApiResult.Success)
             {
 
@@ -171,7 +171,7 @@ namespace UI.Code.ViewModel
                 err.Status = "Error";
                 err.Message = result.Message;
             }
-            
+
         }
         public async Task Delete(VisualProjectLocationPhoto prm)
         {
@@ -179,7 +179,7 @@ namespace UI.Code.ViewModel
             Response result = await VisualProjectLocationPhotoDataStore.DeleteItemAsync(prm);
             if (result.Status == ApiResult.Success)
             {
-             
+
                 bool isComplet = await Task.Run(() => LongOperationGetImage(SelectedItem.Id.ToString()));
             }
             else
@@ -187,7 +187,7 @@ namespace UI.Code.ViewModel
                 err.Status = "Error";
                 err.Message = result.Message;
             }
-            
+
         }
         public DelegateCommand NewCommand => new DelegateCommand(async () => await New());
         public async Task New()
@@ -219,7 +219,7 @@ namespace UI.Code.ViewModel
             {
                 IsDataShow = false;
             }
-          
+
         }
         public DelegateCommand ResetCommand => new DelegateCommand(async () => await Reset());
         public async Task Reset()
@@ -241,7 +241,7 @@ namespace UI.Code.ViewModel
         {
             var res = new ObservableCollection<VisualProjectLocationPhoto>(await VisualProjectLocationPhotoDataStore.GetItemsAsyncByVisualProjectLocationId(Id));
             Images = new ObservableCollection<VisualProjectLocationPhoto>(res.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").OrderBy(c => c.SeqNo));
-            InvasiveImgs = new ObservableCollection<VisualProjectLocationPhoto>(res.Where(c => c.ImageDescription == "TRUE").OrderBy(c=>c.SeqNo));
+            InvasiveImgs = new ObservableCollection<VisualProjectLocationPhoto>(res.Where(c => c.ImageDescription == "TRUE").OrderBy(c => c.SeqNo));
             ConclusiveImgs = new ObservableCollection<VisualProjectLocationPhoto>(res.Where(c => c.ImageDescription == "CONCLUSIVE").OrderBy(c => c.SeqNo));
             return await Task.FromResult(true);
         }
@@ -292,7 +292,7 @@ namespace UI.Code.ViewModel
             set { _isBusy = value; OnPropertyChanged("IsBusy"); }
         }
         //  public DelegateCommand SaveCommand => new DelegateCommand(async () => await Save());
-      
+
         private ObservableCollection<BindingModel> bindingModels;
         public ObservableCollection<BindingModel> BindingModels
         {
@@ -332,24 +332,19 @@ namespace UI.Code.ViewModel
             get { return _prImages; }
             set { _prImages = value; OnPropertyChanged("Items"); }
         }
-        private ProjectLocation _projectlocations;
-        public ProjectLocation Data
+        private Project _projectlocations;
+        public Project Data
         {
             get { return _projectlocations; }
             set { _projectlocations = value; OnPropertyChanged("Data"); }
         }
-        private ProjectLocation _projectlocationsDataModel;
-        public ProjectLocation DataModel
+        private Project _projectlocationsDataModel;
+        public Project DataModel
         {
             get { return _projectlocationsDataModel; }
             set { _projectlocationsDataModel = value; OnPropertyChanged("DataModel"); }
         }
-        private ObservableCollection<ProjectBuilding> _pbuild;
-        public ObservableCollection<ProjectBuilding> ProjectBuildings
-        {
-            get { return _pbuild; }
-            set { _pbuild = value; OnPropertyChanged("ProjectBuildings"); }
-        }
+        
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
@@ -380,39 +375,16 @@ namespace UI.Code.ViewModel
                     if (string.IsNullOrEmpty(DataModel.Id))
                     {
 
-                        //Response result = await projectService.AddItemAsync(Project);
-                        //if (result.Status == ApiResult.Success)
-                        //{
-                        //    Response getObj = await projectService.GetItemAsync(result.ID);
-                        //    if (getObj.Status == ApiResult.Success)
-                        //    {
-                        //        App.ProjectID = result.ID;
-                        //        //  Project project = JsonConvert.DeserializeObject<Project>(getObj.Data.ToString());
-                        //        // var parameters = new NavigationParameters { { "ProjectID", result.ID } };
-                        //        RegionManger.RequestNavigate("MainRegion", "Project");
-                        //    }
-                        //    err.Status = "Success";
-                        //    err.Message = result.Message;
-                        //    // RegionManger.RequestNavigate("MainRegion", "Projects");
-                        //}
-                        //else
-                        //{
-                        //    err.Status = "Error";
-                        //    err.Message = result.Message;
-                        //}
+                        
                     }
                     else
                     {
-                        Response result = await projectLocationService.UpdateItemAsync(DataModel);
+                        Response result = await projectService.UpdateItemAsync(DataModel);
                         if (result.Status == ApiResult.Success)
                         {
 
-                            //App.ProjectID = Project.Id;
-                            //ErrorMsg = result.Message;
-                            //  var parameters = new NavigationParameters { { "ProjectBuilding", ProjectBuilding }, { "Project", Project } };
-                            // RegionManger.RequestNavigate("MainRegion", "Building", parameters);
-                            var parameters = new NavigationParameters { { "ProjectLocation", DataModel }, { "Project", Project } };
-                            RegionManger.RequestNavigate("MainRegion", "VisualProjectLocation", parameters);
+                            var parameters = new NavigationParameters { { "Project", DataModel }, { "Project", Project } };
+                            RegionManger.RequestNavigate("MainRegion", "SingleLevelProject", parameters);
                             err.Status = "Success";
                             err.Message = result.Message;
                         }
@@ -439,17 +411,17 @@ namespace UI.Code.ViewModel
         {
             IsDataShow = false;
             SelectedItem = null;
-           
-            Data = DataModel = (ProjectLocation)navigationContext.Parameters["ProjectLocation"];
-            Project = (Project)navigationContext.Parameters["Project"];
-            ObjectString = Newtonsoft.Json.JsonConvert.SerializeObject(DataModel);
+
+            Data = DataModel = (Project)navigationContext.Parameters["Project"];
             
+            ObjectString = Newtonsoft.Json.JsonConvert.SerializeObject(DataModel);
+
             if (Data != null)
                 Items = new ObservableCollection<VisualProjectLocation>(await VisualProjectLocationService.GetItemsAsyncByVisualProjectLocationId(Data.Id));
-            
-                
+
+
             return await Task.FromResult(true);
-            
+
         }
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
@@ -461,11 +433,11 @@ namespace UI.Code.ViewModel
 
 
         private readonly new IDialogService _dialogService;
-        public VisualProjectLocationViewModel(IDialogService dialogService)
+        public VisualSingleLevelProjectLocationViewModel(IDialogService dialogService)
         {
 
             _dialogService = dialogService;
-            Title = "Project Common Location";
+            Title = "Single Level Project";
 
 
             //  SubmitCommand = new DelegateCommand(async () => await Submit());

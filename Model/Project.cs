@@ -34,6 +34,22 @@ namespace UI.Code.Model
             set { createOn = value; OnPropertyChanged("CreatedOn"); }
         }
 
+        private bool? _isSingle;
+        public bool? IsSingle
+        {
+            set
+            {
+                if (_isSingle!=value)
+                {
+                    _isSingle = value;
+                    OnPropertyChanged("IsSingle");
+                }
+            }
+            get
+            {
+               return _isSingle;
+            }
+        }
         public bool IsOriginal { get; set; }
         public bool IsActive { get; set; }
         public Guid UserId { get; set; }
@@ -50,6 +66,7 @@ namespace UI.Code.Model
             set { username = value; OnPropertyChanged("Username"); }
         }
 
+        public string Category { get; set; }
 
         private bool _isRoleAdmin;
 
