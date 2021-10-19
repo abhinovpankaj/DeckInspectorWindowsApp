@@ -11,6 +11,7 @@ using Syncfusion.Pdf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -512,6 +513,9 @@ namespace UI.Code.ViewModel
             IsReportInProgress = System.Windows.Visibility.Visible;
             int factor = height;
             string download = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads\\";
+
+            string fname = string.Empty;
+
             if (Directory.Exists(download+ "\\compressed"))
             {
                 Directory.Delete(download + "\\compressed",true);
@@ -1126,8 +1130,6 @@ namespace UI.Code.ViewModel
                     }
 
 
-                    string fname = string.Empty;
-
                     
                     if (Type == "Word")
                     {
@@ -1167,6 +1169,7 @@ namespace UI.Code.ViewModel
                 }
                 //update the processing status
                 NotificationUI("Report Created Successfully, please navigate to Downlaods folder to access it.");
+                Process.Start(download + fname);
             }
             
             catch (Exception ex)
@@ -1366,7 +1369,7 @@ namespace UI.Code.ViewModel
         {
             int factor = height;
             IsReportInProgress = System.Windows.Visibility.Visible;
-
+            string fname = string.Empty;
             Encoding iso = Encoding.GetEncoding("ISO-8859-1");
             string download = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads\\";
             if (Directory.Exists(download + "\\compressed"))
@@ -1516,15 +1519,15 @@ namespace UI.Code.ViewModel
                                             string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
 
                                             IEnumerable<VisualApartmentLocationPhoto> imageApartment = await VisualApartmentLocationPhotoDataStore.GetVisualBuildingApartmentImageByVisualApartmentId(visualApt.Id.ToString());
-                                            imageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
+                                            var visualimageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
 
                                             StringBuilder visual_Images_apartment = new StringBuilder();
                                             int apCount = 0;
-                                            if (imageApartment.Count() <= factor)
+                                            if (visualimageApartment.Count() <= factor)
                                             {
 
                                                 visual_Images_apartment.Append(trWithStyle);
-                                                foreach (var item in imageApartment)
+                                                foreach (var item in visualimageApartment)
                                                 {
                                                     string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
                                                     var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
@@ -1536,7 +1539,7 @@ namespace UI.Code.ViewModel
                                             else
                                             {
                                                 visual_Images_apartment.Append(trWithStyle);
-                                                foreach (var item in imageApartment)
+                                                foreach (var item in visualimageApartment)
                                                 {
 
                                                     if ((apCount % factor) == 0)
@@ -1714,17 +1717,17 @@ namespace UI.Code.ViewModel
 
 
                                             IEnumerable<VisualBuildingLocationPhoto> imageApartment = await VisualBuildingLocationPhotoDataStore.GetVisualBuildingLocationImageByVisualBuildingId(visualbuildingLocation.Id.ToString());
-                                            imageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
+                                            var visualimageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
 
                                             string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
 
                                             StringBuilder visual_Images_apartment = new StringBuilder();
                                             int apCount = 0;
-                                            if (imageApartment.Count() <= factor)
+                                            if (visualimageApartment.Count() <= factor)
                                             {
 
                                                 visual_Images_apartment.Append(trWithStyle);
-                                                foreach (var item in imageApartment)
+                                                foreach (var item in visualimageApartment)
                                                 {
                                                     string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
                                                     var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
@@ -1736,7 +1739,7 @@ namespace UI.Code.ViewModel
                                             else
                                             {
                                                 visual_Images_apartment.Append(trWithStyle);
-                                                foreach (var item in imageApartment)
+                                                foreach (var item in visualimageApartment)
                                                 {
 
                                                     if ((apCount % factor) == 0)
@@ -1902,16 +1905,16 @@ namespace UI.Code.ViewModel
 
 
                                     IEnumerable<VisualProjectLocationPhoto> imageApartment = await VisualProjectLocationPhotoDataStore.GetItemsAsyncByVisualProjectLocationId(visualPloc.Id.ToString());
-                                    imageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
+                                    var visualimageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
                                     string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
 
                                     StringBuilder visual_Images_apartment = new StringBuilder();
                                     int apCount = 0;
-                                    if (imageApartment.Count() <= factor)
+                                    if (visualimageApartment.Count() <= factor)
                                     {
 
                                         visual_Images_apartment.Append(trWithStyle);
-                                        foreach (var item in imageApartment)
+                                        foreach (var item in visualimageApartment)
                                         {
                                             string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
                                             var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
@@ -1922,7 +1925,7 @@ namespace UI.Code.ViewModel
                                     else
                                     {
                                         visual_Images_apartment.Append(trWithStyle);
-                                        foreach (var item in imageApartment)
+                                        foreach (var item in visualimageApartment)
                                         {
 
                                             if ((apCount % factor) == 0)
@@ -2134,7 +2137,7 @@ namespace UI.Code.ViewModel
                     }
 
 
-                    string fname = string.Empty;
+                   
                     if (Type == "Word")
                     {
 
@@ -2172,6 +2175,7 @@ namespace UI.Code.ViewModel
                 }
 
                 NotificationUI("Report Created Successfully, please navigate to Downlaods folder to access it.");
+                Process.Start(download + fname);
             }
             catch(Exception ex)
             {
@@ -2194,7 +2198,7 @@ namespace UI.Code.ViewModel
 
             if (!visualPloc.IsInvasiveRepairApproved)
             {
-                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs required, Owner has NOT agreed for Conclusive reort.");
+                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs required, Owner has NOT agreed for Conclusive report.");
                 return conclusiveHtml;
             }
 
@@ -2207,31 +2211,42 @@ namespace UI.Code.ViewModel
 
             string html_Header = System.IO.File.ReadAllText(path + "\\ConclusiveDetails.html", iso);
 
-            html_Header = html_Header.Replace("{ConclusiveApproved}", visualPloc.IsInvasiveRepairComplete.ToString());
+            html_Header = html_Header.Replace("{ConclusiveApproved}", visualPloc.IsInvasiveRepairComplete.ToString()=="True"?"Yes":"No");
 
 
-            if (visualPloc.LifeExpectancyEEE == "0-1 Years")
+            if (visualPloc.ConclusiveLifeExpEEE == "0-1 Years")
             {
                 html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConclusiveLifeExpEEE + "</font></p>");
             }
+            else if (visualPloc.ConclusiveLifeExpEEE == "4-7 Years" || visualPloc.ConclusiveLifeExpEEE == "7+ Years")
+                html_Header = html_Header.Replace("{EEE}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConclusiveLifeExpEEE + "</font></p>");
             else
                 html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualPloc.ConclusiveLifeExpEEE + "</p>");
 
-            if (visualPloc.LifeExpectancyLBC == "0-1 Years")
+
+            if (visualPloc.ConclusiveLifeExpLBC == "0-1 Years")
             {
                 html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConclusiveLifeExpLBC + "</font></p>");
             }
+            else if (visualPloc.ConclusiveLifeExpLBC == "4-7 Years" || visualPloc.ConclusiveLifeExpLBC == "7+ Years")
+                html_Header = html_Header.Replace("{LBC}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConclusiveLifeExpLBC + "</font></p>");
             else
                 html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualPloc.ConclusiveLifeExpLBC + "</p>");
 
-            if (visualPloc.LifeExpectancyAWE == "0-1 Years")
+
+            if (visualPloc.ConclusiveLifeExpAWE == "0-1 Years")
             {
                 html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConclusiveLifeExpAWE + "</font></p>");
+            }
+            else if (visualPloc.ConclusiveLifeExpAWE == "4-7 Years" || visualPloc.ConclusiveLifeExpAWE == "7+ Years")
+            {
+                html_Header = html_Header.Replace("{AWE}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConclusiveLifeExpAWE + "</font></p>");
             }
             else
                 html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualPloc.ConclusiveLifeExpAWE + "</p>");
 
-            html_Header = html_Header.Replace("{AdditonalConsiderations}", "<p>&nbsp;" + visualPloc.ConclusiveAdditionalConcerns + "</p>");
+
+            html_Header = html_Header.Replace("{AdditonalConsiderations}", "<p>&nbsp;" + visualPloc.ConclusiveAdditionalConcerns.Replace("\n", "<br/>") + "</p>");
 
             string html_ConclusiveImages = System.IO.File.ReadAllText(path + "\\ConclusiveImages.html", iso);
 
@@ -2293,7 +2308,7 @@ namespace UI.Code.ViewModel
 
             if (!visualbuildingLocation.IsInvasiveRepairApproved)
             {
-                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs required, Owner has NOT agreed for Conclusive reort.");
+                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs required, Owner has NOT agreed for Conclusive report.");
                 return conclusiveHtml;
             }
 
@@ -2306,31 +2321,42 @@ namespace UI.Code.ViewModel
 
             string html_Header = System.IO.File.ReadAllText(path + "\\ConclusiveDetails.html", iso);
 
-            html_Header = html_Header.Replace("{ConclusiveApproved}", visualbuildingLocation.IsInvasiveRepairComplete.ToString());
+            html_Header = html_Header.Replace("{ConclusiveApproved}", visualbuildingLocation.IsInvasiveRepairComplete.ToString() == "True" ? "Yes" : "No");
 
 
-            if (visualbuildingLocation.LifeExpectancyEEE == "0-1 Years")
+            if (visualbuildingLocation.ConclusiveLifeExpEEE == "0-1 Years")
             {
                 html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.ConclusiveLifeExpEEE + "</font></p>");
             }
+            else if (visualbuildingLocation.ConclusiveLifeExpEEE == "4-7 Years" || visualbuildingLocation.ConclusiveLifeExpEEE == "7+ Years")
+                html_Header = html_Header.Replace("{EEE}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.ConclusiveLifeExpEEE + "</font></p>");
             else
                 html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualbuildingLocation.ConclusiveLifeExpEEE + "</p>");
 
-            if (visualbuildingLocation.LifeExpectancyLBC == "0-1 Years")
+
+            if (visualbuildingLocation.ConclusiveLifeExpLBC == "0-1 Years")
             {
                 html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.ConclusiveLifeExpLBC + "</font></p>");
             }
+            else if (visualbuildingLocation.ConclusiveLifeExpLBC == "4-7 Years" || visualbuildingLocation.ConclusiveLifeExpLBC == "7+ Years")
+                html_Header = html_Header.Replace("{LBC}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.ConclusiveLifeExpLBC + "</font></p>");
             else
                 html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualbuildingLocation.ConclusiveLifeExpLBC + "</p>");
 
-            if (visualbuildingLocation.LifeExpectancyAWE == "0-1 Years")
+
+            if (visualbuildingLocation.ConclusiveLifeExpAWE == "0-1 Years")
             {
                 html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.ConclusiveLifeExpAWE + "</font></p>");
+            }
+            else if (visualbuildingLocation.ConclusiveLifeExpAWE == "4-7 Years" || visualbuildingLocation.ConclusiveLifeExpAWE == "7+ Years")
+            {
+                html_Header = html_Header.Replace("{AWE}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.ConclusiveLifeExpAWE + "</font></p>");
             }
             else
                 html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualbuildingLocation.ConclusiveLifeExpAWE + "</p>");
 
-            html_Header = html_Header.Replace("{AdditonalConsiderations}", "<p>&nbsp;" + visualbuildingLocation.ConclusiveAdditionalConcerns + "</p>");
+            
+            html_Header = html_Header.Replace("{AdditonalConsiderations}", "<p>&nbsp;" + visualbuildingLocation.ConclusiveAdditionalConcerns.Replace("\n", "<br/>") + "</p>");
 
             string html_ConclusiveImages = System.IO.File.ReadAllText(path + "\\ConclusiveImages.html", iso);
 
@@ -2392,7 +2418,7 @@ namespace UI.Code.ViewModel
 
             if (!visualApt.IsInvasiveRepairApproved)
             {
-                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs required, Owner has NOT agreed for Conclusive reort.");
+                conclusiveHtml = conclusiveHtml.Replace("{Comments}", "Post Invasive repairs required, Owner has NOT agreed for Conclusive report.");
                 return conclusiveHtml;
             }
 
@@ -2405,31 +2431,41 @@ namespace UI.Code.ViewModel
 
             string html_Header = System.IO.File.ReadAllText(path + "\\ConclusiveDetails.html", iso);
 
-            html_Header = html_Header.Replace("{ConclusiveApproved}", visualApt.IsInvasiveRepairComplete.ToString());
+            html_Header = html_Header.Replace("{ConclusiveApproved}", visualApt.IsInvasiveRepairComplete.ToString() == "True" ? "Yes" : "No");
 
 
-            if (visualApt.LifeExpectancyEEE == "0-1 Years")
+            if (visualApt.ConclusiveLifeExpEEE == "0-1 Years")
             {
                 html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualApt.ConclusiveLifeExpEEE + "</font></p>");
             }
+            else if (visualApt.ConclusiveLifeExpEEE == "4-7 Years"|| visualApt.ConclusiveLifeExpEEE == "7+ Years")
+                html_Header = html_Header.Replace("{EEE}", "<p><font color=\"green\">&nbsp;" + visualApt.ConclusiveLifeExpEEE + "</font></p>");
             else
                 html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualApt.ConclusiveLifeExpEEE + "</p>");
 
-            if (visualApt.LifeExpectancyLBC == "0-1 Years")
+
+            if (visualApt.ConclusiveLifeExpLBC == "0-1 Years")
             {
                 html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualApt.ConclusiveLifeExpLBC + "</font></p>");
             }
+            else if (visualApt.ConclusiveLifeExpLBC == "4-7 Years" || visualApt.ConclusiveLifeExpLBC == "7+ Years")
+                html_Header = html_Header.Replace("{LBC}", "<p><font color=\"green\">&nbsp;" + visualApt.ConclusiveLifeExpLBC + "</font></p>");
             else
                 html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualApt.ConclusiveLifeExpLBC + "</p>");
 
-            if (visualApt.LifeExpectancyAWE == "0-1 Years")
+
+            if (visualApt.ConclusiveLifeExpAWE == "0-1 Years")
             {
                 html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualApt.ConclusiveLifeExpAWE + "</font></p>");
+            }
+            else if (visualApt.ConclusiveLifeExpAWE == "4-7 Years"|| visualApt.ConclusiveLifeExpAWE == "7+ Years")
+            {
+                html_Header = html_Header.Replace("{AWE}", "<p><font color=\"green\">&nbsp;" + visualApt.ConclusiveLifeExpAWE + "</font></p>");
             }
             else
                 html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualApt.ConclusiveLifeExpAWE + "</p>");
 
-            html_Header = html_Header.Replace("{AdditonalConsiderations}", "<p>&nbsp;" + visualApt.ConclusiveAdditionalConcerns + "</p>");
+            html_Header = html_Header.Replace("{AdditonalConsiderations}", "<p>&nbsp;" + visualApt.ConclusiveAdditionalConcerns.Replace("\n", "<br/>") + "</p>");
 
             string html_ConclusiveImages = System.IO.File.ReadAllText(path + "\\ConclusiveImages.html", iso);
 
