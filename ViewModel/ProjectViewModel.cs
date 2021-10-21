@@ -594,6 +594,11 @@ namespace UI.Code.ViewModel
                         BtnInvasiveText = "Invasive";
 
                     }
+                    else
+                    {
+                        CanInvasiveCreate = true;
+                        BtnInvasiveText = "Invasive";
+                    }
                 }
                 else
                 {

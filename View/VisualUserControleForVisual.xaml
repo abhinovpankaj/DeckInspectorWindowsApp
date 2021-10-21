@@ -894,7 +894,7 @@
                 <local:EditVisualReport />
                 <WrapPanel
                     Height="80"
-                    Margin="0,0,30,0"
+                    Margin="0,-5,30,1"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top">
                     <Button

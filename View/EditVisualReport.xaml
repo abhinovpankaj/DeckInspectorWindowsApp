@@ -32,7 +32,7 @@
                     Foreground="Black" />
 
 
-                <Button
+                <!--<Button
                     Name="btnSave"
                     HorizontalAlignment="Right"
                     Foreground="Blue"
@@ -40,7 +40,7 @@
                     ToolTip="Save"
                     Visibility="Collapsed">
                     <materialDesign:PackIcon Kind="Floppy" />
-                </Button>
+                </Button>-->
 
 
             </Grid>

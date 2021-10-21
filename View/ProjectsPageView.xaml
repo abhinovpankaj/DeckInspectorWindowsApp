@@ -20,7 +20,7 @@
 
     </UserControl.Resources>
 
-    <Grid Margin="80,0,10,0" >
+    <Grid Margin="80,0,10,0">
 
 
         <Grid>
@@ -213,7 +213,7 @@
                                             VerticalAlignment="Top"
                                             HorizontalContentAlignment="Center"
                                             VerticalContentAlignment="Center"
-                                            Background="{StaticResource AppMainColor}"
+                                            Background="#EC7A19"
                                             FontSize="12"
                                             FontWeight="Bold"
                                             Foreground="White">

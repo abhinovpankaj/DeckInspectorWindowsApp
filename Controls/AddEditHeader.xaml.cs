@@ -83,13 +83,19 @@ namespace UI.Code.Controls
         {
             var vm = this.DataContext;
 
-            if (vm.GetType() != typeof(ProjectViewModel))
+            if (vm.GetType() == typeof(ProjectViewModel) || vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
             {
-                
+
+                btnExport.Visibility = Visibility.Visible;
+                btnInvasive.Visibility = Visibility.Visible;
+            }
+            else
+            {
                 btnExport.Visibility = Visibility.Hidden;
                 btnInvasive.Visibility = Visibility.Hidden;
             }
-                gDisplay.Visibility = btnDataEdit.Visibility = Visibility.Visible;
+            
+            gDisplay.Visibility = btnDataEdit.Visibility = Visibility.Visible;
             gAddEdit.Visibility = Visibility.Collapsed;
             btnDataSave.Visibility = btnDataCancel.Visibility = Visibility.Collapsed;
            

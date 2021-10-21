@@ -154,6 +154,71 @@ namespace UI.Code.ViewModel
 
         public DelegateCommand<VisualProjectLocationPhoto> DeleteCommand => new DelegateCommand<VisualProjectLocationPhoto>(async (VisualProjectLocationPhoto prm) => await Delete(prm));
 
+        public async Task<ErrorModel> CreateInvasive()
+        {
+            ErrorModel err = new ErrorModel();
+            IsBusy = true;
+
+            if (App.IsInvasive == true)
+            {
+                Project.IsInvasive = true;
+                Project.Id = Project.InvasiveProjectID;
+                var response = await Task.Run(() =>
+                  projectService.CreateInvasiveReport(Project)
+                );
+                if (response.Status == ApiResult.Success)
+                {
+                    err.Status = "Success";
+                    err.Message = response.Message;
+                    App.IsInvasive = true;
+                    Project.Id = response.ID.ToString();
+                    Project.ProjectType = "Invasive";
+                    var parameters = new NavigationParameters { { "Project", Project } };
+                    RegionManger.RequestNavigate("MainRegion", "SingleLevelProject", parameters);
+                   
+
+                    IsBusy = false;
+
+                }
+                else
+                {
+
+                    err.Status = "Success";
+                    err.Message = response.Message;
+                }
+
+            }
+            else
+            {
+                Project.IsInvasive = false;
+                // Project.Id = Project.InvasiveProjectID;
+                var response = await Task.Run(() =>
+                  projectService.CreateInvasiveReport(Project)
+                );
+                if (response.Status == ApiResult.Success)
+                {
+                    err.Status = "Success";
+                    err.Message = response.Message;
+                    App.IsInvasive = true;
+                    Project.ProjectType = "Invasive";
+                    Project.Id = response.ID.ToString();
+                    
+                    var parameters = new NavigationParameters { { "Project", Project } };
+                    RegionManger.RequestNavigate("MainRegion", "SingleLevelProject", parameters);
+                    IsBusy = false;
+                    //  await Shell.Current.Navigation.PopAsync();
+                }
+                else
+                {
+                    err.Status = "Success";
+                    err.Message = response.Message;
+
+                }
+            }
+
+
+            return await Task.FromResult(err);
+        }
         public async Task DeleteMain()
         {
             ErrorModel err = new ErrorModel();
@@ -344,7 +409,22 @@ namespace UI.Code.ViewModel
             get { return _projectlocationsDataModel; }
             set { _projectlocationsDataModel = value; OnPropertyChanged("DataModel"); }
         }
-        
+       
+
+        private bool _canInvasiveCreate;
+
+        public bool CanInvasiveCreate
+        {
+            get { return _canInvasiveCreate; }
+            set { _canInvasiveCreate = value; OnPropertyChanged("CanInvasiveCreate"); }
+        }
+        private string _btnInvasiveText;
+
+        public string BtnInvasiveText
+        {
+            get { return _btnInvasiveText; }
+            set { _btnInvasiveText = value; OnPropertyChanged("BtnInvasiveText"); }
+        }
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
@@ -415,10 +495,45 @@ namespace UI.Code.ViewModel
             Data = DataModel = (Project)navigationContext.Parameters["Project"];
             
             ObjectString = Newtonsoft.Json.JsonConvert.SerializeObject(DataModel);
+            if (Project.ProjectType != "Invasive")
+            {
+                if (Project.IsInvaisveExist == true)
+                {
+                    CanInvasiveCreate = true;
+                    BtnInvasiveText = "Invasive";
+                }
+                if (!string.IsNullOrEmpty(Project.InvasiveProjectID))
+                {
+                    CanInvasiveCreate = false;
+                    BtnInvasiveText = "Invasive";
 
-            if (Data != null)
-                Items = new ObservableCollection<VisualProjectLocation>(await VisualProjectLocationService.GetItemsAsyncByVisualProjectLocationId(Data.Id));
+                }
+                else
+                {
+                    CanInvasiveCreate = true;
+                    BtnInvasiveText = "Invasive";
+                }
 
+            }
+            else
+            {
+                CanInvasiveCreate = true;
+                BtnInvasiveText = "Refresh";
+
+            }
+            if (App.IsInvasive)
+            {
+                if (Data != null)
+                    Items = new ObservableCollection<VisualProjectLocation>(await VisualProjectLocationService.GetItemsAsyncByVisualProjectLocationId(Data.InvasiveProjectID));
+                IsInvasiveControlDisable = false;
+            }
+            else
+            {
+                IsInvasiveControlDisable = true;
+                if (Data != null)
+                    Items = new ObservableCollection<VisualProjectLocation>(await VisualProjectLocationService.GetItemsAsyncByVisualProjectLocationId(Data.Id));
+            }
+               
 
             return await Task.FromResult(true);
 

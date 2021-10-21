@@ -725,6 +725,44 @@ namespace UI.Code.View
                 }
 
             }
+            else if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                VisualSingleLevelProjectLocationViewModel db = vm as VisualSingleLevelProjectLocationViewModel;
+
+                var dc = VisualReportEditor.DataContext as EditVisualReportViewModel;
+                dc.ProjLocation.AdditionalConsideration = dc.AdditionalConsideration;
+                dc.ProjLocation.Name = dc.Title;
+                dc.ProjLocation.VisualReview = dc.RadioList_VisualReviewItems.Where(c => c.IsChecked == true).Single().Name;
+                dc.ProjLocation.AnyVisualSign = dc.RadioList_AnyVisualSignItems.Where(c => c.IsChecked == true).Single().Name;
+
+                dc.ProjLocation.FurtherInasive = dc.RadioList_FurtherInasiveItems.Where(c => c.IsChecked == true).Single().Name;
+
+                dc.ProjLocation.ConditionAssessment = dc.RadioList_ConditionAssessment.Where(c => c.IsChecked == true).Single().Name;
+
+                dc.ProjLocation.LifeExpectancyEEE = dc.RadioList_LifeExpectancyEEE.Where(c => c.IsChecked == true).Single().Name;
+
+                dc.ProjLocation.LifeExpectancyLBC = dc.RadioList_LifeExpectancyLBC.Where(c => c.IsChecked == true).Single().Name;
+
+                dc.ProjLocation.LifeExpectancyAWE = dc.RadioList_LifeExpectancyAWE.Where(c => c.IsChecked == true).Single().Name;
+
+                db.SelectedItem = dc.ProjLocation;
+                //Call save here.
+                Response response = new Response();
+                if (App.IsInvasive == false)
+                    response = await db.VisualProjectLocationService.UpdateItemAsync(db.SelectedItem);
+
+                if (response.Status == ApiResult.Success)
+                {
+
+                    //bool isComplet = await Task.Run(() => LongOperationGetImage(SelectedItem.Id.ToString()));
+                }
+                else
+                {
+                    err.Status = "Error";
+                    err.Message = response.Message;
+                }
+
+            }
             else if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
             {
                 VisualBuildingLocationViewModel db = vm as VisualBuildingLocationViewModel;

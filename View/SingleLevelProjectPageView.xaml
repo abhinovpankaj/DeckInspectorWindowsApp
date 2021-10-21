@@ -27,17 +27,52 @@
                 x:Name="UCAddEdit"
                 Grid.Row="0"
                 Margin="80,0"
-                IsAddress="False" />
-            <local:VisualUserControleForVisual
+                IsAddress="True" />
+            <!--<local:VisualUserControleForVisual
                 x:Name="vc"
                 Grid.Row="1"
-                Visibility="Visible" />
+                Visibility="Visible" />-->
+            <ContentPresenter
+                x:Name="LocationContent"
+                Grid.Row="1"
+                Content="{Binding}">
+
+                <!--  Presentations  -->
+                <ContentPresenter.Resources>
+                    <DataTemplate x:Key="VisualPresenter">
+                        <local:VisualUserControleForVisual
+                            x:Name="vc"
+                            Grid.Row="1"
+                            Visibility="Visible" />
+                    </DataTemplate>
+                    <DataTemplate x:Key="InvasivePresenter">
+                        <local:VisualUserControle
+                            x:Name="vcInvasive"
+                            Grid.Row="1"
+                            Visibility="Visible" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+
+                <!--  Triggers  -->
+                <ContentPresenter.Style>
+                    <Style TargetType="{x:Type ContentPresenter}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Data.ProjectType}" Value="Invasive">
+                                <Setter Property="ContentTemplate" Value="{StaticResource InvasivePresenter}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Data.ProjectType}" Value="Visual Report">
+                                <Setter Property="ContentTemplate" Value="{StaticResource VisualPresenter}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentPresenter.Style>
+
+            </ContentPresenter>
 
         </Grid>
 
 
-        <Border Style="{StaticResource brdProgress}" 
-                Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Border Style="{StaticResource brdProgress}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
             <control:progress />
         </Border>
 

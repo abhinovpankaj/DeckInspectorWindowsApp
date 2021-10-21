@@ -23,6 +23,7 @@ namespace UI.Code.View
     public partial class SingleLevelProjectPageView : UserControl
     {
         VisualSingleLevelProjectLocationViewModel vm;
+
         public SingleLevelProjectPageView()
         {
             InitializeComponent();
@@ -32,17 +33,22 @@ namespace UI.Code.View
             UCAddEdit.ClickSave += UCAddEdit_ClickSave;
             UCAddEdit.ClickBack += UCAddEdit_ClickBack;
             UCAddEdit.ClickDel += UCAddEdit_ClickDel;
-            //lvDataBinding.SelectionChanged += LvDataBinding_SelectionChanged;
-            vc.BackClick += Vc_BackClick;
-            vc.btnSave.Click += BtnSave_Click;
-            //vc.btnSaveInvasive.Click += BtnSaveInvasive_Click;
-            vc.ClickSearch += Vc_ClickSearch;
-            vc.ClickVisualReorder += Vc_ClickVisualReorder;
+            UCAddEdit.ClickInvasive += UCAddEdit_ClickInvasive;      
         }
         private void UCAddEdit_ClickDel(object sender, EventArgs e)
         {
             childDeleteConfirmation.Visibility = Visibility.Visible;
             childDeleteConfirmation.Close();
+        }
+        private async void UCAddEdit_ClickInvasive(object sender, EventArgs e)
+        {
+            ErrorModel err = await vm.CreateInvasive();
+            if (err.Status != "Success")
+            {
+                childWindowFeedback.DataContext = err;
+                childWindowFeedback.Visibility = Visibility.Visible;
+                childWindowFeedback.Show();
+            }
         }
 
         private async void BtnSaveInvasive_Click(object sender, RoutedEventArgs e)
@@ -149,12 +155,34 @@ namespace UI.Code.View
             childWindowFeedback.Visibility = Visibility.Collapsed;
             childWindowFeedback.Close();
         }
+        VisualUserControle invControl;
+        VisualUserControleForVisual visControl;
         private void VisualProjectLocationView_Loaded(object sender, RoutedEventArgs e)
         {
             childWindowMessageBox.Visibility = Visibility.Collapsed;
             childWindowMessageBox.Close();
             childWindowFeedback.Visibility = Visibility.Collapsed;
             childWindowFeedback.Close();
+            DataTemplate template = LocationContent.ContentTemplate;
+            if (App.IsInvasive)
+            {
+                invControl = (VisualUserControle)template.FindName("vcInvasive", LocationContent);
+                invControl.BackClick += Vc_BackClick;
+                invControl.btnSave.Click += BtnSave_Click;
+
+                invControl.ClickSearch += Vc_ClickSearch;
+                invControl.ClickVisualReorder += Vc_ClickVisualReorder;
+            }
+            else
+            {
+                visControl = (VisualUserControleForVisual)template.FindName("vc", LocationContent);
+                visControl.BackClick += Vc_BackClick;
+                visControl.btnSave.Click += BtnSave_Click;
+
+                visControl.ClickSearch += Vc_ClickSearch;
+                visControl.ClickVisualReorder += Vc_ClickVisualReorder;
+            }
+
 
         }
 

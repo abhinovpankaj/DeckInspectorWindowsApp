@@ -67,6 +67,14 @@ namespace UI.Code.View
         private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
             var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var selectedImage = childImageShow.DataContext as VisualProjectLocationPhoto;
+                var img = plPhotos.SkipWhile(x => x != selectedImage).Skip(1).DefaultIfEmpty(plPhotos[0]).FirstOrDefault();
+                childImageShow.DataContext = img;
+
+            }
+
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var selectedImage = childImageShow.DataContext as VisualProjectLocationPhoto;
@@ -98,6 +106,13 @@ namespace UI.Code.View
         private void BtnPrv_Click(object sender, RoutedEventArgs e)
         {
             var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var selectedImage = childImageShow.DataContext as VisualProjectLocationPhoto;
+                var img = plPhotos.TakeWhile(x => x != selectedImage).DefaultIfEmpty(plPhotos[plPhotos.Count - 1]).LastOrDefault();
+                childImageShow.DataContext = img;
+
+            }
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var selectedImage = childImageShow.DataContext as VisualProjectLocationPhoto;
@@ -153,6 +168,19 @@ namespace UI.Code.View
         {
             var vm = this.DataContext;
 
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                VisualSingleLevelProjectLocationViewModel db = vm as VisualSingleLevelProjectLocationViewModel;
+                var obj = ((ListBoxItem)sender).DataContext as VisualProjectLocation;
+                db.GetImagesCommand.Execute(obj);
+                if (db.SelectedItem.IsPostInvasiveRepairsRequired)
+                {
+                    PopulateLifeExpRadioButtons();
+
+                }
+
+            }
+
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 VisualProjectLocationViewModel db = vm as VisualProjectLocationViewModel;
@@ -197,6 +225,35 @@ namespace UI.Code.View
         private void lboxViusal_Drop(object sender, DragEventArgs e)
         {
             var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                VisualSingleLevelProjectLocationViewModel db = vm as VisualSingleLevelProjectLocationViewModel;
+                if (sender is ListBoxItem)
+                {
+                    VisualProjectLocation droppedData = e.Data.GetData(typeof(VisualProjectLocation)) as VisualProjectLocation;
+                    VisualProjectLocation target = ((ListBoxItem)(sender)).DataContext as VisualProjectLocation;
+
+                    int removedIdx = lboxVisual.Items.IndexOf(droppedData);
+                    int targetIdx = lboxVisual.Items.IndexOf(target);
+                    if (removedIdx != -1)
+                    {
+                        if (removedIdx < targetIdx)
+                        {
+                            db.Items.Insert(targetIdx + 1, droppedData);
+                            db.Items.RemoveAt(removedIdx);
+                        }
+                        else
+                        {
+                            int remIdx = removedIdx + 1;
+                            if (db.Items.Count + 1 > remIdx)
+                            {
+                                db.Items.Insert(targetIdx, droppedData);
+                                db.Items.RemoveAt(remIdx);
+                            }
+                        }
+                    }
+                }
+            }
 
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
@@ -318,6 +375,17 @@ namespace UI.Code.View
             if (res == MessageBoxResult.Yes)
             {
 
+                if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+                {
+                    var obj = childImageShow.DataContext as VisualProjectLocationPhoto;
+
+                    VisualSingleLevelProjectLocationViewModel vmObj = this.DataContext as VisualSingleLevelProjectLocationViewModel;
+                    vmObj.DeleteCommand.Execute(obj);
+                    childImageShow.DataContext = null;
+                    childImageShow.Visibility = Visibility.Collapsed;
+                    childImageShow.Close();
+                }
+
                 if (vm.GetType() == typeof(VisualProjectLocationViewModel))
                 {
                     var obj = childImageShow.DataContext as VisualProjectLocationPhoto;
@@ -381,6 +449,35 @@ namespace UI.Code.View
         {
             var vm = this.DataContext;
 
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                VisualSingleLevelProjectLocationViewModel db = vm as VisualSingleLevelProjectLocationViewModel;
+                if (sender is ListBoxItem)
+                {
+                    VisualProjectLocationPhoto droppedData = e.Data.GetData(typeof(VisualProjectLocationPhoto)) as VisualProjectLocationPhoto;
+                    VisualProjectLocationPhoto target = ((ListBoxItem)(sender)).DataContext as VisualProjectLocationPhoto;
+
+                    int removedIdx = lbox.Items.IndexOf(droppedData);
+                    int targetIdx = lbox.Items.IndexOf(target);
+                    if (removedIdx != -1)
+                    {
+                        if (removedIdx < targetIdx)
+                        {
+                            db.Images.Insert(targetIdx + 1, droppedData);
+                            db.Images.RemoveAt(removedIdx);
+                        }
+                        else
+                        {
+                            int remIdx = removedIdx + 1;
+                            if (db.Images.Count + 1 > remIdx)
+                            {
+                                db.Images.Insert(targetIdx, droppedData);
+                                db.Images.RemoveAt(remIdx);
+                            }
+                        }
+                    }
+                }
+            }
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 VisualProjectLocationViewModel db = vm as VisualProjectLocationViewModel;
@@ -473,6 +570,35 @@ namespace UI.Code.View
         public void lboxInvasiveDataBinding_Drop(object sender, DragEventArgs e)
         {
             var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                VisualSingleLevelProjectLocationViewModel db = vm as VisualSingleLevelProjectLocationViewModel;
+                if (sender is ListBoxItem)
+                {
+                    VisualProjectLocationPhoto droppedData = e.Data.GetData(typeof(VisualProjectLocationPhoto)) as VisualProjectLocationPhoto;
+                    VisualProjectLocationPhoto target = ((ListBoxItem)(sender)).DataContext as VisualProjectLocationPhoto;
+
+                    int removedIdx = lboxInvasive.Items.IndexOf(droppedData);
+                    int targetIdx = lboxInvasive.Items.IndexOf(target);
+                    if (removedIdx != -1)
+                    {
+                        if (removedIdx < targetIdx)
+                        {
+                            db.InvasiveImgs.Insert(targetIdx + 1, droppedData);
+                            db.InvasiveImgs.RemoveAt(removedIdx);
+                        }
+                        else
+                        {
+                            int remIdx = removedIdx + 1;
+                            if (db.InvasiveImgs.Count + 1 > remIdx)
+                            {
+                                db.InvasiveImgs.Insert(targetIdx, droppedData);
+                                db.InvasiveImgs.RemoveAt(remIdx);
+                            }
+                        }
+                    }
+                }
+            }
 
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
@@ -646,6 +772,18 @@ namespace UI.Code.View
         private void HandleDoubleClick_Invasive(object sender, MouseButtonEventArgs e)
         {
             var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var obj = ((ListBoxItem)sender).DataContext as VisualProjectLocationPhoto;
+                var viewModel = this.DataContext as VisualSingleLevelProjectLocationViewModel;
+
+                plPhotos = viewModel.InvasiveImgs.ToList();
+
+
+                childImageShow.DataContext = obj;
+                childImageShow.Visibility = Visibility.Visible;
+                childImageShow.Show();
+            }
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var obj = ((ListBoxItem)sender).DataContext as VisualProjectLocationPhoto;
@@ -684,18 +822,23 @@ namespace UI.Code.View
                 childImageShow.Show();
             }
 
-            //if (vm.GetType() == typeof(VisualProjectLocationViewModel))
-            //{
-            //    VisualProjectLocationViewModel vmObj = this.DataContext as VisualProjectLocationViewModel;
-            //    vmObj.DeleteCommand.Execute(obj); 
-            //}
-
-            //var obj = ((ListBoxItem)sender).DataContext as Project;
-            //vm.SelectedItemCommand.Execute(obj);
         }
         private void HandleDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var obj = ((ListBoxItem)sender).DataContext as VisualProjectLocationPhoto;
+                var viewModel = this.DataContext as VisualSingleLevelProjectLocationViewModel;
+
+                plPhotos = viewModel.Images.ToList();
+
+
+                childImageShow.DataContext = obj;
+
+                childImageShow.Visibility = Visibility.Visible;
+                childImageShow.Show();
+            }
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var obj = ((ListBoxItem)sender).DataContext as VisualProjectLocationPhoto;
@@ -776,6 +919,13 @@ namespace UI.Code.View
         {
             List<string> pics = new List<string>();
             var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var myVM = vm as VisualSingleLevelProjectLocationViewModel;
+                this.Dispatcher.Invoke(() => {
+                    myVM.IsBusy = true;
+                });
+            }
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var myVM = vm as VisualProjectLocationViewModel;
@@ -815,6 +965,13 @@ namespace UI.Code.View
             }
             else
             {
+                if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+                {
+                    var myVM = vm as VisualSingleLevelProjectLocationViewModel;
+                    this.Dispatcher.Invoke(() => {
+                        myVM.IsBusy = false;
+                    });
+                }
                 if (vm.GetType() == typeof(VisualProjectLocationViewModel))
                 {
                     var myVM = vm as VisualProjectLocationViewModel;
@@ -847,7 +1004,24 @@ namespace UI.Code.View
         {
             var vm = this.DataContext;
             List<MultiImage> locImages = new List<MultiImage>();
-            if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var myVM = vm as VisualSingleLevelProjectLocationViewModel;
+
+
+                foreach (var item in images)
+                {
+
+                    locImages.Add(new MultiImage() { Id = Guid.NewGuid().ToString(), Image = item, ParentId = myVM.SelectedItem.ProjectLocationId, Status = "New", IsServerData = false });
+                }
+
+
+                //bool result = await UploadFromGallary(myVM.SelectedItem.Name, "/api/ProjectLocationImage/AddEdit?ParentId=" + myVM.SelectedItem.ProjectLocationId + "&UserId=" + App.LogUser.Id.ToString(), images);
+                Response result = await UploadFromGallary(myVM.SelectedItem, "api/VisualProjectLocation/Edit", locImages, isConclusive);
+
+                await myVM.GetImages(myVM.SelectedItem);
+            }
+            else if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var myVM = vm as VisualProjectLocationViewModel;
 
@@ -1218,6 +1392,13 @@ namespace UI.Code.View
         {
             var vm = this.DataContext;
             Response response;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var myVM = vm as VisualSingleLevelProjectLocationViewModel;
+                var ds = new VisualProjectLocationService();
+                response = await ds.UpdateItemAsync(myVM.SelectedItem);
+
+            }
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var myVM = vm as VisualProjectLocationViewModel;
@@ -1247,6 +1428,14 @@ namespace UI.Code.View
         {
             List<string> pics = new List<string>();
             var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var myVM = vm as VisualSingleLevelProjectLocationViewModel;
+                this.Dispatcher.Invoke(() => {
+                    myVM.IsBusy = true;
+                });
+            }
+
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var myVM = vm as VisualProjectLocationViewModel;
@@ -1286,6 +1475,13 @@ namespace UI.Code.View
             }
             else
             {
+                if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+                {
+                    var myVM = vm as VisualSingleLevelProjectLocationViewModel;
+                    this.Dispatcher.Invoke(() => {
+                        myVM.IsBusy = false;
+                    });
+                }
                 if (vm.GetType() == typeof(VisualProjectLocationViewModel))
                 {
                     var myVM = vm as VisualProjectLocationViewModel;
@@ -1317,6 +1513,19 @@ namespace UI.Code.View
         private void HandleDoubleClick_Conclusive(object sender, MouseButtonEventArgs e)
         {
             var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var obj = ((ListBoxItem)sender).DataContext as VisualProjectLocationPhoto;
+                var viewModel = this.DataContext as VisualSingleLevelProjectLocationViewModel;
+
+                plPhotos = viewModel.ConclusiveImgs.ToList();
+
+
+                childImageShow.DataContext = obj;
+
+                childImageShow.Visibility = Visibility.Visible;
+                childImageShow.Show();
+            }
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var obj = ((ListBoxItem)sender).DataContext as VisualProjectLocationPhoto;
@@ -1393,6 +1602,25 @@ namespace UI.Code.View
         private void UpdateConclusiveLifeExp(string v1, string v2)
         {
             var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var viewModel = this.DataContext as VisualSingleLevelProjectLocationViewModel;
+                switch (v2)
+                {
+                    case "EEE":
+                        viewModel.SelectedItem.ConclusiveLifeExpEEE = v1 + " Years";
+                        break;
+                    case "LBC":
+                        viewModel.SelectedItem.ConclusiveLifeExpLBC = v1 + " Years";
+                        break;
+                    case "AWE":
+                        viewModel.SelectedItem.ConclusiveLifeExpAWE = v1 + " Years";
+                        break;
+                    default:
+                        break;
+                }
+
+            }
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var viewModel = this.DataContext as VisualProjectLocationViewModel;
@@ -1474,6 +1702,86 @@ namespace UI.Code.View
         private void PopulateLifeExpRadioButtons()
         {
             var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var viewModel = this.DataContext as VisualSingleLevelProjectLocationViewModel;
+                switch (viewModel.SelectedItem.ConclusiveLifeExpEEE)
+                {
+                    case "0-1" + " Years":
+                        LifeEEE.IsChecked = true;
+                        break;
+                    case "1-4" + " Years":
+                        LifeEEE4.IsChecked = true;
+                        break;
+                    case "4-7" + " Years":
+                        LifeEEE7.IsChecked = true;
+                        break;
+                    case "7+" + " Years":
+                        LifeEEE10.IsChecked = true;
+                        break;
+                    default:
+                        CleanBoxes();
+                        break;
+                }
+                switch (viewModel.SelectedItem.ConclusiveLifeExpLBC)
+                {
+                    case "0-1" + " Years":
+                        LifeLBC.IsChecked = true;
+                        break;
+                    case "1-4" + " Years":
+                        LifeLBC4.IsChecked = true;
+                        break;
+                    case "4-7" + " Years":
+                        LifeLBC7.IsChecked = true;
+                        break;
+                    case "7+" + " Years":
+                        LifeLBC10.IsChecked = true;
+                        break;
+                    default:
+                        CleanBoxes();
+                        break;
+                }
+                switch (viewModel.SelectedItem.ConclusiveLifeExpAWE)
+                {
+                    case "0-1" + " Years":
+                        LifeAWE.IsChecked = true;
+                        break;
+                    case "1-4" + " Years":
+                        LifeAWE4.IsChecked = true;
+                        break;
+                    case "4-7" + " Years":
+                        LifeAWE7.IsChecked = true;
+                        break;
+                    case "7+" + " Years":
+                        LifeAWE10.IsChecked = true;
+                        break;
+                    default:
+                        CleanBoxes();
+                        break;
+                }
+
+                if (viewModel.SelectedItem.IsInvasiveRepairApproved)
+                {
+                    ownerBoxYes.IsChecked = true;
+                    //ownerBoxNo.IsChecked = false;
+                }
+                else
+                {
+                    //ownerBoxYes.IsChecked = false;
+                    ownerBoxNo.IsChecked = true;
+                }
+                if (viewModel.SelectedItem.IsInvasiveRepairComplete)
+                {
+                    //repairNo.IsChecked = false;
+                    repairYes.IsChecked = true;
+                }
+                else
+                {
+                    repairNo.IsChecked = true;
+                    //repairYes.IsChecked = false;
+                }
+
+            }
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var viewModel = this.DataContext as VisualProjectLocationViewModel;
@@ -1769,6 +2077,12 @@ namespace UI.Code.View
             var vm = this.DataContext;
             if (vm == null)
                 return;
+
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var viewModel = this.DataContext as VisualSingleLevelProjectLocationViewModel;
+                viewModel.SelectedItem.IsInvasiveRepairComplete = state;
+            }
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var viewModel = this.DataContext as VisualProjectLocationViewModel;
@@ -1791,6 +2105,11 @@ namespace UI.Code.View
             var vm = this.DataContext;
             if (vm == null)
                 return;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var viewModel = this.DataContext as VisualSingleLevelProjectLocationViewModel;
+                viewModel.SelectedItem.IsInvasiveRepairApproved = state;
+            }
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var viewModel = this.DataContext as VisualProjectLocationViewModel;
