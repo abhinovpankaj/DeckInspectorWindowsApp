@@ -1,4 +1,5 @@
 ﻿using CommonServiceLocator;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
@@ -15,6 +16,7 @@ namespace UI.Code.ViewModel
 {
     public class VisualSingleLevelProjectLocationViewModel : BaseViewModel, INavigationAware
     {
+        public event EventHandler OnProjectLoadSuccess;
         private string _title;
 
         public string Title
@@ -191,7 +193,7 @@ namespace UI.Code.ViewModel
             else
             {
                 Project.IsInvasive = false;
-                // Project.Id = Project.InvasiveProjectID;
+                
                 var response = await Task.Run(() =>
                   projectService.CreateInvasiveReport(Project)
                 );
@@ -202,11 +204,12 @@ namespace UI.Code.ViewModel
                     App.IsInvasive = true;
                     Project.ProjectType = "Invasive";
                     Project.Id = response.ID.ToString();
-                    
+                    App.ProjectID = Project.Id;
+                    OnPropertyChanged("ProjectType");
                     var parameters = new NavigationParameters { { "Project", Project } };
                     RegionManger.RequestNavigate("MainRegion", "SingleLevelProject", parameters);
                     IsBusy = false;
-                    //  await Shell.Current.Navigation.PopAsync();
+                    
                 }
                 else
                 {
@@ -383,12 +386,15 @@ namespace UI.Code.ViewModel
                 IsInvasiveControlDisable = true;
             }
             IsBusy = true;
-            Project = (Project)navigationContext.Parameters["Project"];
-            //  ProjectBuildings = new ObservableCollection<ProjectBuilding>(await ProjectBuildingDataStore.GetItemsAsyncByProjectID(Project.Id));
+           
             bool isComplet = await Task.Run(() => LongOperation(navigationContext));
             if (isComplet)
             {
                 IsBusy = false;
+                if (OnProjectLoadSuccess!=null)
+                {
+                    OnProjectLoadSuccess(this, EventArgs.Empty);
+                } 
             }
         }
         private ObservableCollection<VisualProjectLocation> _prImages;
@@ -492,9 +498,10 @@ namespace UI.Code.ViewModel
             IsDataShow = false;
             SelectedItem = null;
 
-            Data = DataModel = (Project)navigationContext.Parameters["Project"];
             
+            Data = DataModel = Project = (Project)navigationContext.Parameters["Project"];
             ObjectString = Newtonsoft.Json.JsonConvert.SerializeObject(DataModel);
+            
             if (Project.ProjectType != "Invasive")
             {
                 if (Project.IsInvaisveExist == true)
@@ -521,10 +528,11 @@ namespace UI.Code.ViewModel
                 BtnInvasiveText = "Refresh";
 
             }
+            
             if (App.IsInvasive)
             {
                 if (Data != null)
-                    Items = new ObservableCollection<VisualProjectLocation>(await VisualProjectLocationService.GetItemsAsyncByVisualProjectLocationId(Data.InvasiveProjectID));
+                    Items = new ObservableCollection<VisualProjectLocation>(await VisualProjectLocationService.GetItemsAsyncByVisualProjectLocationId(App.ProjectID));
                 IsInvasiveControlDisable = false;
             }
             else

@@ -57,10 +57,10 @@
                 <ContentPresenter.Style>
                     <Style TargetType="{x:Type ContentPresenter}">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Data.ProjectType}" Value="Invasive">
+                            <DataTrigger Binding="{Binding Project.ProjectType}" Value="Invasive">
                                 <Setter Property="ContentTemplate" Value="{StaticResource InvasivePresenter}" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Data.ProjectType}" Value="Visual Report">
+                            <DataTrigger Binding="{Binding Project.ProjectType}" Value="Visual Report">
                                 <Setter Property="ContentTemplate" Value="{StaticResource VisualPresenter}" />
                             </DataTrigger>
                         </Style.Triggers>

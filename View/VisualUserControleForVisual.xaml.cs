@@ -579,6 +579,7 @@ namespace UI.Code.View
             {
                 eventHandler(this, e);
             }
+             
             IsDrop = false;
             btnSave.Visibility = btnCancel.Visibility = Visibility.Collapsed;
             btnEdit.Visibility = Visibility.Visible;

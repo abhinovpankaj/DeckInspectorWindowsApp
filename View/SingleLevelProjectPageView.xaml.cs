@@ -33,8 +33,52 @@ namespace UI.Code.View
             UCAddEdit.ClickSave += UCAddEdit_ClickSave;
             UCAddEdit.ClickBack += UCAddEdit_ClickBack;
             UCAddEdit.ClickDel += UCAddEdit_ClickDel;
-            UCAddEdit.ClickInvasive += UCAddEdit_ClickInvasive;      
+            UCAddEdit.ClickInvasive += UCAddEdit_ClickInvasive;
+            
+            UCAddEdit.ClickExport += UCAddEdit_ClickExport;
+            vm.OnProjectLoadSuccess += Vm_OnProjectLoadSuccess;
         }
+
+        private void UCAddEdit_ClickExport(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Vm_OnProjectLoadSuccess(object sender, EventArgs e)
+        {
+            DataTemplate template = LocationContent.ContentTemplate;
+            if (App.IsInvasive)
+            {
+                if (invControl==null)
+                {
+                    invControl = (VisualUserControle)template.FindName("vcInvasive", LocationContent);
+                    if (invControl!=null)
+                    {
+                        invControl.BackClick += Vc_BackClick;
+                        invControl.btnSave.Click += BtnSave_Click;
+
+                        invControl.ClickSearch += Vc_ClickSearch;
+                        invControl.ClickVisualReorder += Vc_ClickVisualReorder;
+                    }
+                    
+                }
+                
+            }
+            else
+            {
+                if (visControl==null)
+                {
+                    visControl = (VisualUserControleForVisual)template.FindName("vc", LocationContent);
+                    visControl.BackClick += Vc_BackClick;
+                    visControl.btnSave.Click += BtnSave_Click;
+
+                    visControl.ClickSearch += Vc_ClickSearch;
+                    visControl.ClickVisualReorder += Vc_ClickVisualReorder;
+                }
+                
+            }
+        }
+
         private void UCAddEdit_ClickDel(object sender, EventArgs e)
         {
             childDeleteConfirmation.Visibility = Visibility.Visible;
@@ -163,25 +207,7 @@ namespace UI.Code.View
             childWindowMessageBox.Close();
             childWindowFeedback.Visibility = Visibility.Collapsed;
             childWindowFeedback.Close();
-            DataTemplate template = LocationContent.ContentTemplate;
-            if (App.IsInvasive)
-            {
-                invControl = (VisualUserControle)template.FindName("vcInvasive", LocationContent);
-                invControl.BackClick += Vc_BackClick;
-                invControl.btnSave.Click += BtnSave_Click;
-
-                invControl.ClickSearch += Vc_ClickSearch;
-                invControl.ClickVisualReorder += Vc_ClickVisualReorder;
-            }
-            else
-            {
-                visControl = (VisualUserControleForVisual)template.FindName("vc", LocationContent);
-                visControl.BackClick += Vc_BackClick;
-                visControl.btnSave.Click += BtnSave_Click;
-
-                visControl.ClickSearch += Vc_ClickSearch;
-                visControl.ClickVisualReorder += Vc_ClickVisualReorder;
-            }
+            
 
 
         }
@@ -198,5 +224,7 @@ namespace UI.Code.View
             childWindowMessageBox.Visibility = Visibility.Collapsed;
             childWindowMessageBox.Close();
         }
+
+
     }
 }

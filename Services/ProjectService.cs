@@ -52,67 +52,7 @@ namespace UI.Code.Services
         }
         public ProjectService()
         {
-            //items = new List<Project>()
-            //{
-            //    new Project
-            //    {
-            //        Id = "1",
-            //        Name  = "Sample Project 1 ",
-            //        Description="This is sample project description.",
-            //        ImageUrl="https://media.istockphoto.com/photos/professional-engineer-worker-at-the-house-building-construction-site-picture-id905891244",
-            //        Attendent="Attendent Abhinov",
-
-
-            //        CreatedOn=" May 3 ,2020",
-            //        ProjectType="Visual Report",
-
-
-            //    },
-            //    new Project
-            //    {
-            //        //Id = Guid.NewGuid().ToString(),
-            //        Id="2",
-            //        Name  = "Sample Project 2",
-            //        Description="This is sample project description. a little big description for test",
-            //        ImageUrl="https://www.ukconstructionmedia.co.uk/wp-content/uploads/Screen-Shot-2016-04-21-at-11.55.06.jpg",
-            //        Attendent="Attendent Pankaj",
-
-            //        CreatedOn=" April 3 ,2019",
-            //        ProjectType="Invasive Report",
-
-
-            //    },
-            //    new Project
-            //    {
-            //        Id = "3",
-            //        Name  = "Sample Project 3 ",
-            //        Description="This is sample project description.",
-            //        ImageUrl="https://media.istockphoto.com/photos/professional-engineer-worker-at-the-house-building-construction-site-picture-id905891244",
-            //        Attendent="Attendent Abhinov",
-
-
-            //        CreatedOn=" May 3 ,2020",
-            //        ProjectType="Visual Report",
-
-
-            //    },
-            //    new Project
-            //    {
-            //        Id = "4",
-            //        Name  = "Sample Project 4 ",
-            //        Description="This is sample project description.",
-            //        ImageUrl="https://media.istockphoto.com/photos/professional-engineer-worker-at-the-house-building-construction-site-picture-id905891244",
-            //        Attendent="Attendent Abhinov",
-
-
-            //        CreatedOn=" May 3 ,2020",
-            //        ProjectType="Final Report",
-
-
-            //    }
-
-            //};
-
+            
 
         }
         public async Task<Response> AddItemAsync(Project item)

@@ -230,6 +230,7 @@ namespace UI.Code.ViewModel
             App.ProjectID = prm.InvasiveProjectID;
             if (prm.Category == "SingleLevel")
             {
+                prm.ProjectType = "Invasive";
                 var parameters = new NavigationParameters { { "Project", prm } };
                 RegionManger.RequestNavigate("MainRegion", "SingleLevelProject", parameters);
             }

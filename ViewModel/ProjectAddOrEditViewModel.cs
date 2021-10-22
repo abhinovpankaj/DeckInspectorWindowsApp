@@ -55,7 +55,14 @@ namespace UI.Code.ViewModel
         //  public DelegateCommand SaveCommand => new DelegateCommand(async () => await Save());
         public void Go()
         {
-            RegionManger.RequestNavigate("MainRegion", "Project");
+            if (Project.Category=="SingleLevel")
+            {
+
+                var parameters = new NavigationParameters { { "Project", Project } };
+                RegionManger.RequestNavigate("MainRegion", "SingleLevelProject", parameters);
+            }
+            else
+                RegionManger.RequestNavigate("MainRegion", "Project");
 
         }
         public async Task<ErrorModel> Save()
@@ -91,7 +98,7 @@ namespace UI.Code.ViewModel
                         if (result.Status == ApiResult.Success)
                         {
                              App.ProjectID = result.ID;
-                           
+                            Project.Id = result.ID;
                             err.Status = "Success";
                             err.Message = result.Message;
                             

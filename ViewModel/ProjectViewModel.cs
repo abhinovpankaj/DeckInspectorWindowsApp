@@ -523,14 +523,10 @@ namespace UI.Code.ViewModel
                     Project.Id = response.ID.ToString();
                     var parameters = new NavigationParameters { { "Project", Project } };
                     RegionManger.RequestNavigate("MainRegion", "Project", parameters);
-                    //if (Shell.Current.Navigation.NavigationStack[Shell.Current.Navigation.NavigationStack.Count - 1].GetType() != typeof(ProjectDetail))
-                    //{
-                    //   await Shell.Current.Navigation.PushAsync(new ProjectDetail() { BindingContext = new ProjectDetailViewModel() { Project = Project } });
-                    //}
+                    
                  
                     IsBusy = false;
 
-                    //  await Shell.Current.Navigation.PopAsync();
                 }
                 else
                 {
