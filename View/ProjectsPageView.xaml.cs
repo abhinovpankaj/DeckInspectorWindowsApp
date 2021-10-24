@@ -314,10 +314,12 @@ namespace UI.Code.View
             btnFinelReport_Wicr.Tag = btnWICR_FinelReport_Word.Tag = p.Id;
 
         }
+       
         //Report VISUAL FOR DI PDF
         private void BtnReport_Visual_Word_Click(object sender, RoutedEventArgs e)
         {
             string projectId = ((Button)sender).Tag.ToString();
+
             Task.Run(()=>vm.WordVisual(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId));
 
             ShowHideUI();

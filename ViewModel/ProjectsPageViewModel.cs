@@ -523,6 +523,15 @@ namespace UI.Code.ViewModel
 
         public async Task WordInvasive(long quality, int height, int width, string projectID = "11D6DFDB-EF89-42E4-A127-7565CCE65DC0", string company = "DI", string Type = "Word")
         {
+            Response result = await projectService.GetItemAsync(projectID);
+            
+            Project project = JsonConvert.DeserializeObject<Project>(result.Data.ToString());
+
+            if (project.Category=="SingleLevel")
+            {
+                await WordInvasiveSingleLevel(quality, height, width, projectID, company, Type);
+                return;
+            }
             int factor = height;
             IsReportInProgress = System.Windows.Visibility.Visible;
             string fname = string.Empty;
@@ -541,11 +550,6 @@ namespace UI.Code.ViewModel
             {
 
 
-                Response result = await projectService.GetItemAsync(projectID);
-                //if (result.Status == ApiResult.Success)
-                //{
-                Project project = JsonConvert.DeserializeObject<Project>(result.Data.ToString());
-                //}
                 StringBuilder mainHtml = new StringBuilder();
 
                 mainHtml.Append("<!DOCTYPE html><html lang='en' xmlns='http://www.w3.org/1999/xhtml'><head><meta charset='utf-8'/> <title></title>" +
@@ -1672,6 +1676,13 @@ namespace UI.Code.ViewModel
         #endregion
         public async Task WordVisual(long quality, int height, int width, string projectID = "11D6DFDB-EF89-42E4-A127-7565CCE65DC0", string company = "DI", string Type = "Word")
         {
+            Response result = await projectService.GetItemAsync(projectID);
+            Project project = JsonConvert.DeserializeObject<Project>(result.Data.ToString());
+            if (project.Category=="SingleLevel")
+            {
+               await WordVisualSingleLevel(quality, height, width, projectID, company, Type);
+                return;
+            }
 
             IsReportInProgress = System.Windows.Visibility.Visible;
             int factor = height;
@@ -1689,10 +1700,10 @@ namespace UI.Code.ViewModel
             Encoding iso = Encoding.GetEncoding("ISO-8859-1");
             string path = System.AppDomain.CurrentDomain.BaseDirectory + "Report\\";
             string html = System.IO.File.ReadAllText(path + "\\Invasive.html", iso);
-            Response result = await projectService.GetItemAsync(projectID);
+            
             //if (result.Status == ApiResult.Success)
             //{
-                Project project = JsonConvert.DeserializeObject<Project>(result.Data.ToString());
+                
             //}
             StringBuilder mainHtml = new StringBuilder();
             //     StringBuilder buildingApartmentHtml = new StringBuilder();
@@ -1721,6 +1732,7 @@ namespace UI.Code.ViewModel
                     else
                         html = html.Replace("{projectCreated}", "WICR Waterproofing and Construction");
 
+                    
                     IEnumerable<ProjectBuilding> buildingList = await ProjectBuildingDataStore.GetItemsAsyncByProjectID(projectID);
                     IEnumerable<ProjectLocation> ProjectLocationList = await projectLocationService.GetItemsAsyncByProjectID(projectID);
                     //string html_Header = string.Empty;
@@ -1869,7 +1881,7 @@ namespace UI.Code.ViewModel
                             }
 
                         }
-                        #region commnented temp
+                        
                         //close foreach building
                         foreach (var building in buildingList)////open foreach building
                         {
@@ -2005,9 +2017,9 @@ namespace UI.Code.ViewModel
                                 }//close building apartment list
                             }
                         }
-                        #endregion
+                       
                     }
-                    #region comment for now
+                   
                     if (ProjectLocationList.Count() != 0)
                     {
                         foreach (var projectlocation in ProjectLocationList)////open building apartment list
@@ -2137,7 +2149,7 @@ namespace UI.Code.ViewModel
                         }
                     }
 
-                    #endregion
+                   
 
                 }
 
@@ -2525,7 +2537,792 @@ namespace UI.Code.ViewModel
         }
         #endregion
 
+        #region singleLevelreporting
+        public async Task WordVisualSingleLevel(long quality, int height, int width, string projectID = "11D6DFDB-EF89-42E4-A127-7565CCE65DC0", string company = "DI", string Type = "Word")
+        {
 
-       
+            IsReportInProgress = System.Windows.Visibility.Visible;
+            int factor = height;
+            string download = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads\\";
+
+            string fname = string.Empty;
+
+            if (Directory.Exists(download + "\\compressed"))
+            {
+                Directory.Delete(download + "\\compressed", true);
+            }
+            Directory.CreateDirectory(download + "\\compressed");
+            NotificationUI("Report Creation Started.");
+
+            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
+            string path = System.AppDomain.CurrentDomain.BaseDirectory + "Report\\";
+            string html = System.IO.File.ReadAllText(path + "\\Invasive.html", iso);
+            Response result = await projectService.GetItemAsync(projectID);
+            //if (result.Status == ApiResult.Success)
+            //{
+            Project project = JsonConvert.DeserializeObject<Project>(result.Data.ToString());
+            //}
+            StringBuilder mainHtml = new StringBuilder();
+            //     StringBuilder buildingApartmentHtml = new StringBuilder();
+            mainHtml.Append("<!DOCTYPE html><html lang='en' xmlns='http://www.w3.org/1999/xhtml'><head><meta charset='utf-8' /> <title></title></head><body>");
+
+            try
+            {
+
+                if (project != null)
+                {
+                    html = html.Replace("{projectName}", project.Name);
+                    html = html.Replace("{projectAdd}", project.Address);
+                    html = html.Replace("{projectDes}", project.Description);
+                    html = html.Replace("{projectDate}", project.CreatedOn);
+                    //get the Project Image
+                    if (project.ImageUrl != null)
+                    {
+
+                        html = html.Replace("{projectImagePath}", project.ImageUrl);
+                    }
+                    //html = html.Replace("{projectCreated}", project.Username);
+                    if (company == "DI")
+                    {
+                        html = html.Replace("{projectCreated}", "Deck Inspectors");
+                    }
+                    else
+                        html = html.Replace("{projectCreated}", "WICR Waterproofing and Construction");
+
+
+                    html = html.Replace("{heading}", "Visual Inspection Report");
+
+
+                    mainHtml.Append(html);
+                   
+
+                    StatusMessage = "Fetching details for Project Locations...";
+                    IEnumerable<VisualProjectLocation> visualprojectLocation = await VisualProjectLocationService.GetItemsAsyncByVisualProjectLocationId(project.Id);
+                    if (visualprojectLocation.Count() != 0)
+                    {
+                        foreach (var visualPloc in visualprojectLocation)
+                        {
+                            string html_Header = System.IO.File.ReadAllText(path + "\\" + "VisualDetailSingleLevelProject.html", iso);
+                            //html_Header = html_Header.Replace("{BuildingName}", projectlocation.Name);
+                            //html_Header = html_Header.Replace("{AptName}", projectlocation.Name);
+                            html_Header = html_Header.Replace("{LocName}", visualPloc.Name);
+
+                            // html_Header = html_Header.Replace("{TitleName}", "Project Common Location Name");
+                            html_Header = html_Header.Replace("{TitleApt}", "Project Common Location Name");
+                            html_Header = html_Header.Replace("{TitleLoc}", "Location Name");
+
+                            html_Header = html_Header.Replace("{ExteriorElements}", visualPloc.ExteriorElements.Replace(",", ", ").Replace("Thershold", "Threshold"));
+                            html_Header = html_Header.Replace("{WaterProofingElements}", visualPloc.WaterProofingElements.Replace(",", ", "));
+
+                            if (visualPloc.VisualReview == "Bad")
+                            {
+                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{VisualReview}", "<p>&nbsp;" + visualPloc.VisualReview + "</p>");
+                            if (visualPloc.AnyVisualSign == "Yes")
+                            {
+                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p>&nbsp;" + visualPloc.AnyVisualSign + "</p>");
+
+                            if (visualPloc.FurtherInasive == "Yes")
+                            {
+                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p>&nbsp;" + visualPloc.FurtherInasive + "</p>");
+                            if (visualPloc.ConditionAssessment == "Fail")
+                            {
+                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p>&nbsp;" + visualPloc.ConditionAssessment + "</p>");
+
+
+                            // html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration);
+                            html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration.Replace("\n", "<br/>"));
+                            if (visualPloc.LifeExpectancyEEE == "0-1 Years")
+                            {
+                                html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyEEE + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualPloc.LifeExpectancyEEE + "</p>");
+
+                            if (visualPloc.LifeExpectancyLBC == "0-1 Years")
+                            {
+                                html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyLBC + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualPloc.LifeExpectancyLBC + "</p>");
+
+                            if (visualPloc.LifeExpectancyAWE == "0-1 Years")
+                            {
+                                html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyAWE + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualPloc.LifeExpectancyAWE + "</p>");
+
+                            mainHtml.Append(html_Header);
+
+
+                            IEnumerable<VisualProjectLocationPhoto> imageApartment = await VisualProjectLocationPhotoDataStore.GetItemsAsyncByVisualProjectLocationId(visualPloc.Id.ToString());
+                            imageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE").ToList();
+                            string html_VisualImages = System.IO.File.ReadAllText(path + "\\" + "VisualImage.html", iso);
+
+                            StringBuilder visual_Images_apartment = new StringBuilder();
+                            int apCount = 0;
+                            if (imageApartment.Count() <= factor)
+                            {
+
+                                visual_Images_apartment.Append(trWithStyle);
+                                foreach (var item in imageApartment)
+                                {
+                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                }
+                                visual_Images_apartment.Append("</tr>");
+                            }
+                            else
+                            {
+                                visual_Images_apartment.Append(trWithStyle);
+                                foreach (var item in imageApartment)
+                                {
+
+                                    if ((apCount % factor) == 0)
+                                    {
+
+                                        visual_Images_apartment.Append("</tr>");
+                                        visual_Images_apartment.Append("<tr>");
+                                    }
+                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                                    apCount++;
+                                }
+                                visual_Images_apartment.Append("</tr>");
+                            }
+                            html_VisualImages = html_VisualImages.Replace("{VisualImages}", visual_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                            html_VisualImages = html_VisualImages.Replace("{imageCount}", factor.ToString());
+                            mainHtml.Append(html_VisualImages);
+
+
+                        }
+
+                    }
+
+
+
+
+                }
+
+                mainHtml.Append("</body></html>");
+                //to save html file.
+                var projPath = path + "\\" + "ProjectReport.html";
+                using (StreamWriter sr = File.CreateText(projPath))
+                {
+                    sr.Write(mainHtml.ToString());
+                    sr.Close();
+
+                }
+                StatusMessage = "Creating the document...";
+                using (Stream fileStreamPath = GenerateStreamFromString(mainHtml.ToString()))
+                {
+
+                    WordDocument document = new WordDocument();
+                    
+                    document.Open(projPath, FormatType.Html);
+                    
+                   
+                    //save document locally.
+                    //document.Save(destPath);
+                    if (company == "WICR")
+                    {
+                        foreach (WSection section in document.Sections)
+                        {
+
+                            // Add a new paragraph for header to the document.
+                            //IWParagraph headerPar = new WParagraph(document);
+
+                            // Add a new table to the header
+                            IWParagraph headerPar = section.HeadersFooters.Header.AddParagraph();
+
+                            RowFormat format = new RowFormat();
+                            format.HorizontalAlignment = RowAlignment.Center;
+                            // Setting Single table border style.
+                            format.Borders.BorderType = Syncfusion.DocIO.DLS.BorderStyle.None;
+
+                            string s = path + "wicrlogo.jpg";
+
+                            headerPar.AppendPicture(System.Drawing.Image.FromFile(s));
+                            headerPar.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+                            //Set Image size.
+                            (headerPar.Items[0] as WPicture).Width = 132.5f;
+                            (headerPar.Items[0] as WPicture).Height = 44.75f;
+                            (headerPar.Items[0] as WPicture).HorizontalAlignment = ShapeHorizontalAlignment.Center;
+                            // Inserting text to the table second cell.
+                            WParagraph headerPar1 = new WParagraph(document);
+                            IWTextRange txt = headerPar1.AppendText("State Contractor’s License No.: 745936\nVisit our website: www.WICR.net \n888-388-9427");
+                            txt.CharacterFormat.FontSize = 6;
+                            txt.CharacterFormat.Bold = false;
+                            txt.CharacterFormat.FontName = "Arial Narrow";
+                            txt.CharacterFormat.TextColor = System.Drawing.ColorTranslator.FromHtml("#8EAADB");
+                            txt.CharacterFormat.CharacterSpacing = 1.4f;
+                            headerPar1.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
+                            section.HeadersFooters.Header.Paragraphs.Add(headerPar1);
+                            // Add a footer paragraph text to the document.
+                            WParagraph footerPar = new WParagraph(document);
+                            // footerPar.ParagraphFormat.Tabs.AddTab(523f, TabJustification.Centered, TabLeader.NoLeader);
+                            footerPar.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+                            // Add text.
+
+                            IWTextRange firstText = footerPar.AppendText("www.WICR.net");
+                            firstText.CharacterFormat.TextColor = Color.BlueViolet;
+                            // Add page and Number of pages field to the document.
+                            WParagraph footerPar1 = new WParagraph(document);
+                            footerPar1.AppendText("\tPage ");
+                            footerPar1.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
+
+                            IWField ff = footerPar1.AppendField("Page", FieldType.FieldPage);
+
+                            section.HeadersFooters.Footer.Paragraphs.Add(footerPar);
+                            section.HeadersFooters.Footer.Paragraphs.Add(footerPar1);
+
+                            #region Page Number Settings
+                            section.PageSetup.RestartPageNumbering = true;
+                            section.PageSetup.PageStartingNumber = 1;
+                            section.PageSetup.PageNumberStyle = PageNumberStyle.Arabic;
+                            #endregion Page Number Settings
+
+                        }
+                    }
+                    else
+                    {
+                        foreach (WSection section in document.Sections)
+                        {
+
+                            // Add a new paragraph for header to the document.
+                            //IWParagraph headerPar = new WParagraph(document);
+
+                            // Add a new table to the header
+                            // IWTable table = section.HeadersFooters.Header.AddTable();
+                            IWParagraph headerPar = section.HeadersFooters.Header.AddParagraph();
+                            RowFormat format = new RowFormat();
+                            format.HorizontalAlignment = RowAlignment.Center;
+                            // Setting Single table border style.
+                            format.Borders.BorderType = Syncfusion.DocIO.DLS.BorderStyle.None;
+
+                            // Inserting table with a row and two columns.
+                            //table.ResetCells(1, 1, format, 200);
+
+                            // Inserting logo image to the table first cell.
+                            //headerPar = table[0, 0].AddParagraph() as WParagraph;
+                            // headerPar.ApplyStyle(BuiltinStyle.DefaultParagraphFont.)
+                            // string s = ResolveApplicationDataPath("Northwind_logo.png", "Images\\DocIO");
+                            string s = path + "decklogo.jpg";
+
+
+                            headerPar.AppendPicture(System.Drawing.Image.FromFile(s));
+                            //Set Image size.
+                            (headerPar.Items[0] as WPicture).Width = 132.5f;
+                            (headerPar.Items[0] as WPicture).Height = 44.75f;
+                            (headerPar.Items[0] as WPicture).HorizontalAlignment = ShapeHorizontalAlignment.Center;
+                            // Inserting text to the table second cell.
+                            // headerPar = table[0, 0].AddParagraph() as WParagraph;
+                            headerPar.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+
+                            // Add a footer paragraph text to the document.
+                            WParagraph footerPar = new WParagraph(document);
+
+                            //footerPar.ParagraphFormat.Tabs.AddTab(523f, TabJustification.Centered, TabLeader.NoLeader);
+                            // Add text.
+                            footerPar.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+
+                            IWTextRange firstText = footerPar.AppendText("WWW.DECKINSPECTORS.COM");
+                            firstText.CharacterFormat.TextColor = Color.Orange;
+                            // Add page and Number of pages field to the document.
+                            WParagraph footerPar1 = new WParagraph(document);
+                            footerPar1.AppendText("\tPage ");
+                            footerPar1.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
+
+                            IWField ff = footerPar1.AppendField("Page", FieldType.FieldPage);
+
+                            section.HeadersFooters.Footer.Paragraphs.Add(footerPar);
+                            section.HeadersFooters.Footer.Paragraphs.Add(footerPar1);
+                            #region Page Number Settings
+                            section.PageSetup.RestartPageNumbering = true;
+                            section.PageSetup.PageStartingNumber = 1;
+                            section.PageSetup.PageNumberStyle = PageNumberStyle.Arabic;
+
+                            #endregion Page Number Settings
+
+                        }
+                    }
+
+
+
+                    if (Type == "Word")
+                    {
+
+                        if (company == "DI")
+                        {
+                            fname = "Deck_Visual_" + project.Name.Replace(" ", "_").ToString() + DateTime.Now.ToString("ddMMMyyyHHmmss") + ".docx";
+                        }
+                        else
+                        {
+                            fname = "WICR_Visual_" + project.Name.Replace(" ", "_").ToString() + DateTime.Now.ToString("ddMMMyyyHHmmss") + ".docx";
+                        }
+
+                        document.Save(download + fname, FormatType.Docx);
+
+
+                    }
+                    else
+                    {
+                        if (company == "DI")
+                        {
+                            fname = "Deck_Visual_" + project.Name.Replace(" ", "_").ToString() + DateTime.Now.ToString("ddMMMyyyHHmmss") + ".pdf";
+                        }
+                        else
+                        {
+                            fname = "WICR_Visual_" + project.Name.Replace(" ", "_").ToString() + DateTime.Now.ToString("ddMMMyyyHHmmss") + ".pdf";
+                        }
+
+                        DocToPDFConverter converter = new DocToPDFConverter();
+                        PdfDocument pdfDocument = converter.ConvertToPDF(document);
+                        converter.Dispose();
+
+                        pdfDocument.Save(download + fname);
+                        pdfDocument.Close();
+                    }
+                    document.Close();
+                }
+                //update the processing status
+                NotificationUI("Report Created Successfully, please navigate to Downlaods folder to access it.");
+                Process.Start(download + fname);
+            }
+
+            catch (Exception ex)
+            {
+                NotificationUI("Report creation failed, please retry." + ex.Message);
+            }
+
+            IsReportInProgress = System.Windows.Visibility.Collapsed;
+        }
+
+        public async Task WordInvasiveSingleLevel(long quality, int height, int width, string projectID = "11D6DFDB-EF89-42E4-A127-7565CCE65DC0", string company = "DI", string Type = "Word")
+        {
+            int factor = height;
+            IsReportInProgress = System.Windows.Visibility.Visible;
+            string fname = string.Empty;
+            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
+            string download = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads\\";
+            if (Directory.Exists(download + "\\compressed"))
+            {
+                Directory.Delete(download + "\\compressed", true);
+            }
+            Directory.CreateDirectory(download + "\\compressed");
+            NotificationUI("Report Creation Started.");
+            string path = System.AppDomain.CurrentDomain.BaseDirectory + "Report\\";
+            string html = System.IO.File.ReadAllText(path + "Invasive.html", iso);
+
+            try
+            {
+
+
+                Response result = await projectService.GetItemAsync(projectID);
+                //if (result.Status == ApiResult.Success)
+                //{
+                Project project = JsonConvert.DeserializeObject<Project>(result.Data.ToString());
+                //}
+                StringBuilder mainHtml = new StringBuilder();
+
+                mainHtml.Append("<!DOCTYPE html><html lang='en' xmlns='http://www.w3.org/1999/xhtml'><head><meta charset='utf-8'/> <title></title>" +
+
+                    "</head><body>");
+                if (project != null)
+                {
+                    html = html.Replace("{projectName}", project.Name);
+                    html = html.Replace("{projectAdd}", project.Address);
+                    html = html.Replace("{projectDes}", project.Description);
+                    html = html.Replace("{projectDate}", project.CreatedOn);
+
+                    //get the Project Image
+                    if (project.ImageUrl != null)
+                    {
+
+                        html = html.Replace("{projectImagePath}", project.ImageUrl);
+                    }
+
+
+
+                    if (company == "DI")
+                    {
+                        html = html.Replace("{projectCreated}", "Deck Inspectors");
+                    }
+                    else
+                        html = html.Replace("{projectCreated}", "WICR Waterproofing and Construction");
+                   
+                    html = html.Replace("{heading}", "Invasive Inspection Report");
+
+                    mainHtml.Append(html);
+                    
+                    
+                    IEnumerable<VisualProjectLocation> visualprojectLocation = await VisualProjectLocationService.GetItemsAsyncByVisualProjectLocationId(project.Id);
+                    if (visualprojectLocation.Count() != 0)
+                    {
+                        foreach (var visualPloc in visualprojectLocation)
+                        {
+                            string html_Header = System.IO.File.ReadAllText(path + "\\VisualDetailSingleLevelProject.html", iso);
+                            //html_Header = html_Header.Replace("{BuildingName}", projectlocation.Name);
+                            //html_Header = html_Header.Replace("{AptName}", projectlocation.Name);
+                            html_Header = html_Header.Replace("{LocName}", visualPloc.Name);
+
+                            // html_Header = html_Header.Replace("{TitleName}", "Project Common Location Name");
+                            html_Header = html_Header.Replace("{TitleApt}", "Project Common Location Name");
+                            html_Header = html_Header.Replace("{TitleLoc}", "Location Name");
+
+                            html_Header = html_Header.Replace("{ExteriorElements}", visualPloc.ExteriorElements.Replace(",", ", ").Replace("Thershold", "Threshold"));
+                            html_Header = html_Header.Replace("{WaterProofingElements}", visualPloc.WaterProofingElements.Replace(",", ", "));
+
+                            if (visualPloc.VisualReview == "Bad")
+                            {
+                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{VisualReview}", "<p>&nbsp;" + visualPloc.VisualReview + "</p>");
+                            if (visualPloc.AnyVisualSign == "Yes")
+                            {
+                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p>&nbsp;" + visualPloc.AnyVisualSign + "</p>");
+
+                            if (visualPloc.FurtherInasive == "Yes")
+                            {
+                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p>&nbsp;" + visualPloc.FurtherInasive + "</p>");
+                            if (visualPloc.ConditionAssessment == "Fail")
+                            {
+                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p>&nbsp;" + visualPloc.ConditionAssessment + "</p>");
+
+                            //html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration);
+                            html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration.Replace("\n", "<br/>"));
+
+                            if (visualPloc.LifeExpectancyEEE == "0-1 Years")
+                            {
+                                html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyEEE + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualPloc.LifeExpectancyEEE + "</p>");
+
+                            if (visualPloc.LifeExpectancyLBC == "0-1 Years")
+                            {
+                                html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyLBC + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualPloc.LifeExpectancyLBC + "</p>");
+
+                            if (visualPloc.LifeExpectancyAWE == "0-1 Years")
+                            {
+                                html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyAWE + "</font></p>");
+                            }
+                            else
+                                html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualPloc.LifeExpectancyAWE + "</p>");
+
+                            mainHtml.Append(html_Header);
+
+
+
+
+                            IEnumerable<VisualProjectLocationPhoto> imageApartment = await VisualProjectLocationPhotoDataStore.GetItemsAsyncByVisualProjectLocationId(visualPloc.Id.ToString());
+                            var visualimageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
+                            string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
+
+                            StringBuilder visual_Images_apartment = new StringBuilder();
+                            int apCount = 0;
+                            if (visualimageApartment.Count() <= factor)
+                            {
+
+                                visual_Images_apartment.Append(trWithStyle);
+                                foreach (var item in visualimageApartment)
+                                {
+                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                }
+                                visual_Images_apartment.Append("</tr>");
+                            }
+                            else
+                            {
+                                visual_Images_apartment.Append(trWithStyle);
+                                foreach (var item in visualimageApartment)
+                                {
+
+                                    if ((apCount % factor) == 0)
+                                    {
+
+                                        visual_Images_apartment.Append("</tr>");
+                                        visual_Images_apartment.Append(trWithStyle);
+                                    }
+                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+
+                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                    apCount++;
+                                }
+                                visual_Images_apartment.Append("</tr>");
+                            }
+                            html_VisualImages = html_VisualImages.Replace("{VisualImages}", visual_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                            html_VisualImages = html_VisualImages.Replace("{imageCount}", factor.ToString());
+                            mainHtml.Append(html_VisualImages);
+                            //Invasive
+
+
+                            List<VisualProjectLocationPhoto> InvasiveimageApartment = imageApartment.Where(c => c.ImageDescription == "TRUE").ToList();
+                            string html_InvasiveImages = System.IO.File.ReadAllText(path + "\\VisualInvasiveImage.html", iso);
+
+
+
+                            StringBuilder Inv_Images_apartment = new StringBuilder();
+
+                            if (InvasiveimageApartment.Count <= factor)
+                            {
+
+                                Inv_Images_apartment.Append(trWithStyle);
+                                foreach (var item in InvasiveimageApartment)
+                                {
+
+
+                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                    Inv_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                                }
+                                Inv_Images_apartment.Append("</tr>");
+                            }
+                            else
+                            {
+                                int apCountInv = 0;
+                                Inv_Images_apartment.Append(trWithStyle);
+                                foreach (var item in InvasiveimageApartment)
+                                {
+                                    if ((apCountInv % factor) == 0)
+                                    {
+
+                                        Inv_Images_apartment.Append("</tr>");
+                                        Inv_Images_apartment.Append(trWithStyle);
+                                    }
+                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                    Inv_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                                    apCountInv++;
+                                }
+                                Inv_Images_apartment.Append("</tr>");
+                            }
+
+                            html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualPloc.ImageDescription).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                            html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
+                            mainHtml.Append(html_InvasiveImages);
+
+                            string conclusiveHTML = await getConclusiveHTMLContent(visualPloc, quality, factor);
+                            mainHtml.Append(conclusiveHTML);
+                        }
+
+                    }
+
+                    
+
+                }
+
+                mainHtml.Append("</body></html>");
+                //to save html file.
+                var projPath = path + "\\" + "ProjectReport.html";
+                using (StreamWriter sr = File.CreateText(projPath))
+                {
+                    sr.Write(mainHtml.ToString());
+                    sr.Close();
+
+                }
+                StatusMessage = "Creating document...";
+                using (Stream fileStreamPath = GenerateStreamFromString(mainHtml.ToString()))
+                {
+                    //Creates a new instance of WordDocument
+                    WordDocument document = new WordDocument();
+
+                    document.Open(fileStreamPath, FormatType.Html);
+                    //var destPath = HttpContext.Current.Server.MapPath("~/Report/" + "report123.docx");
+                    ////save document locally.
+                    //document.Save(destPath);
+
+                    if (company == "WICR")
+                    {
+                        foreach (WSection section in document.Sections)
+                        {
+                            // Add a new table to the header
+                            IWParagraph headerPar = section.HeadersFooters.Header.AddParagraph();
+
+                            RowFormat format = new RowFormat();
+                            format.HorizontalAlignment = RowAlignment.Center;
+                            // Setting Single table border style.
+                            format.Borders.BorderType = Syncfusion.DocIO.DLS.BorderStyle.None;
+
+
+                            string s = path + "wicrlogo.jpg";
+
+                            headerPar.AppendPicture(System.Drawing.Image.FromFile(s));
+                            headerPar.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+                            //Set Image size.
+                            (headerPar.Items[0] as WPicture).Width = 132.5f;
+                            (headerPar.Items[0] as WPicture).Height = 44.75f;
+                            (headerPar.Items[0] as WPicture).HorizontalAlignment = ShapeHorizontalAlignment.Center;
+                            headerPar.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+                            // Inserting text to the table second cell.
+                            WParagraph headerPar1 = new WParagraph(document);
+                            IWTextRange txt = headerPar1.AppendText("State Contractor’s License No.: 745936\nVisit our website: www.WICR.net \n888-388-9427");
+                            txt.CharacterFormat.FontSize = 6;
+                            txt.CharacterFormat.Bold = false;
+                            txt.CharacterFormat.FontName = "Arial Narrow";
+                            txt.CharacterFormat.TextColor = System.Drawing.ColorTranslator.FromHtml("#8EAADB");
+                            txt.CharacterFormat.CharacterSpacing = 1.4f;
+                            headerPar1.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
+                            section.HeadersFooters.Header.Paragraphs.Add(headerPar1);
+                            // Add a footer paragraph text to the document.
+                            WParagraph footerPar = new WParagraph(document);
+                            footerPar.ParagraphFormat.Tabs.AddTab(523f, TabJustification.Centered, TabLeader.NoLeader);
+                            // Add text.
+
+                            IWTextRange firstText = footerPar.AppendText("www.WICR.net");
+                            firstText.CharacterFormat.TextColor = Color.BlueViolet;
+                            // Add page and Number of pages field to the document.
+                            WParagraph footerPar1 = new WParagraph(document);
+                            footerPar1.AppendText("\tPage ");
+                            footerPar1.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
+
+                            IWField ff = footerPar1.AppendField("Page", FieldType.FieldPage);
+
+                            section.HeadersFooters.Footer.Paragraphs.Add(footerPar);
+                            section.HeadersFooters.Footer.Paragraphs.Add(footerPar1);
+
+                            #region Page Number Settings
+                            section.PageSetup.RestartPageNumbering = true;
+                            section.PageSetup.PageStartingNumber = 1;
+                            section.PageSetup.PageNumberStyle = PageNumberStyle.Arabic;
+                            #endregion Page Number Settings
+
+                        }
+                    }
+                    else
+                    {
+                        foreach (WSection section in document.Sections)
+                        {
+
+
+
+                            // Add a new table to the header
+                            // IWTable table = section.HeadersFooters.Header.AddTable();
+                            IWParagraph headerPar = section.HeadersFooters.Header.AddParagraph();
+                            RowFormat format = new RowFormat();
+                            format.HorizontalAlignment = RowAlignment.Center;
+                            // Setting Single table border style.
+                            format.Borders.BorderType = Syncfusion.DocIO.DLS.BorderStyle.None;
+
+                            string s = path + "decklogo.jpg";
+
+                            headerPar.AppendPicture(System.Drawing.Image.FromFile(s));
+                            //Set Image size.
+                            (headerPar.Items[0] as WPicture).Width = 132.5f;
+                            (headerPar.Items[0] as WPicture).Height = 44.75f;
+                            (headerPar.Items[0] as WPicture).HorizontalAlignment = ShapeHorizontalAlignment.Center;
+                            // Inserting text to the table second cell.
+                            // headerPar = table[0, 0].AddParagraph() as WParagraph;
+                            headerPar.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+
+                            // Add a footer paragraph text to the document.
+                            WParagraph footerPar = new WParagraph(document);
+
+                            //footerPar.ParagraphFormat.Tabs.AddTab(523f, TabJustification.Centered, TabLeader.NoLeader);
+                            // Add text.
+                            footerPar.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
+                            IWTextRange firstText = footerPar.AppendText("WWW.DECKINSPECTORS.COM");
+                            firstText.CharacterFormat.TextColor = Color.Orange;
+                            // Add page and Number of pages field to the document.
+                            WParagraph footerPar1 = new WParagraph(document);
+                            footerPar1.AppendText("\tPage ");
+                            footerPar1.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Right;
+
+                            IWField ff = footerPar1.AppendField("Page", FieldType.FieldPage);
+
+                            section.HeadersFooters.Footer.Paragraphs.Add(footerPar);
+                            section.HeadersFooters.Footer.Paragraphs.Add(footerPar1);
+                            #region Page Number Settings
+                            section.PageSetup.RestartPageNumbering = true;
+                            section.PageSetup.PageStartingNumber = 1;
+                            section.PageSetup.PageNumberStyle = PageNumberStyle.Arabic;
+
+                            #endregion Page Number Settings
+
+                        }
+                    }
+
+
+
+                    if (Type == "Word")
+                    {
+
+                        if (company == "DI")
+                        {
+                            fname = "Deck_Invasive" + project.Name.Replace(" ", "_").ToString() + DateTime.Now.ToString("ddMMMyyyHHmmss") + ".docx";
+                        }
+                        else
+                        {
+                            fname = "WICR_Invasive" + project.Name.Replace(" ", "_").ToString() + DateTime.Now.ToString("ddMMMyyyHHmmss") + ".docx";
+                        }
+                        document.Save(download + fname, FormatType.Docx);
+
+
+                    }
+                    else
+                    {
+                        if (company == "DI")
+                        {
+                            fname = "Deck_Invasive" + project.Name.Replace(" ", "_").ToString() + DateTime.Now.ToString("ddMMMyyyHHmmss") + ".pdf";
+                        }
+                        else
+                        {
+                            fname = "WICR_Invasive" + project.Name.Replace(" ", "_").ToString() + DateTime.Now.ToString("ddMMMyyyHHmmss") + ".pdf";
+                        }
+
+                        DocToPDFConverter converter = new DocToPDFConverter();
+                        PdfDocument pdfDocument = converter.ConvertToPDF(document);
+                        converter.Dispose();
+
+                        pdfDocument.Save(download + fname);
+                        pdfDocument.Close();
+                    }
+                    document.Close();
+                }
+
+                NotificationUI("Report Created Successfully, please navigate to Downlaods folder to access it.");
+                Process.Start(download + fname);
+            }
+            catch (Exception ex)
+            {
+                NotificationUI("Report Creation failed, please try again later," + ex.Message);
+            }
+            IsReportInProgress = System.Windows.Visibility.Collapsed;
+        }
+
+        #endregion
+
     }
 }

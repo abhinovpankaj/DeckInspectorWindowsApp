@@ -28,7 +28,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://api.deckinspectors.com/v2/</InstallUrl>
+    <InstallUrl>http://api.deckinspectors.com/v3/</InstallUrl>
     <SupportUrl>http://api.deckinspectors.com/</SupportUrl>
     <ErrorReportUrl>http://api.deckinspectors.com/</ErrorReportUrl>
     <ProductName>Deck inspectors</ProductName>
@@ -37,7 +37,7 @@
     <MinimumRequiredVersion>1.0.0.43</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>49</ApplicationRevision>
+    <ApplicationRevision>50</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -171,11 +171,11 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WPFToolkit.Extended">
-      <HintPath>..\dll\WPFToolkit.Extended.dll</HintPath>
+      <HintPath>.\WPFToolkit.Extended.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xceed.Wpf.DataGrid">
-      <HintPath>..\dll\Xceed.Wpf.DataGrid.dll</HintPath>
+      <HintPath>.\Xceed.Wpf.DataGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -744,6 +744,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Report\styles.html" />
+    <Content Include="Report\VisualDetailSingleLevelProject.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Report\VisualDeatilForProjectLocation.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

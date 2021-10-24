@@ -22,6 +22,8 @@ namespace UI.Code.View
     /// Interaction logic for ProjectsPageView.xaml
     /// </summary>
     public partial class ProjectPageView : UserControl
+
+
     {
         ProjectViewModel vm;
         public ProjectPageView()
@@ -36,19 +38,7 @@ namespace UI.Code.View
             vm = this.DataContext as ProjectViewModel;
             lboxProjectLocation.SelectionChanged += LboxProjectLocation_SelectionChanged;
 
-            //  lboxBuildingLocation.SelectionChanged += LboxBuildingLocation_SelectionChanged1;
-            //lboxBuildingLocation.PreviewMouseLeftButtonUp += LboxBuildingLocation_PreviewMouseLeftButtonUp;
-            //     lboxProjectLocation.ItemContainerStyle.Setters.Add(new EventSetter(ListBoxItem.MouseUpEvent, new MouseButtonEventHandler(s_PreviewMouseLeftButtonDown)));
-            //lboxProjectLocation.ItemContainerStyle.Setters.Add(new EventSetter(ListBoxItem.PreviewMouseLeftButtonDown, new MouseButtonEventHandler(s_PreviewMouseLeftButtonDown)));
-            // lboxProjectLocation.PreviewMouseMove += LboxProjectLocation_PreviewMouseMove;
-            //lboxProjectLocation.Drop += LboxProjectLocation_Drop;
-            //   DataContext = new ProjectsPageViewModel();
-            // List<TypeList> projectTypelist = new List<TypeList>();
-            //projectTypelist.Add(new TypeList() { ProjectType = "Visual" });
-            //projectTypelist.Add(new TypeList() { ProjectType = "Visual3" });
-            //projectTypelist.Add(new TypeList() { ProjectType = "Visual4" });
-            //CbProType.ItemsSource = projectTypelist;
-            // this.Loaded += ProjectsPageView_Loaded;
+            
             this.Loaded += ProjectPageView_Loaded;
             assignControl.ClickUserSearch += AssignControl_ClickUserSearch;
             assignControl.ClickUserReset += AssignControl_ClickUserReset;
