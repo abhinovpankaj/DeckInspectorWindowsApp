@@ -13,6 +13,7 @@
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     d:DesignHeight="1024"
     d:DesignWidth="1024"
+    Background="{StaticResource SecondaryAccentForegroundBrush}"
     mc:Ignorable="d">
     <UserControl.Resources>
         <con:ColorErrorConverter x:Key="err" />
@@ -776,13 +777,16 @@
                                             Style="{StaticResource Title}"
                                             Text="Description" />
 
-                                        <TextBlock
+                                        <TextBox
+                                            Width="600"
                                             Margin="5"
                                             HorizontalAlignment="Left"
+                                            AcceptsReturn="True"
                                             FontSize="12"
                                             FontWeight="Normal"
                                             Foreground="White"
-                                            Style="{StaticResource Title}"
+                                            IsReadOnly="True"
+                                            Style="{StaticResource MaterialDesignTextBox}"
                                             Text="{Binding SelectedItem.ImageDescription}"
                                             TextWrapping="WrapWithOverflow" />
 
@@ -828,6 +832,7 @@
                                                     HorizontalContentAlignment="Center"
                                                     Background="White"
                                                     Content="Post Invasive repairs required"
+                                                    Foreground="White"
                                                     IsChecked="{Binding SelectedItem.IsPostInvasiveRepairsRequired}"
                                                     Style="{StaticResource MaterialDesignCheckBox}" />
                                                 <Button

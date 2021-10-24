@@ -609,6 +609,18 @@ namespace UI.Code.View
         private void HandleDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                var obj = ((ListBoxItem)sender).DataContext as VisualProjectLocationPhoto;
+                var viewModel = this.DataContext as VisualSingleLevelProjectLocationViewModel;
+
+                plPhotos = viewModel.Images.ToList();
+                childImageShow.DataContext = obj;
+                childImageShow.Visibility = Visibility.Visible;
+                childImageShow.Show();
+
+            }
+
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
             {
                 var obj = ((ListBoxItem)sender).DataContext as VisualProjectLocationPhoto;

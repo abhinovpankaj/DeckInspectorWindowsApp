@@ -192,7 +192,7 @@ namespace UI.Code.ViewModel
             }
             else
             {
-                Project.IsInvasive = false;
+                Project.IsInvasive = Project.InvasiveProjectID != null ? true : false;
                 
                 var response = await Task.Run(() =>
                   projectService.CreateInvasiveReport(Project)
