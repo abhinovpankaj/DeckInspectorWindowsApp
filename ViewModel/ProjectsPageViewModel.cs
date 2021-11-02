@@ -770,7 +770,7 @@ namespace UI.Code.ViewModel
 
 
 
-                                            html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualApt.ImageDescription).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                            html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualApt.ImageDescription.Replace("\n", "<br/>")).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
                                             html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
 
                                             mainHtml.Append(html_InvasiveImages);
@@ -967,7 +967,7 @@ namespace UI.Code.ViewModel
 
 
 
-                                            html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", blocation.Description).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                            html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", blocation.Description.Replace("\n", "<br/>")).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
                                             html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
                                             mainHtml.Append(html_InvasiveImages);
 
@@ -1151,7 +1151,7 @@ namespace UI.Code.ViewModel
                                         Inv_Images_apartment.Append("</tr>");
                                     }
 
-                                    html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualPloc.ImageDescription).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                    html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualPloc.ImageDescription.Replace("\n", "<br/>")).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
                                     html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
                                     mainHtml.Append(html_InvasiveImages);
 
@@ -3129,8 +3129,8 @@ namespace UI.Code.ViewModel
                                 }
                                 Inv_Images_apartment.Append("</tr>");
                             }
-
-                            html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualPloc.ImageDescription).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                            
+                            html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualPloc.ImageDescription.Replace("\n", "<br/>")).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
                             html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
                             mainHtml.Append(html_InvasiveImages);
 

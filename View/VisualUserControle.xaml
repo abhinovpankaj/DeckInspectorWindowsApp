@@ -923,17 +923,6 @@
 
                                             </materialDesign:Card>
 
-                                            <TextBlock
-                                                Grid.Row="1"
-                                                Grid.Column="0"
-                                                MaxWidth="450"
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Center"
-                                                FontSize="12"
-                                                Foreground="White"
-                                                Style="{Binding Title}"
-                                                Text="{Binding SelectedItem.ImageDescription}"
-                                                TextWrapping="WrapWithOverflow" />
                                         </Grid>
 
                                     </Grid>
