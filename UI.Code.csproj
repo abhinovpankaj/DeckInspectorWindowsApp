@@ -37,7 +37,7 @@
     <MinimumRequiredVersion>1.0.0.43</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>53</ApplicationRevision>
+    <ApplicationRevision>54</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -722,6 +722,7 @@
     <Resource Include="Images\sample.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\DI_Single.sql" />
     <Content Include="Report\buildingApartments.html" />
     <Content Include="Report\ConclusiveDetails.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
