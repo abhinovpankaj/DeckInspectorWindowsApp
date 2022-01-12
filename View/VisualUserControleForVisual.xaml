@@ -119,13 +119,20 @@
                             VerticalAlignment="Center"
                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                             Text="Visual Report(s)" />
+                        <Button
+                            Name="btnAddLocation"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            Click="btnAddLocation_Click"
+                            Style="{StaticResource ImgBtn}"
+                            ToolTip="Add New location">
+                            <materialDesign:PackIcon Kind="AddCircleOutline" />
+                        </Button>
                         <StackPanel
                             Grid.Column="2"
                             Margin="0,0,20,0"
                             HorizontalAlignment="Center"
                             Orientation="Horizontal">
-
-
                             <Button
                                 Name="btnVisualEdit"
                                 HorizontalAlignment="Right"

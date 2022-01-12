@@ -411,17 +411,23 @@ namespace UI.Code.ViewModel
         }
         public async Task<bool> LongOperation(NavigationContext navigationContext)
         {
-            IsDataShow = false;
-            SelectedItem = null;
-
-
-            Project = (Project)navigationContext.Parameters["Project"];
-            ProjectBuilding = (ProjectBuilding)navigationContext.Parameters["ProjectBuilding"];
-            Data = DataModel = (BuildingApartment)navigationContext.Parameters["BuildingApartment"];
-            ObjectString = Newtonsoft.Json.JsonConvert.SerializeObject(DataModel);
-            if (Data != null)
+            if (navigationContext == null)
+            {
                 Items = new ObservableCollection<VisualBuildingApartment>(await VisualFormApartmentDataStore.GetVisualBuildingApartmentByBuildingApartmentId(Data.Id));
+            }
+           
+            else
+            {
+                IsDataShow = false;
+                SelectedItem = null;
 
+                Project = (Project)navigationContext.Parameters["Project"];
+                ProjectBuilding = (ProjectBuilding)navigationContext.Parameters["ProjectBuilding"];
+                Data = DataModel = (BuildingApartment)navigationContext.Parameters["BuildingApartment"];
+                ObjectString = Newtonsoft.Json.JsonConvert.SerializeObject(DataModel);
+                if (Data != null)
+                    Items = new ObservableCollection<VisualBuildingApartment>(await VisualFormApartmentDataStore.GetVisualBuildingApartmentByBuildingApartmentId(Data.Id));
+            }
             return await Task.FromResult(true);
             
         }

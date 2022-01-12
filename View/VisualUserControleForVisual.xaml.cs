@@ -692,6 +692,7 @@ namespace UI.Code.View
         private void btnEditVisualReport_Click(object sender, RoutedEventArgs e)
         {
             VisualReportEditor.Visibility = Visibility.Visible;
+            isNewLocation = false;
         }
         //abhinov
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -699,160 +700,208 @@ namespace UI.Code.View
             ErrorModel err = new ErrorModel();
             VisualReportEditor.Visibility = Visibility.Collapsed;
             var vm = this.DataContext;
-
-            if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+            try
             {
-                VisualProjectLocationViewModel db = vm as VisualProjectLocationViewModel;
-
-                var dc = VisualReportEditor.DataContext as EditVisualReportViewModel;
-                dc.ProjLocation.AdditionalConsideration = dc.AdditionalConsideration;
-                dc.ProjLocation.Name = dc.Title;
-                dc.ProjLocation.VisualReview = dc.RadioList_VisualReviewItems.Where(c => c.IsChecked == true).Single().Name;
-                dc.ProjLocation.AnyVisualSign = dc.RadioList_AnyVisualSignItems.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.ProjLocation.FurtherInasive = dc.RadioList_FurtherInasiveItems.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.ProjLocation.ConditionAssessment = dc.RadioList_ConditionAssessment.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.ProjLocation.LifeExpectancyEEE = dc.RadioList_LifeExpectancyEEE.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.ProjLocation.LifeExpectancyLBC = dc.RadioList_LifeExpectancyLBC.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.ProjLocation.LifeExpectancyAWE = dc.RadioList_LifeExpectancyAWE.Where(c => c.IsChecked == true).Single().Name;
-
-                db.SelectedItem = dc.ProjLocation;
-                //Call save here.
-                Response response = new Response();
-                if (App.IsInvasive == false)
-                    response = await db.VisualProjectLocationService.UpdateItemAsync(db.SelectedItem);
-
-                if (response.Status == ApiResult.Success)
+                if (vm.GetType() == typeof(VisualProjectLocationViewModel))
                 {
+                    VisualProjectLocationViewModel db = vm as VisualProjectLocationViewModel;
 
-                    //bool isComplet = await Task.Run(() => LongOperationGetImage(SelectedItem.Id.ToString()));
+                    var dc = VisualReportEditor.DataContext as EditVisualReportViewModel;
+                    dc.ProjLocation.AdditionalConsideration = dc.AdditionalConsideration;
+                    dc.ProjLocation.Name = dc.Title;
+                    dc.ProjLocation.VisualReview = dc.RadioList_VisualReviewItems.Where(c => c.IsChecked == true).Single().Name;
+                    dc.ProjLocation.AnyVisualSign = dc.RadioList_AnyVisualSignItems.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.ProjLocation.FurtherInasive = dc.RadioList_FurtherInasiveItems.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.ProjLocation.ConditionAssessment = dc.RadioList_ConditionAssessment.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.ProjLocation.LifeExpectancyEEE = dc.RadioList_LifeExpectancyEEE.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.ProjLocation.LifeExpectancyLBC = dc.RadioList_LifeExpectancyLBC.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.ProjLocation.LifeExpectancyAWE = dc.RadioList_LifeExpectancyAWE.Where(c => c.IsChecked == true).Single().Name;
+
+                    db.SelectedItem = dc.ProjLocation;
+                    //Call save here.
+                    Response response = new Response();
+                    if (App.IsInvasive == false)
+                    {
+                        if (isNewLocation)
+                        {
+                            db.SelectedItem.ProjectLocationId = db.Data.Id;
+                            response = await db.VisualProjectLocationService.AddItemAsync(db.SelectedItem);
+                            await Task.Run(() => db.LongOperation(null));
+                        }
+                        else
+                            response = await db.VisualProjectLocationService.UpdateItemAsync(db.SelectedItem);
+                    }
+
+
+                    if (response.Status == ApiResult.Success)
+                    {
+
+                        //bool isComplet = await Task.Run(() => LongOperationGetImage(SelectedItem.Id.ToString()));
+                    }
+                    else
+                    {
+                        err.Status = "Error";
+                        err.Message = response.Message;
+                    }
+
                 }
-                else
+                else if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
                 {
-                    err.Status = "Error";
-                    err.Message = response.Message;
+                    VisualSingleLevelProjectLocationViewModel db = vm as VisualSingleLevelProjectLocationViewModel;
+
+                    var dc = VisualReportEditor.DataContext as EditVisualReportViewModel;
+                    dc.ProjLocation.AdditionalConsideration = dc.AdditionalConsideration;
+                    dc.ProjLocation.Name = dc.Title;
+                    dc.ProjLocation.VisualReview = dc.RadioList_VisualReviewItems.Where(c => c.IsChecked == true).Single().Name;
+                    dc.ProjLocation.AnyVisualSign = dc.RadioList_AnyVisualSignItems.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.ProjLocation.FurtherInasive = dc.RadioList_FurtherInasiveItems.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.ProjLocation.ConditionAssessment = dc.RadioList_ConditionAssessment.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.ProjLocation.LifeExpectancyEEE = dc.RadioList_LifeExpectancyEEE.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.ProjLocation.LifeExpectancyLBC = dc.RadioList_LifeExpectancyLBC.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.ProjLocation.LifeExpectancyAWE = dc.RadioList_LifeExpectancyAWE.Where(c => c.IsChecked == true).Single().Name;
+
+                    db.SelectedItem = dc.ProjLocation;
+                    //Call save here.
+                    Response response = new Response();
+                    if (App.IsInvasive == false)
+                    {
+                        if (isNewLocation)
+                        {
+                            db.SelectedItem.ProjectLocationId = db.Data.Id;
+                            response = await db.VisualProjectLocationService.AddItemAsync(db.SelectedItem);
+                            await Task.Run(() => db.LongOperation(null));
+                        }
+                        else
+                            response = await db.VisualProjectLocationService.UpdateItemAsync(db.SelectedItem);
+                    }
+                        
+
+                    if (response.Status == ApiResult.Success)
+                    {
+
+                        //bool isComplet = await Task.Run(() => LongOperationGetImage(SelectedItem.Id.ToString()));
+                    }
+                    else
+                    {
+                        err.Status = "Error";
+                        err.Message = response.Message;
+                    }
+
+                }
+                else if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+                {
+                    VisualBuildingLocationViewModel db = vm as VisualBuildingLocationViewModel;
+
+                    var dc = VisualReportEditor.DataContext as EditVisualReportViewModel;
+                    dc.BuildingLocation.AdditionalConsideration = dc.AdditionalConsideration;
+                    dc.BuildingLocation.Name = dc.Title;
+                    dc.BuildingLocation.VisualReview = dc.RadioList_VisualReviewItems.Where(c => c.IsChecked == true).Single().Name;
+                    dc.BuildingLocation.AnyVisualSign = dc.RadioList_AnyVisualSignItems.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.BuildingLocation.FurtherInasive = dc.RadioList_FurtherInasiveItems.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.BuildingLocation.ConditionAssessment = dc.RadioList_ConditionAssessment.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.BuildingLocation.LifeExpectancyEEE = dc.RadioList_LifeExpectancyEEE.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.BuildingLocation.LifeExpectancyLBC = dc.RadioList_LifeExpectancyLBC.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.BuildingLocation.LifeExpectancyAWE = dc.RadioList_LifeExpectancyAWE.Where(c => c.IsChecked == true).Single().Name;
+
+                    db.SelectedItem = dc.BuildingLocation;
+                    //Call save here.
+                    Response response = new Response();
+                    if (App.IsInvasive == false)
+                    {
+                        if (isNewLocation)
+                        {
+                            db.SelectedItem.BuildingLocationId = db.Data.Id;
+                            response = await db.VisualFormBuildingLocationDataStore.AddItemAsync(db.SelectedItem);
+                            await Task.Run(() => db.LongOperation(null));
+                        }
+                        else
+                            response = await db.VisualFormBuildingLocationDataStore.UpdateItemAsync(db.SelectedItem);
+                    }
+                        
+
+                    if (response.Status == ApiResult.Success)
+                    {
+
+                        //bool isComplet = await Task.Run(() => LongOperationGetImage(SelectedItem.Id.ToString()));
+                    }
+                    else
+                    {
+                        err.Status = "Error";
+                        err.Message = response.Message;
+                    }
+
                 }
 
+                else if (vm.GetType() == typeof(VisualApartmentViewModel))
+                {
+                    VisualApartmentViewModel db = vm as VisualApartmentViewModel;
+
+                    var dc = VisualReportEditor.DataContext as EditVisualReportViewModel;
+                    dc.AptLocation.AdditionalConsideration = dc.AdditionalConsideration;
+                    dc.AptLocation.Name = dc.Title;
+                    dc.AptLocation.VisualReview = dc.RadioList_VisualReviewItems.Where(c => c.IsChecked == true).Single().Name;
+                    dc.AptLocation.AnyVisualSign = dc.RadioList_AnyVisualSignItems.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.AptLocation.FurtherInasive = dc.RadioList_FurtherInasiveItems.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.AptLocation.ConditionAssessment = dc.RadioList_ConditionAssessment.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.AptLocation.LifeExpectancyEEE = dc.RadioList_LifeExpectancyEEE.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.AptLocation.LifeExpectancyLBC = dc.RadioList_LifeExpectancyLBC.Where(c => c.IsChecked == true).Single().Name;
+
+                    dc.AptLocation.LifeExpectancyAWE = dc.RadioList_LifeExpectancyAWE.Where(c => c.IsChecked == true).Single().Name;
+
+                    db.SelectedItem = dc.AptLocation;
+                    //Call save here.
+                    Response response = new Response();
+                    if (App.IsInvasive == false)
+                    {
+                        if (isNewLocation)
+                        {
+                            db.SelectedItem.BuildingApartmentId = db.Data.Id;
+                            response = await db.VisualFormApartmentDataStore.AddItemAsync(db.SelectedItem);
+                            await Task.Run(() => db.LongOperation(null));
+                        }
+                        else
+                            response = await db.VisualFormApartmentDataStore.UpdateItemAsync(db.SelectedItem);
+                    }
+                        
+
+                    if (response.Status == ApiResult.Success)
+                    {
+
+                        //bool isComplet = await Task.Run(() => LongOperationGetImage(SelectedItem.Id.ToString()));
+                    }
+                    else
+                    {
+                        err.Status = "Error";
+                        err.Message = response.Message;
+                    }
+
+                }
             }
-            else if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            catch (Exception ex)
             {
-                VisualSingleLevelProjectLocationViewModel db = vm as VisualSingleLevelProjectLocationViewModel;
 
-                var dc = VisualReportEditor.DataContext as EditVisualReportViewModel;
-                dc.ProjLocation.AdditionalConsideration = dc.AdditionalConsideration;
-                dc.ProjLocation.Name = dc.Title;
-                dc.ProjLocation.VisualReview = dc.RadioList_VisualReviewItems.Where(c => c.IsChecked == true).Single().Name;
-                dc.ProjLocation.AnyVisualSign = dc.RadioList_AnyVisualSignItems.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.ProjLocation.FurtherInasive = dc.RadioList_FurtherInasiveItems.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.ProjLocation.ConditionAssessment = dc.RadioList_ConditionAssessment.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.ProjLocation.LifeExpectancyEEE = dc.RadioList_LifeExpectancyEEE.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.ProjLocation.LifeExpectancyLBC = dc.RadioList_LifeExpectancyLBC.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.ProjLocation.LifeExpectancyAWE = dc.RadioList_LifeExpectancyAWE.Where(c => c.IsChecked == true).Single().Name;
-
-                db.SelectedItem = dc.ProjLocation;
-                //Call save here.
-                Response response = new Response();
-                if (App.IsInvasive == false)
-                    response = await db.VisualProjectLocationService.UpdateItemAsync(db.SelectedItem);
-
-                if (response.Status == ApiResult.Success)
-                {
-
-                    //bool isComplet = await Task.Run(() => LongOperationGetImage(SelectedItem.Id.ToString()));
-                }
-                else
-                {
-                    err.Status = "Error";
-                    err.Message = response.Message;
-                }
-
+                
             }
-            else if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
-            {
-                VisualBuildingLocationViewModel db = vm as VisualBuildingLocationViewModel;
-
-                var dc = VisualReportEditor.DataContext as EditVisualReportViewModel;
-                dc.BuildingLocation.AdditionalConsideration = dc.AdditionalConsideration;
-                dc.BuildingLocation.Name = dc.Title;
-                dc.BuildingLocation.VisualReview = dc.RadioList_VisualReviewItems.Where(c => c.IsChecked == true).Single().Name;
-                dc.BuildingLocation.AnyVisualSign = dc.RadioList_AnyVisualSignItems.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.BuildingLocation.FurtherInasive = dc.RadioList_FurtherInasiveItems.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.BuildingLocation.ConditionAssessment = dc.RadioList_ConditionAssessment.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.BuildingLocation.LifeExpectancyEEE = dc.RadioList_LifeExpectancyEEE.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.BuildingLocation.LifeExpectancyLBC = dc.RadioList_LifeExpectancyLBC.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.BuildingLocation.LifeExpectancyAWE = dc.RadioList_LifeExpectancyAWE.Where(c => c.IsChecked == true).Single().Name;
-
-                db.SelectedItem = dc.BuildingLocation;
-                //Call save here.
-                Response response = new Response();
-                if (App.IsInvasive == false)
-                    response = await db.VisualFormBuildingLocationDataStore.UpdateItemAsync(db.SelectedItem);
-
-                if (response.Status == ApiResult.Success)
-                {
-
-                    //bool isComplet = await Task.Run(() => LongOperationGetImage(SelectedItem.Id.ToString()));
-                }
-                else
-                {
-                    err.Status = "Error";
-                    err.Message = response.Message;
-                }
-
-            }
-
-            else if (vm.GetType() == typeof(VisualApartmentViewModel))
-            {
-                VisualApartmentViewModel db = vm as VisualApartmentViewModel;
-
-                var dc = VisualReportEditor.DataContext as EditVisualReportViewModel;
-                dc.AptLocation.AdditionalConsideration = dc.AdditionalConsideration;
-                dc.AptLocation.Name = dc.Title;
-                dc.AptLocation.VisualReview = dc.RadioList_VisualReviewItems.Where(c => c.IsChecked == true).Single().Name;
-                dc.AptLocation.AnyVisualSign = dc.RadioList_AnyVisualSignItems.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.AptLocation.FurtherInasive = dc.RadioList_FurtherInasiveItems.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.AptLocation.ConditionAssessment = dc.RadioList_ConditionAssessment.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.AptLocation.LifeExpectancyEEE = dc.RadioList_LifeExpectancyEEE.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.AptLocation.LifeExpectancyLBC = dc.RadioList_LifeExpectancyLBC.Where(c => c.IsChecked == true).Single().Name;
-
-                dc.AptLocation.LifeExpectancyAWE = dc.RadioList_LifeExpectancyAWE.Where(c => c.IsChecked == true).Single().Name;
-
-                db.SelectedItem = dc.AptLocation;
-                //Call save here.
-                Response response = new Response();
-                if (App.IsInvasive == false)
-                    response = await db.VisualFormApartmentDataStore.UpdateItemAsync(db.SelectedItem);
-
-                if (response.Status == ApiResult.Success)
-                {
-
-                    //bool isComplet = await Task.Run(() => LongOperationGetImage(SelectedItem.Id.ToString()));
-                }
-                else
-                {
-                    err.Status = "Error";
-                    err.Message = response.Message;
-                }
-
-            }
+            
         }
 
         private async void addPicBtn_Click(object sender, RoutedEventArgs e)
@@ -1325,6 +1374,38 @@ namespace UI.Code.View
         private void closeme_Click(object sender, RoutedEventArgs e)
         {
             VisualReportEditor.Visibility = Visibility.Collapsed;
+        }
+
+        bool isNewLocation ;
+        private void btnAddLocation_Click(object sender, RoutedEventArgs e)
+        {
+            isNewLocation = true;
+            EditVisualReportViewModel addViewModel= new EditVisualReportViewModel();
+            var vm = this.DataContext;
+            if (vm.GetType() == typeof(VisualApartmentViewModel))
+            {
+                addViewModel.AptLocation = new VisualBuildingApartment();
+                addViewModel.LocationType = 2;
+            }
+            else  if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+            {
+                addViewModel.BuildingLocation = new VisualBuildingLocation();
+                addViewModel.LocationType = 1;
+            }
+            else if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+            {
+                addViewModel.ProjLocation = new VisualProjectLocation();
+                addViewModel.LocationType = 0;
+            }
+            else if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+            {
+                addViewModel.ProjLocation = new VisualProjectLocation();
+                addViewModel.LocationType = 0;
+            }
+                
+            VisualReportEditor.DataContext = addViewModel; 
+            VisualReportEditor.Visibility = Visibility.Visible;
+            
         }
     }
 }

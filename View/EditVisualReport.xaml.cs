@@ -34,9 +34,13 @@ namespace UI.Code.View
             {
                 foreach (var item in vm.SelectedWaterproofElements)
                 {
-                    if (vm.WaterProofingElements.Contains(item.Name))
-                        item.IsSelected = true;
+                    if (vm.WaterProofingElements!=null)
+                    {
+                        if (vm.WaterProofingElements.Contains(item.Name))
+                            item.IsSelected = true;
+                    }
                 }
+                    
             }
 
         }
@@ -46,31 +50,39 @@ namespace UI.Code.View
             var vm = this.DataContext as EditVisualReportViewModel;
             if (vm != null)
             {
-                vm.WaterProofingElements.Clear();
+                vm.WaterProofingElements?.Clear();
                 foreach (var item in vm.SelectedWaterproofElements)
                 {
                     if (item.IsSelected)
                     {
+                        if (vm.WaterProofingElements == null)
+                        {
+                            vm.WaterProofingElements = new System.Collections.ObjectModel.ObservableCollection<string>();
+                        }
                         vm.WaterProofingElements.Add(item.Name);
 
                     }
                 }
 
-                vm.CountWaterProofingElements = vm.WaterProofingElements.Count().ToString();
-                switch (vm.LocationType)
+                vm.CountWaterProofingElements = vm.WaterProofingElements?.Count().ToString();
+                if (vm.WaterProofingElements!=null)
                 {
-                    case 0:
-                        vm.ProjLocation.WaterProofingElements = string.Join(",", vm.WaterProofingElements);
-                        break;
-                    case 1:
-                        vm.BuildingLocation.WaterProofingElements = string.Join(",", vm.WaterProofingElements);
-                        break;
-                    case 2:
-                        vm.AptLocation.WaterProofingElements = string.Join(",", vm.WaterProofingElements);
-                        break;
-                    default:
-                        break;
+                    switch (vm.LocationType)
+                    {
+                        case 0:
+                            vm.ProjLocation.WaterProofingElements = string.Join(",", vm.WaterProofingElements);
+                            break;
+                        case 1:
+                            vm.BuildingLocation.WaterProofingElements = string.Join(",", vm.WaterProofingElements);
+                            break;
+                        case 2:
+                            vm.AptLocation.WaterProofingElements = string.Join(",", vm.WaterProofingElements);
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                
 
             }
         }
@@ -82,8 +94,12 @@ namespace UI.Code.View
             {
                 foreach (var item in vm.SelectedExteriorElements)
                 {
-                    if (vm.ExteriorElements.Contains(item.Name))
-                        item.IsSelected = true;
+                    if (vm.ExteriorElements!=null)
+                    {
+                        if (vm.ExteriorElements.Contains(item.Name))
+                            item.IsSelected = true;
+                    }
+                    
                 }
             }
         }
@@ -93,31 +109,39 @@ namespace UI.Code.View
             var vm = this.DataContext as EditVisualReportViewModel;
             if (vm != null)
             {
-                vm.ExteriorElements.Clear();
+                vm.ExteriorElements?.Clear();
                 foreach (var item in vm.SelectedExteriorElements)
                 {
                     if (item.IsSelected)
                     {
+                        if (vm.ExteriorElements==null)
+                        {
+                            vm.ExteriorElements = new System.Collections.ObjectModel.ObservableCollection<string>();
+                        }
                         vm.ExteriorElements.Add(item.Name);
 
                     }
                 }
 
-                vm.CountExteriorElements = vm.ExteriorElements.Count().ToString();
-                switch (vm.LocationType)
+                vm.CountExteriorElements = vm.ExteriorElements?.Count().ToString();
+                if (vm.ExteriorElements!=null)
                 {
-                    case 0:
-                        vm.ProjLocation.ExteriorElements = string.Join(",", vm.ExteriorElements);
-                        break;
-                    case 1:
-                        vm.BuildingLocation.ExteriorElements = string.Join(",", vm.ExteriorElements);
-                        break;
-                    case 2:
-                        vm.AptLocation.ExteriorElements = string.Join(",", vm.ExteriorElements);
-                        break;
-                    default:
-                        break;
+                    switch (vm.LocationType)
+                    {
+                        case 0:
+                            vm.ProjLocation.ExteriorElements = string.Join(",", vm.ExteriorElements);
+                            break;
+                        case 1:
+                            vm.BuildingLocation.ExteriorElements = string.Join(",", vm.ExteriorElements);
+                            break;
+                        case 2:
+                            vm.AptLocation.ExteriorElements = string.Join(",", vm.ExteriorElements);
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                
             }
         }
     }

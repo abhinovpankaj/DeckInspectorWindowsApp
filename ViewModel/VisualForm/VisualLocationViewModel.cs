@@ -437,16 +437,23 @@ namespace UI.Code.ViewModel
         }
         public async Task<bool> LongOperation(NavigationContext navigationContext)
         {
-            IsDataShow = false;
-            SelectedItem = null;
-           
-            Data = DataModel = (ProjectLocation)navigationContext.Parameters["ProjectLocation"];
-            Project = (Project)navigationContext.Parameters["Project"];
-            ObjectString = Newtonsoft.Json.JsonConvert.SerializeObject(DataModel);
-            
-            if (Data != null)
+            if (navigationContext == null)
+            {
                 Items = new ObservableCollection<VisualProjectLocation>(await VisualProjectLocationService.GetItemsAsyncByVisualProjectLocationId(Data.Id));
+            }
             
+            else
+            {
+                IsDataShow = false;
+                SelectedItem = null;
+
+                Data = DataModel = (ProjectLocation)navigationContext.Parameters["ProjectLocation"];
+                Project = (Project)navigationContext.Parameters["Project"];
+                ObjectString = Newtonsoft.Json.JsonConvert.SerializeObject(DataModel);
+
+                if (Data != null)
+                    Items = new ObservableCollection<VisualProjectLocation>(await VisualProjectLocationService.GetItemsAsyncByVisualProjectLocationId(Data.Id));
+            }
                 
             return await Task.FromResult(true);
             

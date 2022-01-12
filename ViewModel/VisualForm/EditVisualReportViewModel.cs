@@ -12,7 +12,7 @@ namespace UI.Code.ViewModel.VisualForm
 {
     public class EditVisualReportViewModel : BaseViewModel
     {
-        private ObservableCollection<string> _exteriorElements;
+        private ObservableCollection<string> _exteriorElements;//= new ObservableCollection<string>();
         private string _additionalConsideration;
         public string AdditionalConsideration
         {
@@ -290,6 +290,7 @@ namespace UI.Code.ViewModel.VisualForm
         {
 
             FillVisualReportViewModel();
+           
         }
 
         public VisualProjectLocation ProjLocation { get; set; }

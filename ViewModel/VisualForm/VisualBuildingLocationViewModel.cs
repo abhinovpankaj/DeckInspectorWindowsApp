@@ -418,20 +418,23 @@ namespace UI.Code.ViewModel
         }
         public async Task<bool> LongOperation(NavigationContext navigationContext)
         {
-            IsDataShow = false;
-            SelectedItem = null;
-            //if (Items != null)
-            //{
-            //    Items.Clear();
-            //}
-
-            ProjectBuilding = (ProjectBuilding)navigationContext.Parameters["ProjectBuilding"];
-            Project = (Project)navigationContext.Parameters["Project"];
-            Data = DataModel = (BuildingLocation)navigationContext.Parameters["BuildingLocation"];
-            ObjectString = Newtonsoft.Json.JsonConvert.SerializeObject(DataModel);
-            if (Data != null)
+            if (navigationContext == null)
+            {
                 Items = new ObservableCollection<VisualBuildingLocation>(await VisualFormBuildingLocationDataStore.GetVisualBuildingLocationByBuildingLocationId(Data.Id));
+            }
+            
+            else
+            {
+                IsDataShow = false;
+                SelectedItem = null;
 
+                ProjectBuilding = (ProjectBuilding)navigationContext.Parameters["ProjectBuilding"];
+                Project = (Project)navigationContext.Parameters["Project"];
+                Data = DataModel = (BuildingLocation)navigationContext.Parameters["BuildingLocation"];
+                ObjectString = Newtonsoft.Json.JsonConvert.SerializeObject(DataModel);
+                if (Data != null)
+                    Items = new ObservableCollection<VisualBuildingLocation>(await VisualFormBuildingLocationDataStore.GetVisualBuildingLocationByBuildingLocationId(Data.Id));
+            }
             //Data = DataModel = (ProjectLocation)navigationContext.Parameters["ProjectLocation"];
             //Project = (Project)navigationContext.Parameters["Project"];
 

@@ -37,7 +37,10 @@ namespace UI.Code.Services
         public async Task<Response> AddItemAsync(VisualProjectLocation item)
         {
             item.UserId = new Guid(App.LogUser.Id);
-
+            //item.AdditionalConsideration = item.AdditionalConsideration == null ? "" : item.AdditionalConsideration;
+            item.ImageDescription = item.ImageDescription == null ? "" : item.ImageDescription;
+            //item.Username = App.LogUser.UserName;
+            //item.CreatedOn = DateTime.Today.ToString();
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(App.AppUrl);

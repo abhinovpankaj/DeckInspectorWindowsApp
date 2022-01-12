@@ -37,7 +37,7 @@ namespace UI.Code.Services
         public async Task<Response> AddItemAsync(VisualBuildingApartment item)
         {
             item.UserId = new Guid(App.LogUser.Id);
-
+            item.ImageDescription = item.ImageDescription == null ? "" : item.ImageDescription;
             using (HttpClient client = new HttpClient())
             {
                
