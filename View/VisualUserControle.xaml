@@ -776,8 +776,8 @@
                                             Foreground="White"
                                             Style="{StaticResource Title}"
                                             Text="Description" />
-
-                                        <TextBox
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox
                                             Width="600"
                                             Margin="5"
                                             HorizontalAlignment="Left"
@@ -785,10 +785,23 @@
                                             FontSize="12"
                                             FontWeight="Normal"
                                             Foreground="White"
-                                            IsReadOnly="True"
+                                                BorderBrush="White"
+                                            IsReadOnly="False"
                                             Style="{StaticResource MaterialDesignTextBox}"
                                             Text="{Binding SelectedItem.ImageDescription}"
                                             TextWrapping="WrapWithOverflow" />
+                                            <Button Margin="30,5"
+                                                    Click="SaveConclusiveData_Click"
+                                                    Name="btnSaveInvasiveData"
+                                                    HorizontalAlignment="Right"
+                                                    Foreground="White"
+                                                    Style="{StaticResource ImgBtn}"
+                                                    ToolTip="Save"
+                                                    >
+                                                <materialDesign:PackIcon Kind="Floppy" />
+                                            </Button>
+                                        </StackPanel>
+                                        
 
                                     </StackPanel>
                                     <Grid Grid.Row="1" Margin="5">
