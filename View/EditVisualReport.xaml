@@ -372,19 +372,27 @@
                                 HorizontalContentAlignment="Left"
                                 Content="Additional Considerations or Concerns" />
 
-                            <TextBox
+                            <RichTextBox
                                 x:Name="txtDes"
                                 Grid.Row="1"
                                 Grid.ColumnSpan="2"
                                 Height="100"
                                 Margin="5"
+                                SpellCheck.IsEnabled="True"
                                 VerticalAlignment="Top"
                                 AcceptsReturn="True"
                                 Background="#ececec"
                                 Foreground="Black"
-                                Text="{Binding AdditionalConsideration}"
-                                TextWrapping="Wrap"
-                                VerticalScrollBarVisibility="Auto" />
+                               
+                                VerticalScrollBarVisibility="Auto">
+                                <RichTextBox.Document>
+                                    <FlowDocument>
+                                        <Paragraph>
+                                            <Run Text="{Binding AdditionalConsideration}"></Run>
+                                        </Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox.Document>
+                            </RichTextBox>
                         </Grid>
 
                     </materialDesign:Card>

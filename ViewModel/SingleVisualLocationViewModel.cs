@@ -495,12 +495,15 @@ namespace UI.Code.ViewModel
         }
         public async Task<bool> LongOperation(NavigationContext navigationContext)
         {
-            IsDataShow = false;
-            SelectedItem = null;
 
-            
-            Data = DataModel = Project = (Project)navigationContext.Parameters["Project"];
-            ObjectString = Newtonsoft.Json.JsonConvert.SerializeObject(DataModel);
+            if (navigationContext != null)
+            {
+           
+                Data = DataModel = Project = (Project)navigationContext.Parameters["Project"];
+                ObjectString = Newtonsoft.Json.JsonConvert.SerializeObject(DataModel);
+            }
+            IsDataShow = false;
+            SelectedItem = null; 
             
             if (Project.ProjectType != "Invasive")
             {

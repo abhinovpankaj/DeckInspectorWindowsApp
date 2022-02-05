@@ -627,26 +627,26 @@ namespace UI.Code.ViewModel
                                                 html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualApt.VisualReview + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{VisualReview}", "<p>&nbsp;" + visualApt.VisualReview + "</p>");
+                                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualApt.VisualReview + "</font></p>");
                                             if (visualApt.AnyVisualSign == "Yes")
                                             {
                                                 html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualApt.AnyVisualSign + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p>&nbsp;" + visualApt.AnyVisualSign + "</p>");
+                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualApt.AnyVisualSign + "</font></p>");
 
                                             if (visualApt.FurtherInasive == "Yes")
                                             {
                                                 html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualApt.FurtherInasive + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p>&nbsp;" + visualApt.FurtherInasive + "</p>");
+                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualApt.FurtherInasive + "</font></p>");
                                             if (visualApt.ConditionAssessment == "Fail")
                                             {
                                                 html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualApt.ConditionAssessment + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p>&nbsp;" + visualApt.ConditionAssessment + "</p>");
+                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualApt.ConditionAssessment + "</font></p>");
 
 
                                             html_Header = html_Header.Replace("{Additional}", visualApt.AdditionalConsideration.Replace("\n", "<br/>"));
@@ -824,26 +824,26 @@ namespace UI.Code.ViewModel
                                                 html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.VisualReview + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{VisualReview}", "<p>&nbsp;" + visualbuildingLocation.VisualReview + "</p>");
+                                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.VisualReview + "</font></p>");
                                             if (visualbuildingLocation.AnyVisualSign == "Yes")
                                             {
                                                 html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.AnyVisualSign + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p>&nbsp;" + visualbuildingLocation.AnyVisualSign + "</p>");
+                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.AnyVisualSign + "</font></p>");
 
                                             if (visualbuildingLocation.FurtherInasive == "Yes")
                                             {
                                                 html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.FurtherInasive + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p>&nbsp;" + visualbuildingLocation.FurtherInasive + "</p>");
+                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.FurtherInasive + "</font></p>");
                                             if (visualbuildingLocation.ConditionAssessment == "Fail")
                                             {
                                                 html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.ConditionAssessment + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p>&nbsp;" + visualbuildingLocation.ConditionAssessment + "</p>");
+                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.ConditionAssessment + "</font></p>");
 
 
                                             //html_Header = html_Header.Replace("{Additional}", visualbuildingLocation.AdditionalConsideration);
@@ -1014,26 +1014,26 @@ namespace UI.Code.ViewModel
                                         html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
                                     }
                                     else
-                                        html_Header = html_Header.Replace("{VisualReview}", "<p>&nbsp;" + visualPloc.VisualReview + "</p>");
+                                        html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
                                     if (visualPloc.AnyVisualSign == "Yes")
                                     {
                                         html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
                                     }
                                     else
-                                        html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p>&nbsp;" + visualPloc.AnyVisualSign + "</p>");
+                                        html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
 
                                     if (visualPloc.FurtherInasive == "Yes")
                                     {
                                         html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
                                     }
                                     else
-                                        html_Header = html_Header.Replace("{FurtherInvasive}", "<p>&nbsp;" + visualPloc.FurtherInasive + "</p>");
+                                        html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
                                     if (visualPloc.ConditionAssessment == "Fail")
                                     {
                                         html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
                                     }
                                     else
-                                        html_Header = html_Header.Replace("{ConditionAssessment}", "<p>&nbsp;" + visualPloc.ConditionAssessment + "</p>");
+                                        html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
 
                                     //html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration);
                                     html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration.Replace("\n", "<br/>"));
@@ -1779,26 +1779,26 @@ namespace UI.Code.ViewModel
                                                 html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualApt.VisualReview + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{VisualReview}", "<p>&nbsp;" + visualApt.VisualReview + "</p>");
+                                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualApt.VisualReview + "</font></p>");
                                             if (visualApt.AnyVisualSign == "Yes")
                                             {
                                                 html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualApt.AnyVisualSign + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p>&nbsp;" + visualApt.AnyVisualSign + "</p>");
+                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualApt.AnyVisualSign + "</font></p>");
 
                                             if (visualApt.FurtherInasive == "Yes")
                                             {
                                                 html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualApt.FurtherInasive + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p>&nbsp;" + visualApt.FurtherInasive + "</p>");
+                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualApt.FurtherInasive + "</font></p>");
                                             if (visualApt.ConditionAssessment == "Fail")
                                             {
                                                 html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualApt.ConditionAssessment + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p>&nbsp;" + visualApt.ConditionAssessment + "</p>");
+                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualApt.ConditionAssessment + "</font></p>");
 
 
                                             //html_Header = html_Header.Replace("{Additional}", visualApt.AdditionalConsideration);
@@ -1917,26 +1917,26 @@ namespace UI.Code.ViewModel
                                                 html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.VisualReview + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{VisualReview}", "<p>&nbsp;" + visualbuildingLocation.VisualReview + "</p>");
+                                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.VisualReview + "</font></p>");
                                             if (visualbuildingLocation.AnyVisualSign == "Yes")
                                             {
                                                 html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.AnyVisualSign + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p>&nbsp;" + visualbuildingLocation.AnyVisualSign + "</p>");
+                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.AnyVisualSign + "</font></p>");
 
                                             if (visualbuildingLocation.FurtherInasive == "Yes")
                                             {
                                                 html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.FurtherInasive + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p>&nbsp;" + visualbuildingLocation.FurtherInasive + "</p>");
+                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.FurtherInasive + "</font></p>");
                                             if (visualbuildingLocation.ConditionAssessment == "Fail")
                                             {
                                                 html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.ConditionAssessment + "</font></p>");
                                             }
                                             else
-                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p>&nbsp;" + visualbuildingLocation.ConditionAssessment + "</p>");
+                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.ConditionAssessment + "</font></p>");
 
                                             //html_Header = html_Header.Replace("{Additional}", visualbuildingLocation.AdditionalConsideration);
                                             html_Header = html_Header.Replace("{Additional}", visualbuildingLocation.AdditionalConsideration.Replace("\n", "<br/>"));
@@ -2048,26 +2048,26 @@ namespace UI.Code.ViewModel
                                         html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
                                     }
                                     else
-                                        html_Header = html_Header.Replace("{VisualReview}", "<p>&nbsp;" + visualPloc.VisualReview + "</p>");
+                                        html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
                                     if (visualPloc.AnyVisualSign == "Yes")
                                     {
                                         html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
                                     }
                                     else
-                                        html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p>&nbsp;" + visualPloc.AnyVisualSign + "</p>");
+                                        html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
 
                                     if (visualPloc.FurtherInasive == "Yes")
                                     {
                                         html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
                                     }
                                     else
-                                        html_Header = html_Header.Replace("{FurtherInvasive}", "<p>&nbsp;" + visualPloc.FurtherInasive + "</p>");
+                                        html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
                                     if (visualPloc.ConditionAssessment == "Fail")
                                     {
                                         html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
                                     }
                                     else
-                                        html_Header = html_Header.Replace("{ConditionAssessment}", "<p>&nbsp;" + visualPloc.ConditionAssessment + "</p>");
+                                        html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
 
 
                                     // html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration);
@@ -2619,26 +2619,26 @@ namespace UI.Code.ViewModel
                                 html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
                             }
                             else
-                                html_Header = html_Header.Replace("{VisualReview}", "<p>&nbsp;" + visualPloc.VisualReview + "</p>");
+                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
                             if (visualPloc.AnyVisualSign == "Yes")
                             {
                                 html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
                             }
                             else
-                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p>&nbsp;" + visualPloc.AnyVisualSign + "</p>");
+                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
 
                             if (visualPloc.FurtherInasive == "Yes")
                             {
                                 html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
                             }
                             else
-                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p>&nbsp;" + visualPloc.FurtherInasive + "</p>");
+                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
                             if (visualPloc.ConditionAssessment == "Fail")
                             {
                                 html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
                             }
                             else
-                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p>&nbsp;" + visualPloc.ConditionAssessment + "</p>");
+                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
 
 
                             // html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration);
@@ -2993,26 +2993,26 @@ namespace UI.Code.ViewModel
                                 html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
                             }
                             else
-                                html_Header = html_Header.Replace("{VisualReview}", "<p>&nbsp;" + visualPloc.VisualReview + "</p>");
+                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
                             if (visualPloc.AnyVisualSign == "Yes")
                             {
                                 html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
                             }
                             else
-                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p>&nbsp;" + visualPloc.AnyVisualSign + "</p>");
+                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
 
                             if (visualPloc.FurtherInasive == "Yes")
                             {
                                 html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
                             }
                             else
-                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p>&nbsp;" + visualPloc.FurtherInasive + "</p>");
+                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
                             if (visualPloc.ConditionAssessment == "Fail")
                             {
                                 html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
                             }
                             else
-                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p>&nbsp;" + visualPloc.ConditionAssessment + "</p>");
+                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
 
                             //html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration);
                             html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration.Replace("\n", "<br/>"));
