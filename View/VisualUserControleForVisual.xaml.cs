@@ -146,7 +146,7 @@ namespace UI.Code.View
                 db.GetImagesCommand.Execute(obj);
                 //Abhinov
                 VisualReportEditor.DataContext = new EditVisualReportViewModel(obj, db.Title);
-
+                SetRichTextContent(obj.AdditionalConsideration);
             }
 
             if (vm.GetType() == typeof(VisualProjectLocationViewModel))
@@ -157,7 +157,7 @@ namespace UI.Code.View
                 db.GetImagesCommand.Execute(obj);
                 //Abhinov
                 VisualReportEditor.DataContext = new EditVisualReportViewModel(obj, db.Title);
-
+                SetRichTextContent(obj.AdditionalConsideration);
             }
             if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
             {
@@ -166,6 +166,7 @@ namespace UI.Code.View
                 db.GetImagesCommand.Execute(obj);
                 //Abhinov
                 VisualReportEditor.DataContext = new EditVisualReportViewModel(obj, db.Title);
+                SetRichTextContent(obj.AdditionalConsideration);
             }
             if (vm.GetType() == typeof(VisualApartmentViewModel))
             {
@@ -174,6 +175,7 @@ namespace UI.Code.View
                 db.GetImagesCommand.Execute(obj);
                 //Abhinov
                 VisualReportEditor.DataContext = new EditVisualReportViewModel(obj, db.Title);
+                SetRichTextContent(obj.AdditionalConsideration);
             }
 
         }
@@ -691,12 +693,15 @@ namespace UI.Code.View
 
         private void btnEditVisualReport_Click(object sender, RoutedEventArgs e)
         {
+
             VisualReportEditor.Visibility = Visibility.Visible;
+                       
             isNewLocation = false;
         }
         //abhinov
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            
             ErrorModel err = new ErrorModel();
             VisualReportEditor.Visibility = Visibility.Collapsed;
             var vm = this.DataContext;
@@ -708,6 +713,7 @@ namespace UI.Code.View
 
                     var dc = VisualReportEditor.DataContext as EditVisualReportViewModel;
                     dc.ProjLocation.AdditionalConsideration = dc.AdditionalConsideration;
+                   
                     dc.ProjLocation.Name = dc.Title;
                     dc.ProjLocation.VisualReview = dc.RadioList_VisualReviewItems.Where(c => c.IsChecked == true).Single().Name;
                     dc.ProjLocation.AnyVisualSign = dc.RadioList_AnyVisualSignItems.Where(c => c.IsChecked == true).Single().Name;
@@ -756,6 +762,7 @@ namespace UI.Code.View
 
                     var dc = VisualReportEditor.DataContext as EditVisualReportViewModel;
                     dc.ProjLocation.AdditionalConsideration = dc.AdditionalConsideration;
+                    
                     dc.ProjLocation.Name = dc.Title;
                     dc.ProjLocation.VisualReview = dc.RadioList_VisualReviewItems.Where(c => c.IsChecked == true).Single().Name;
                     dc.ProjLocation.AnyVisualSign = dc.RadioList_AnyVisualSignItems.Where(c => c.IsChecked == true).Single().Name;
@@ -804,6 +811,7 @@ namespace UI.Code.View
 
                     var dc = VisualReportEditor.DataContext as EditVisualReportViewModel;
                     dc.BuildingLocation.AdditionalConsideration = dc.AdditionalConsideration;
+                    
                     dc.BuildingLocation.Name = dc.Title;
                     dc.BuildingLocation.VisualReview = dc.RadioList_VisualReviewItems.Where(c => c.IsChecked == true).Single().Name;
                     dc.BuildingLocation.AnyVisualSign = dc.RadioList_AnyVisualSignItems.Where(c => c.IsChecked == true).Single().Name;
@@ -853,6 +861,7 @@ namespace UI.Code.View
 
                     var dc = VisualReportEditor.DataContext as EditVisualReportViewModel;
                     dc.AptLocation.AdditionalConsideration = dc.AdditionalConsideration;
+                    
                     dc.AptLocation.Name = dc.Title;
                     dc.AptLocation.VisualReview = dc.RadioList_VisualReviewItems.Where(c => c.IsChecked == true).Single().Name;
                     dc.AptLocation.AnyVisualSign = dc.RadioList_AnyVisualSignItems.Where(c => c.IsChecked == true).Single().Name;
@@ -903,7 +912,16 @@ namespace UI.Code.View
             }
             
         }
-
+        private void SetRichTextContent(string additionalConcernText)
+        {
+            
+            byte[] byteArray = Encoding.ASCII.GetBytes(additionalConcernText);
+            using (MemoryStream ms = new MemoryStream(byteArray))
+            {
+                TextRange tr = new TextRange(richAdditionalControl.Document.ContentStart, richAdditionalControl.Document.ContentEnd);
+                tr.Load(ms, DataFormats.Rtf);
+            }
+        }
         private async void addPicBtn_Click(object sender, RoutedEventArgs e)
         {
             List<string> pics = new List<string>();

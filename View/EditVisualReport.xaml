@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="1650"
     d:DesignWidth="800"
+    IsVisibleChanged="UserControl_IsVisibleChanged"
     mc:Ignorable="d">
 
     <DockPanel>
@@ -371,8 +372,21 @@
                                 HorizontalAlignment="Left"
                                 HorizontalContentAlignment="Left"
                                 Content="Additional Considerations or Concerns" />
-
-                            <RichTextBox
+                            <!--<TextBox  Text="{Binding AdditionalConsideration}" 
+                                x:Name="txtDes"
+                                Grid.Row="1"
+                                      TextWrapping="Wrap"
+                                Grid.ColumnSpan="2"
+                                Height="100"
+                                Margin="5"
+                                SpellCheck.IsEnabled="True"
+                                VerticalAlignment="Top"
+                                AcceptsReturn="True"
+                                Background="#ececec"
+                                Foreground="Black"
+                               
+                                VerticalScrollBarVisibility="Auto"/>-->
+                                <RichTextBox 
                                 x:Name="txtDes"
                                 Grid.Row="1"
                                 Grid.ColumnSpan="2"
@@ -383,15 +397,9 @@
                                 AcceptsReturn="True"
                                 Background="#ececec"
                                 Foreground="Black"
-                               
+                                LostFocus="txtDes_LostFocus"    
                                 VerticalScrollBarVisibility="Auto">
-                                <RichTextBox.Document>
-                                    <FlowDocument>
-                                        <Paragraph>
-                                            <Run Text="{Binding AdditionalConsideration}"></Run>
-                                        </Paragraph>
-                                    </FlowDocument>
-                                </RichTextBox.Document>
+                                
                             </RichTextBox>
                         </Grid>
 

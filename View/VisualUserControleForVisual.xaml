@@ -561,7 +561,8 @@
                                     Text="Additional Considerations or Concerns"
                                     TextWrapping="Wrap" />
 
-                                <TextBlock
+                                <RichTextBox Style="{StaticResource MaterialDesignTextBoxBase}"
+                                    x:Name="richAdditionalControl"
                                     Grid.Row="7"
                                     Grid.Column="1"
                                     MaxWidth="180"
@@ -570,9 +571,9 @@
                                     FontSize="12"
                                     FontWeight="Normal"
                                     Foreground="Black"
-                                    Style="{StaticResource Title}"
-                                    Text="{Binding SelectedItem.AdditionalConsideration}"
-                                    TextWrapping="Wrap" />
+                                    IsReadOnly="True"
+                                    IsReadOnlyCaretVisible="True"
+                                     />
 
 
                                 <TextBlock

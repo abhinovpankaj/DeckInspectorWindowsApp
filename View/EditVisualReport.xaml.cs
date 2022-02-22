@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,18 @@ namespace UI.Code.View
         {
             InitializeComponent();
 
+        }
+
+        string StringFromRichTextBox(RichTextBox rtb)
+        {
+            string rtfText; 
+            TextRange tr = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                tr.Save(ms, DataFormats.Rtf);
+                rtfText = Encoding.ASCII.GetString(ms.ToArray());
+            }
+            return rtfText;
         }
 
         private void WaterPopup_Opened(object sender, EventArgs e)
@@ -142,6 +155,44 @@ namespace UI.Code.View
                     }
                 }
                 
+            }
+        }
+
+        private void txtDes_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var vm = this.DataContext as EditVisualReportViewModel;
+            if (vm != null)
+            {
+                vm.AdditionalConsideration = StringFromRichTextBox(sender as RichTextBox);
+
+            }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var currentState = (bool)e.NewValue;
+            if (currentState )
+            {
+                var vm = this.DataContext as EditVisualReportViewModel;
+                if (vm != null)
+                {
+                    string rtfText = vm.AdditionalConsideration;
+                    if (rtfText!=null)
+                    {
+                        byte[] byteArray = Encoding.ASCII.GetBytes(rtfText);
+                        using (MemoryStream ms = new MemoryStream(byteArray))
+                        {
+                            TextRange tr = new TextRange(txtDes.Document.ContentStart, txtDes.Document.ContentEnd);
+                            tr.Load(ms, DataFormats.Rtf);
+                        }
+                    }
+                    
+                }
             }
         }
     }

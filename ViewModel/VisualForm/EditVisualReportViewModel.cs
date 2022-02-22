@@ -301,7 +301,7 @@ namespace UI.Code.ViewModel.VisualForm
         public EditVisualReportViewModel(VisualProjectLocation parm, string title)
         {
             ProjLocation = parm;
-
+            AdditionalConsideration = string.Empty;
             LocationType = 0;
             FillVisualReportViewModel();
             this.ExteriorElements = new ObservableCollection<string>(parm.ExteriorElements.Split(',').ToList());
