@@ -33,7 +33,7 @@
     <ProductName>Deck inspectors</ProductName>
     <PublisherName>Deck inspectors</PublisherName>
     <SuiteName>Deck inspectors</SuiteName>
-    <MinimumRequiredVersion>1.0.0.43</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.0.54</MinimumRequiredVersion>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>56</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>

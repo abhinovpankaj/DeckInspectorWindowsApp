@@ -914,13 +914,21 @@ namespace UI.Code.View
         }
         private void SetRichTextContent(string additionalConcernText)
         {
-            
-            byte[] byteArray = Encoding.ASCII.GetBytes(additionalConcernText);
-            using (MemoryStream ms = new MemoryStream(byteArray))
+            try
             {
-                TextRange tr = new TextRange(richAdditionalControl.Document.ContentStart, richAdditionalControl.Document.ContentEnd);
-                tr.Load(ms, DataFormats.Rtf);
+                byte[] byteArray = Encoding.ASCII.GetBytes(additionalConcernText);
+                using (MemoryStream ms = new MemoryStream(byteArray))
+                {
+                    TextRange tr = new TextRange(richAdditionalControl.Document.ContentStart, richAdditionalControl.Document.ContentEnd);
+                    tr.Load(ms, DataFormats.Rtf);
+                }
             }
+            catch (Exception)
+            {
+
+                
+            }
+           
         }
         private async void addPicBtn_Click(object sender, RoutedEventArgs e)
         {

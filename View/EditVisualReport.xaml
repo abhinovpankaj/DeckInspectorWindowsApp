@@ -392,6 +392,7 @@
                                 Grid.ColumnSpan="2"
                                 Height="100"
                                 Margin="5"
+                                FontSize="8"
                                 SpellCheck.IsEnabled="True"
                                 VerticalAlignment="Top"
                                 AcceptsReturn="True"

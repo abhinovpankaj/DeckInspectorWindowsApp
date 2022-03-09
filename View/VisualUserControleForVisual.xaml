@@ -561,15 +561,15 @@
                                     Text="Additional Considerations or Concerns"
                                     TextWrapping="Wrap" />
 
-                                <RichTextBox Style="{StaticResource MaterialDesignTextBoxBase}"
+                                <RichTextBox 
                                     x:Name="richAdditionalControl"
                                     Grid.Row="7"
                                     Grid.Column="1"
                                     MaxWidth="180"
                                     Margin="5"
                                     HorizontalAlignment="Left"
-                                    FontSize="12"
-                                    FontWeight="Normal"
+                                    FontSize="8"
+                                    
                                     Foreground="Black"
                                     IsReadOnly="True"
                                     IsReadOnlyCaretVisible="True"

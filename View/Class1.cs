@@ -45,36 +45,42 @@ namespace UI.Code.View
             var url = (String)e.NewValue;
             if (String.IsNullOrEmpty(url))
                 return;
-
-            var uri = new Uri(url);
-            var localFile = String.Format(Path.Combine(AppCacheDirectory, uri.Segments[uri.Segments.Length - 1]));
-            var tempFile = String.Format(Path.Combine(AppCacheDirectory, Guid.NewGuid().ToString()));
-
-            if (File.Exists(localFile))
+            try
             {
-                SetSource((CachedImage)obj, localFile);
-            }
-            else
-            {
-                var webClient = new WebClient();
-                webClient.DownloadFileCompleted += (sender, args) =>
+                var uri = new Uri(url);
+                var localFile = String.Format(Path.Combine(AppCacheDirectory, uri.Segments[uri.Segments.Length - 1]));
+                var tempFile = String.Format(Path.Combine(AppCacheDirectory, Guid.NewGuid().ToString()));
+
+                if (File.Exists(localFile))
                 {
-                    if (args.Error != null)
-                    {
-                        File.Delete(tempFile);
-                        return;
-                    }
-                    if (File.Exists(localFile))
-                        return;
-                    lock (SafeCopy)
-                    {
-                        File.Move(tempFile, localFile);
-                    }
                     SetSource((CachedImage)obj, localFile);
-                };
+                }
+                else
+                {
+                    var webClient = new WebClient();
+                    webClient.DownloadFileCompleted += (sender, args) =>
+                    {
+                        if (args.Error != null)
+                        {
+                            File.Delete(tempFile);
+                            return;
+                        }
+                        if (File.Exists(localFile))
+                            return;
+                        lock (SafeCopy)
+                        {
+                            File.Move(tempFile, localFile);
+                        }
+                        SetSource((CachedImage)obj, localFile);
+                    };
 
-                webClient.DownloadFileAsync(uri, tempFile);
+                    webClient.DownloadFileAsync(uri, tempFile);
+                }
             }
+            catch{
+
+            }
+            
         }
 
         private static void SetSource(System.Windows.Controls.Image inst, String path)

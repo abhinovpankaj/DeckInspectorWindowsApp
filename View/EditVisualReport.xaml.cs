@@ -182,7 +182,7 @@ namespace UI.Code.View
                 if (vm != null)
                 {
                     string rtfText = vm.AdditionalConsideration;
-                    if (rtfText!=null)
+                    if (!string.IsNullOrEmpty(rtfText))
                     {
                         byte[] byteArray = Encoding.ASCII.GetBytes(rtfText);
                         using (MemoryStream ms = new MemoryStream(byteArray))
