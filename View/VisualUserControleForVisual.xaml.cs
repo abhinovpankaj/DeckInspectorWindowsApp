@@ -920,13 +920,16 @@ namespace UI.Code.View
                 using (MemoryStream ms = new MemoryStream(byteArray))
                 {
                     TextRange tr = new TextRange(richAdditionalControl.Document.ContentStart, richAdditionalControl.Document.ContentEnd);
+                    
                     tr.Load(ms, DataFormats.Rtf);
+                    tr.ApplyPropertyValue(RichTextBox.FontSizeProperty, 12d);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                TextRange tr = new TextRange(richAdditionalControl.Document.ContentStart, richAdditionalControl.Document.ContentEnd);
+                tr.Text = "";
 
-                
             }
            
         }

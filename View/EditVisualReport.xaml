@@ -398,6 +398,7 @@
                                 AcceptsReturn="True"
                                 Background="#ececec"
                                 Foreground="Black"
+                                TextChanged="txtDes_TextChanged"
                                 LostFocus="txtDes_LostFocus"    
                                 VerticalScrollBarVisibility="Auto">
                                 

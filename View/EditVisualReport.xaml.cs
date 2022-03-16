@@ -175,6 +175,7 @@ namespace UI.Code.View
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            txtDes.TextChanged -= txtDes_TextChanged;
             var currentState = (bool)e.NewValue;
             if (currentState )
             {
@@ -189,11 +190,19 @@ namespace UI.Code.View
                         {
                             TextRange tr = new TextRange(txtDes.Document.ContentStart, txtDes.Document.ContentEnd);
                             tr.Load(ms, DataFormats.Rtf);
+                            //tr.ApplyPropertyValue(FontSizeProperty, 15d);
                         }
                     }
                     
                 }
             }
+            txtDes.TextChanged += txtDes_TextChanged;
+        }
+
+        private void txtDes_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextRange tr = new TextRange(txtDes.Document.ContentStart, txtDes.Document.ContentEnd);
+            tr.ApplyPropertyValue(FontSizeProperty, 15d);
         }
     }
 }
