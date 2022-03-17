@@ -18,6 +18,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Documents;
 using System.Xml;
 using UI.Code.Model;
 using UI.Code.View.Dialog;
@@ -648,9 +650,10 @@ namespace UI.Code.ViewModel
                                             else
                                                 html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualApt.ConditionAssessment + "</font></p>");
 
-
-                                            html_Header = html_Header.Replace("{Additional}", visualApt.AdditionalConsideration.Replace("\n", "<br/>"));
-
+                                            var plainText = RtfToPlainText(visualApt.AdditionalConsideration);
+                                            html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
+                                            
+                                            
                                             if (visualApt.LifeExpectancyEEE == "0-1 Years")
                                             {
                                                 html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualApt.LifeExpectancyEEE + "</font></p>");
@@ -846,9 +849,10 @@ namespace UI.Code.ViewModel
                                                 html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.ConditionAssessment + "</font></p>");
 
 
-                                            //html_Header = html_Header.Replace("{Additional}", visualbuildingLocation.AdditionalConsideration);
-                                            html_Header = html_Header.Replace("{Additional}", visualbuildingLocation.AdditionalConsideration.Replace("\n", "<br/>"));
+                                            var plainText = RtfToPlainText(visualbuildingLocation.AdditionalConsideration);
+                                            html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
 
+                                            
                                             if (visualbuildingLocation.LifeExpectancyEEE == "0-1 Years")
                                             {
                                                 html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.LifeExpectancyEEE + "</font></p>");
@@ -1035,8 +1039,12 @@ namespace UI.Code.ViewModel
                                     else
                                         html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
 
-                                    //html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration);
-                                    html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration.Replace("\n", "<br/>"));
+
+                                    var plainText = RtfToPlainText(visualPloc.AdditionalConsideration);
+                                    html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
+
+
+                                    //html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration.Replace("\n", "<br/>"));
 
                                     if (visualPloc.LifeExpectancyEEE == "0-1 Years")
                                     {
@@ -1800,9 +1808,11 @@ namespace UI.Code.ViewModel
                                             else
                                                 html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualApt.ConditionAssessment + "</font></p>");
 
-
-                                            //html_Header = html_Header.Replace("{Additional}", visualApt.AdditionalConsideration);
-                                            html_Header = html_Header.Replace("{Additional}", visualApt.AdditionalConsideration.Replace("\n", "<br/>"));
+                                            var plainText = RtfToPlainText(visualApt.AdditionalConsideration);
+                                            
+                                            html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
+                                            
+                                           // html_Header = html_Header.Replace("{Additional}", visualApt.AdditionalConsideration.Replace("\n", "<br/>"));
                                             if (visualApt.LifeExpectancyEEE == "0-1 Years")
                                             {
                                                 html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualApt.LifeExpectancyEEE + "</font></p>");
@@ -1938,8 +1948,9 @@ namespace UI.Code.ViewModel
                                             else
                                                 html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.ConditionAssessment + "</font></p>");
 
-                                            //html_Header = html_Header.Replace("{Additional}", visualbuildingLocation.AdditionalConsideration);
-                                            html_Header = html_Header.Replace("{Additional}", visualbuildingLocation.AdditionalConsideration.Replace("\n", "<br/>"));
+                                            var plainText = RtfToPlainText(visualbuildingLocation.AdditionalConsideration);
+                                            
+                                            html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
                                             if (visualbuildingLocation.LifeExpectancyEEE == "0-1 Years")
                                             {
                                                 html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.LifeExpectancyEEE + "</font></p>");
@@ -2070,8 +2081,9 @@ namespace UI.Code.ViewModel
                                         html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
 
 
-                                    // html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration);
-                                    html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration.Replace("\n", "<br/>"));
+                                    var plainText = RtfToPlainText(visualPloc.AdditionalConsideration);
+                                    html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
+                                    
                                     if (visualPloc.LifeExpectancyEEE == "0-1 Years")
                                     {
                                         html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyEEE + "</font></p>");
@@ -2640,9 +2652,9 @@ namespace UI.Code.ViewModel
                             else
                                 html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
 
+                            var plainText = RtfToPlainText(visualPloc.AdditionalConsideration);
+                            html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
 
-                            // html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration);
-                            html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration.Replace("\n", "<br/>"));
                             if (visualPloc.LifeExpectancyEEE == "0-1 Years")
                             {
                                 html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyEEE + "</font></p>");
@@ -3014,8 +3026,8 @@ namespace UI.Code.ViewModel
                             else
                                 html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
 
-                            //html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration);
-                            html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration.Replace("\n", "<br/>"));
+                            var plainText = RtfToPlainText(visualPloc.AdditionalConsideration);
+                            html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
 
                             if (visualPloc.LifeExpectancyEEE == "0-1 Years")
                             {
@@ -3324,5 +3336,24 @@ namespace UI.Code.ViewModel
 
         #endregion
 
+        private string RtfToPlainText(string rtf)
+        {
+            try
+            {
+                var flowDocument = new FlowDocument();
+                var textRange = new TextRange(flowDocument.ContentStart, flowDocument.ContentEnd);
+
+                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(rtf ?? string.Empty)))
+                {
+                    textRange.Load(stream, DataFormats.Rtf);
+                }
+                return textRange.Text;
+            }
+            catch (Exception)
+            {
+
+                return "";
+            }
+         }
     }
 }
