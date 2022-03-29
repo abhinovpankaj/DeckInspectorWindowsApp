@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -40,7 +42,7 @@ namespace UI.Code.View
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            ErrorModel err=await vm.Save();
+                ErrorModel err=await vm.Save();
            
                 childWindowFeedback.DataContext = err;
                 childWindowFeedback.Visibility = Visibility.Visible;
@@ -64,6 +66,19 @@ namespace UI.Code.View
                 childWindowFeedback.Close();
             }
           
+        }
+
+        private void btnImage_Click(object sender, RoutedEventArgs e)
+        {
+            //browse select image
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = false;
+            openFileDialog.Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                vm.Project.ImageUrl = System.IO.Path.GetFullPath(openFileDialog.FileName);
+            }
         }
     }
 }

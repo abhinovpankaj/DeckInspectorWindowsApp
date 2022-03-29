@@ -122,8 +122,23 @@
                             Margin="10"
                             Style="{StaticResource Label}"
                             Text="{Binding Project.CreatedOn, Mode=TwoWay}" />
-
-
+                        <StackPanel Orientation="Horizontal">
+                            <Image x:Name="imgProject" Source="{Binding Project.ImageUrl}" 
+                               Height="300" Margin="10"/>
+                            <Button Content="Image"
+                                    Name="btnImage"
+                                    Width="100"
+                                    Margin="10"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Center"
+                                    Click="btnImage_Click"
+                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    ToolTip="Choose Project Image">
+                                
+                            </Button>
+                            
+                        </StackPanel>
+                        
                         <Button
                             Name="btnSave"
                             Width="100"

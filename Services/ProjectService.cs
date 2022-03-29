@@ -58,7 +58,7 @@ namespace UI.Code.Services
         public async Task<Response> AddItemAsync(Project item)
         {
             
-            item.ImageUrl = null;
+            //item.ImageUrl = null;
             
             using (HttpClient client = new HttpClient())
             {
@@ -74,8 +74,6 @@ namespace UI.Code.Services
                     response.EnsureSuccessStatusCode();
 
                     return await Task.FromResult(result);
-
-
                 }
             }
 

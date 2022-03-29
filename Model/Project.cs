@@ -22,7 +22,12 @@ namespace UI.Code.Model
 
 
         public string Address { get; set; }
-        public string ImageUrl { get; set; }
+        private string _imageUrl;
+        public string ImageUrl
+        {
+            get { return _imageUrl; }
+            set { _imageUrl = value; OnPropertyChanged("ImageUrl"); }
+        }
 
         // public string CreatedOn { get; set; }
 
