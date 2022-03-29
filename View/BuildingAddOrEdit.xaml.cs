@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,6 +51,19 @@ namespace UI.Code.View
         {
             childWindowFeedback.Visibility = Visibility.Collapsed;
             childWindowFeedback.Close();
+        }
+
+        private void btnImage_Click(object sender, RoutedEventArgs e)
+        {
+            //browse select image
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = false;
+            openFileDialog.Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                vm.ProjectBuilding.ImageUrl = System.IO.Path.GetFullPath(openFileDialog.FileName);
+            }
         }
     }
 }
