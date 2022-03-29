@@ -42,6 +42,7 @@ namespace UI.Code.View
 
         private void WaterPopup_Opened(object sender, EventArgs e)
         {
+            int selectedCount = 0;
             var vm = this.DataContext as EditVisualReportViewModel;
             if (vm != null)
             {
@@ -50,10 +51,18 @@ namespace UI.Code.View
                     if (vm.WaterProofingElements!=null)
                     {
                         if (vm.WaterProofingElements.Contains(item.Name))
+                        {
                             item.IsSelected = true;
+                            selectedCount++;
+                        }
+                            
                     }
                 }
-                    
+                if (selectedCount == 4)
+                {
+                    waterCheck.IsChecked = true;
+                }             
+
             }
 
         }
@@ -102,6 +111,7 @@ namespace UI.Code.View
 
         private void ExteriorPopup_Opened(object sender, EventArgs e)
         {
+            int selectedCount = 0;
             var vm = this.DataContext as EditVisualReportViewModel;
             if (vm != null)
             {
@@ -110,10 +120,19 @@ namespace UI.Code.View
                     if (vm.ExteriorElements!=null)
                     {
                         if (vm.ExteriorElements.Contains(item.Name))
+                        {
                             item.IsSelected = true;
+                            selectedCount++;
+                        }
+                            
                     }
                     
                 }
+                if (selectedCount == 9)
+                {
+                    exteriorCheck.IsChecked = true;
+                }
+               
             }
         }
 
@@ -203,6 +222,28 @@ namespace UI.Code.View
         {
             TextRange tr = new TextRange(txtDes.Document.ContentStart, txtDes.Document.ContentEnd);
             tr.ApplyPropertyValue(FontSizeProperty, 15d);
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            var vm = this.DataContext as EditVisualReportViewModel;
+            if (vm != null)
+            {
+                vm.SelectedExteriorElements.ToList().ForEach(x => x.IsSelected = (bool)checkbox.IsChecked);
+            }
+                
+        }
+
+        private void CheckBox_Checked1(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            var vm = this.DataContext as EditVisualReportViewModel;
+            if (vm != null)
+            {
+                vm.SelectedWaterproofElements.ToList().ForEach(x => x.IsSelected = (bool)checkbox.IsChecked);
+            }
+
         }
     }
 }

@@ -508,22 +508,35 @@
                         Opened="ExteriorPopup_Opened"
                         PlacementTarget="{Binding ElementName=exteriorbtn}"
                         StaysOpen="False">
-                        <ListView
+                        <StackPanel>
+                            
+                            <StackPanel Margin="0" Orientation="Horizontal">
+                                <CheckBox x:Name="exteriorCheck" Margin="5" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" Foreground="White"
+                                          Style="{StaticResource MaterialDesignActionAccentCheckBox}"/>
+                                <TextBlock Foreground="White"
+                                            Margin="5" VerticalAlignment="Center"
+                                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                            Text="Select All" />
+                            </StackPanel>
+                            <ListView
                             Margin="5"
                             ItemsSource="{Binding SelectedExteriorElements}"
                             Style="{StaticResource MaterialDesignCardsListBox}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Margin="5" Orientation="Horizontal">
-                                        <CheckBox Margin="5" IsChecked="{Binding IsSelected}" />
-                                        <TextBlock
+                               
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="5" Orientation="Horizontal">
+                                            <CheckBox Margin="5" IsChecked="{Binding IsSelected}" />
+                                            <TextBlock
                                             Margin="5"
                                             Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                                             Text="{Binding Name}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                        
                     </Popup>
 
                     <Popup
@@ -532,22 +545,33 @@
                         Opened="WaterPopup_Opened"
                         PlacementTarget="{Binding ElementName=waterbtn}"
                         StaysOpen="False">
-                        <ListView
+                        <StackPanel>
+                            <StackPanel Margin="0" Orientation="Horizontal">
+                                <CheckBox x:Name="waterCheck" Margin="5" Checked="CheckBox_Checked1" Unchecked="CheckBox_Checked1" Foreground="White"
+                                          Style="{StaticResource MaterialDesignActionAccentCheckBox}"/>
+                                <TextBlock Foreground="White"
+                                            Margin="5" VerticalAlignment="Center"
+                                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                            Text="Select All" />
+                            </StackPanel>
+                            <ListView
                             Margin="5"
                             ItemsSource="{Binding SelectedWaterproofElements}"
                             Style="{StaticResource MaterialDesignCardsListBox}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Margin="5" Orientation="Horizontal">
-                                        <CheckBox Margin="5" IsChecked="{Binding IsSelected}" />
-                                        <TextBlock
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="5" Orientation="Horizontal">
+                                            <CheckBox Margin="5" IsChecked="{Binding IsSelected}" />
+                                            <TextBlock
                                             Margin="5"
                                             Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                                             Text="{Binding Name}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                       
                     </Popup>
 
                 </Grid>
