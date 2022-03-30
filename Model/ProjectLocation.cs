@@ -19,7 +19,7 @@ namespace UI.Code.Model
         public string ImageUrl
         {
             get { return _image; }
-            set { _image = value; OnPropertyChanged("LocationImage"); }
+            set { _image = value; OnPropertyChanged("ImageUrl"); }
         }
 
 

@@ -98,6 +98,22 @@
 
                             </TextBlock>
                         </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Image x:Name="imgPojLoc" Source="{Binding ProjectLocation.ImageUrl}" 
+                               Height="300" Margin="10"/>
+                            <Button Content="Image"
+                                    Name="btnImage"
+                                    Width="100"
+                                    Margin="10"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Center"
+                                    Click="btnImage_Click"
+                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    ToolTip="Choose Building Image">
+
+                            </Button>
+
+                        </StackPanel>
                         <StackPanel >
                             <Button Width="100" HorizontalAlignment="Center" Margin="10" Name="btnSave" Click="btnSave_Click"
     Style="{StaticResource MaterialDesignFlatDarkBgButton}"
