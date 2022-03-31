@@ -30,7 +30,7 @@ namespace UI.Code.View
 
         string StringFromRichTextBox(RichTextBox rtb)
         {
-            string rtfText; 
+            string rtfText=string.Empty; 
             TextRange tr = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
             using (MemoryStream ms = new MemoryStream())
             {
@@ -202,16 +202,19 @@ namespace UI.Code.View
                 if (vm != null)
                 {
                     string rtfText = vm.AdditionalConsideration;
+                    TextRange tr = new TextRange(txtDes.Document.ContentStart, txtDes.Document.ContentEnd);
                     if (!string.IsNullOrEmpty(rtfText))
                     {
                         byte[] byteArray = Encoding.ASCII.GetBytes(rtfText);
                         using (MemoryStream ms = new MemoryStream(byteArray))
                         {
-                            TextRange tr = new TextRange(txtDes.Document.ContentStart, txtDes.Document.ContentEnd);
+
                             tr.Load(ms, DataFormats.Rtf);
                             //tr.ApplyPropertyValue(FontSizeProperty, 15d);
                         }
                     }
+                    else
+                        tr.Text = "";
                     
                 }
             }
