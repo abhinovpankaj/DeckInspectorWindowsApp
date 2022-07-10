@@ -187,11 +187,6 @@ namespace UI.Code.View
             }
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             txtDes.TextChanged -= txtDes_TextChanged;
