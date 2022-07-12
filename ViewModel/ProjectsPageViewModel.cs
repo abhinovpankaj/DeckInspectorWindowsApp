@@ -523,7 +523,7 @@ namespace UI.Code.ViewModel
 
         #region Invasive
 
-        public async Task WordInvasive(long quality, int height, int width, string projectID = "11D6DFDB-EF89-42E4-A127-7565CCE65DC0", string company = "DI", string Type = "Word")
+        public async Task WordInvasive(long quality, int height, int width, string projectID = "11D6DFDB-EF89-42E4-A127-7565CCE65DC0", string company = "DI", string Type = "Word", bool OnlyInvasive=false)
         {
             Response result = await projectService.GetItemAsync(projectID);
             
@@ -531,7 +531,7 @@ namespace UI.Code.ViewModel
 
             if (project.Category=="SingleLevel")
             {
-                await WordInvasiveSingleLevel(quality, height, width, projectID, company, Type);
+                await WordInvasiveSingleLevel(quality, height, width, projectID, company, Type, OnlyInvasive);
                 return;
             }
             int factor = height;
@@ -609,8 +609,15 @@ namespace UI.Code.ViewModel
                                     {
                                         foreach (var visualApt in visualBuildingApartment)
                                         {
-                                            //Table_B_Apartment
-                                            string html_Header = System.IO.File.ReadAllText(path + "\\VisualDetail.html", iso);
+                                            string html_Header = string.Empty;
+                                            if (!OnlyInvasive)
+                                            {
+                                                html_Header = System.IO.File.ReadAllText(path + "\\VisualDetail.html", iso);
+                                                
+                                            }
+                                            else
+                                                html_Header = System.IO.File.ReadAllText(path + "\\InvasiveOnlyDetail.html", iso);
+
                                             html_Header = html_Header.Replace("{BuildingName}", building.Name);
                                             html_Header = html_Header.Replace("{AptName}", apartment.Name);
                                             html_Header = html_Header.Replace("{LocName}", visualApt.Name);
@@ -619,114 +626,123 @@ namespace UI.Code.ViewModel
                                             html_Header = html_Header.Replace("{TitleApt}", "Apartment Name");
                                             html_Header = html_Header.Replace("{TitleLoc}", "Location Name");
 
-                                            html_Header = html_Header.Replace("{ExteriorElements}", visualApt.ExteriorElements.Replace(",", ", ").Replace("Thershold", "Threshold"));
-                                            html_Header = html_Header.Replace("{WaterProofingElements}", visualApt.WaterProofingElements.Replace(",", ", "));
-
-
-
-                                            if (visualApt.VisualReview == "Bad")
-                                            {
-                                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualApt.VisualReview + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualApt.VisualReview + "</font></p>");
-                                            if (visualApt.AnyVisualSign == "Yes")
-                                            {
-                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualApt.AnyVisualSign + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualApt.AnyVisualSign + "</font></p>");
-
-                                            if (visualApt.FurtherInasive == "Yes")
-                                            {
-                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualApt.FurtherInasive + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualApt.FurtherInasive + "</font></p>");
-                                            if (visualApt.ConditionAssessment == "Fail")
-                                            {
-                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualApt.ConditionAssessment + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualApt.ConditionAssessment + "</font></p>");
-
-                                            var plainText = RtfToPlainText(visualApt.AdditionalConsideration);
-                                            html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
-                                            
-                                            
-                                            if (visualApt.LifeExpectancyEEE == "0-1 Years")
-                                            {
-                                                html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualApt.LifeExpectancyEEE + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualApt.LifeExpectancyEEE + "</p>");
-
-                                            if (visualApt.LifeExpectancyLBC == "0-1 Years")
-                                            {
-                                                html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualApt.LifeExpectancyLBC + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualApt.LifeExpectancyLBC + "</p>");
-
-                                            if (visualApt.LifeExpectancyAWE == "0-1 Years")
-                                            {
-                                                html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualApt.LifeExpectancyAWE + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualApt.LifeExpectancyAWE + "</p>");
-
-
-                                            html_Header = html_Header.Replace("{detailheading}", "Invasive Inspection Details");
-                                            mainHtml.Append(html_Header);
-
-                                            string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
-
                                             IEnumerable<VisualApartmentLocationPhoto> imageApartment = await VisualApartmentLocationPhotoDataStore.GetVisualBuildingApartmentImageByVisualApartmentId(visualApt.Id.ToString());
-                                            var visualimageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
-
-                                            StringBuilder visual_Images_apartment = new StringBuilder();
-                                            int apCount = 0;
-                                            if (visualimageApartment.Count() <= factor)
+                                            
+                                            if (!OnlyInvasive)
                                             {
+                                                html_Header = html_Header.Replace("{ExteriorElements}", visualApt.ExteriorElements.Replace(",", ", ").Replace("Thershold", "Threshold"));
+                                                html_Header = html_Header.Replace("{WaterProofingElements}", visualApt.WaterProofingElements.Replace(",", ", "));
 
-                                                visual_Images_apartment.Append(trWithStyle);
-                                                foreach (var item in visualimageApartment)
+
+
+                                                if (visualApt.VisualReview == "Bad")
                                                 {
-                                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
-                                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
-
-                                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                                    html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualApt.VisualReview + "</font></p>");
                                                 }
-                                                visual_Images_apartment.Append("</tr>");
-                                            }
-                                            else
-                                            {
-                                                visual_Images_apartment.Append(trWithStyle);
-                                                foreach (var item in visualimageApartment)
+                                                else
+                                                    html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualApt.VisualReview + "</font></p>");
+                                                if (visualApt.AnyVisualSign == "Yes")
+                                                {
+                                                    html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualApt.AnyVisualSign + "</font></p>");
+                                                }
+                                                else
+                                                    html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualApt.AnyVisualSign + "</font></p>");
+
+                                                if (visualApt.FurtherInasive == "Yes")
+                                                {
+                                                    html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualApt.FurtherInasive + "</font></p>");
+                                                }
+                                                else
+                                                    html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualApt.FurtherInasive + "</font></p>");
+                                                if (visualApt.ConditionAssessment == "Fail")
+                                                {
+                                                    html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualApt.ConditionAssessment + "</font></p>");
+                                                }
+                                                else
+                                                    html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualApt.ConditionAssessment + "</font></p>");
+
+                                                var plainText = RtfToPlainText(visualApt.AdditionalConsideration);
+                                                html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
+
+
+                                                if (visualApt.LifeExpectancyEEE == "0-1 Years")
+                                                {
+                                                    html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualApt.LifeExpectancyEEE + "</font></p>");
+                                                }
+                                                else
+                                                    html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualApt.LifeExpectancyEEE + "</p>");
+
+                                                if (visualApt.LifeExpectancyLBC == "0-1 Years")
+                                                {
+                                                    html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualApt.LifeExpectancyLBC + "</font></p>");
+                                                }
+                                                else
+                                                    html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualApt.LifeExpectancyLBC + "</p>");
+
+                                                if (visualApt.LifeExpectancyAWE == "0-1 Years")
+                                                {
+                                                    html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualApt.LifeExpectancyAWE + "</font></p>");
+                                                }
+                                                else
+                                                    html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualApt.LifeExpectancyAWE + "</p>");
+
+
+                                                html_Header = html_Header.Replace("{detailheading}", "Invasive Inspection Details");
+                                                mainHtml.Append(html_Header);
+
+                                                string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
+
+                                                
+                                                var visualimageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
+
+                                                StringBuilder visual_Images_apartment = new StringBuilder();
+                                                int apCount = 0;
+                                                if (visualimageApartment.Count() <= factor)
                                                 {
 
-                                                    if ((apCount % factor) == 0)
+                                                    visual_Images_apartment.Append(trWithStyle);
+                                                    foreach (var item in visualimageApartment)
+                                                    {
+                                                        string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                        var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+
+                                                        visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                                    }
+                                                    visual_Images_apartment.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    visual_Images_apartment.Append(trWithStyle);
+                                                    foreach (var item in visualimageApartment)
                                                     {
 
-                                                        visual_Images_apartment.Append("</tr>");
-                                                        visual_Images_apartment.Append(trWithStyle);
+                                                        if ((apCount % factor) == 0)
+                                                        {
+
+                                                            visual_Images_apartment.Append("</tr>");
+                                                            visual_Images_apartment.Append(trWithStyle);
+                                                        }
+
+                                                        string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                        var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                                        visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                                                        apCount++;
                                                     }
-
-                                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
-                                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
-                                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
-
-                                                    apCount++;
+                                                    visual_Images_apartment.Append("</tr>");
                                                 }
-                                                visual_Images_apartment.Append("</tr>");
+                                                html_VisualImages = html_VisualImages.Replace("{VisualImages}", visual_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                                html_VisualImages = html_VisualImages.Replace("{imageCount}", factor.ToString());
+
+                                                mainHtml.Append(html_VisualImages);
                                             }
-                                            html_VisualImages = html_VisualImages.Replace("{VisualImages}", visual_Images_apartment.ToString()).Replace("<tr></tr>", "");
-                                            html_VisualImages = html_VisualImages.Replace("{imageCount}", factor.ToString());
-                                            mainHtml.Append(html_VisualImages);
-
-
+                                            else
+                                            {
+                                                html_Header = html_Header.Replace("{detailheading}", "Invasive Inspection Details");
+                                                mainHtml.Append(html_Header);
+                                            }
+                                            
                                             List<VisualApartmentLocationPhoto> InvasiveimageApartment = imageApartment.Where(c => c.ImageDescription == "TRUE").ToList();
-
 
                                             //Invasive Images
                                             string html_InvasiveImages = System.IO.File.ReadAllText(path + "\\VisualInvasiveImage.html", iso);
@@ -776,12 +792,18 @@ namespace UI.Code.ViewModel
                                             html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualApt.ImageDescription.Replace("\n", "<br/>")).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
                                             html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
 
-                                            mainHtml.Append(html_InvasiveImages);
+                                            //if (InvasiveimageApartment.Count!=0)
+                                            //{
+                                                mainHtml.Append(html_InvasiveImages);
+                                            //}
+                                                                                       
 
                                             //Add Conclusive Part 
                                             string ConclusiveHtml = await getConclusiveHTMLContent(visualApt, quality, factor);
-                                            mainHtml.Append(ConclusiveHtml);
-
+                                            //if (visualApt.IsPostInvasiveRepairsRequired)
+                                            //{
+                                                mainHtml.Append(ConclusiveHtml);
+                                            //}
                                         }
 
                                     }
@@ -808,9 +830,17 @@ namespace UI.Code.ViewModel
                                     {
                                         foreach (var visualbuildingLocation in visualBuildingLocationList)
                                         {
+                                            string html_Header = string.Empty;
+                                            if (!OnlyInvasive)
+                                            {
+                                                html_Header = System.IO.File.ReadAllText(path + "\\VisualDetail.html", iso);
 
-                                            //Table_B_Apartment
-                                            string html_Header = System.IO.File.ReadAllText(path + "\\VisualDetail.html", iso);
+                                            }
+                                            else
+                                                html_Header = System.IO.File.ReadAllText(path + "\\InvasiveOnlyDetail.html", iso);
+
+                                            //string html_Header = System.IO.File.ReadAllText(path + "\\VisualDetail.html", iso);
+                                            
                                             html_Header = html_Header.Replace("{BuildingName}", building.Name);
                                             html_Header = html_Header.Replace("{AptName}", blocation.Name);
                                             html_Header = html_Header.Replace("{LocName}", visualbuildingLocation.Name);
@@ -819,114 +849,122 @@ namespace UI.Code.ViewModel
                                             html_Header = html_Header.Replace("{TitleApt}", "Building Common Location Name");
                                             html_Header = html_Header.Replace("{TitleLoc}", "Location Name");
 
-                                            html_Header = html_Header.Replace("{ExteriorElements}", visualbuildingLocation.ExteriorElements.Replace(",", ", ").Replace("Thershold", "Threshold"));
-                                            html_Header = html_Header.Replace("{WaterProofingElements}", visualbuildingLocation.WaterProofingElements.Replace(",", ", "));
-
-                                            if (visualbuildingLocation.VisualReview == "Bad")
-                                            {
-                                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.VisualReview + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.VisualReview + "</font></p>");
-                                            if (visualbuildingLocation.AnyVisualSign == "Yes")
-                                            {
-                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.AnyVisualSign + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.AnyVisualSign + "</font></p>");
-
-                                            if (visualbuildingLocation.FurtherInasive == "Yes")
-                                            {
-                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.FurtherInasive + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.FurtherInasive + "</font></p>");
-                                            if (visualbuildingLocation.ConditionAssessment == "Fail")
-                                            {
-                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.ConditionAssessment + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.ConditionAssessment + "</font></p>");
-
-
-                                            var plainText = RtfToPlainText(visualbuildingLocation.AdditionalConsideration);
-                                            html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
-
-                                            
-                                            if (visualbuildingLocation.LifeExpectancyEEE == "0-1 Years")
-                                            {
-                                                html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.LifeExpectancyEEE + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualbuildingLocation.LifeExpectancyEEE + "</p>");
-
-                                            if (visualbuildingLocation.LifeExpectancyLBC == "0-1 Years")
-                                            {
-                                                html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.LifeExpectancyLBC + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualbuildingLocation.LifeExpectancyLBC + "</p>");
-
-                                            if (visualbuildingLocation.LifeExpectancyAWE == "0-1 Years")
-                                            {
-                                                html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.LifeExpectancyAWE + "</font></p>");
-                                            }
-                                            else
-                                                html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualbuildingLocation.LifeExpectancyAWE + "</p>");
-
-
-                                            html_Header = html_Header.Replace("{detailheading}", "Invasive Inspection Details");
-                                            mainHtml.Append(html_Header);
-
-
-
                                             IEnumerable<VisualBuildingLocationPhoto> imageApartment = await VisualBuildingLocationPhotoDataStore.GetVisualBuildingLocationImageByVisualBuildingId(visualbuildingLocation.Id.ToString());
-                                            var visualimageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
-
-                                            string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
-
-                                            StringBuilder visual_Images_apartment = new StringBuilder();
-                                            int apCount = 0;
-                                            if (visualimageApartment.Count() <= factor)
+                                            if (!OnlyInvasive)
                                             {
+                                                html_Header = html_Header.Replace("{ExteriorElements}", visualbuildingLocation.ExteriorElements.Replace(",", ", ").Replace("Thershold", "Threshold"));
+                                                html_Header = html_Header.Replace("{WaterProofingElements}", visualbuildingLocation.WaterProofingElements.Replace(",", ", "));
 
-                                                visual_Images_apartment.Append(trWithStyle);
-                                                foreach (var item in visualimageApartment)
+                                                if (visualbuildingLocation.VisualReview == "Bad")
                                                 {
-                                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
-                                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
-                                                    // visual_Images_apartment.Append("<td><img  width=\"100%\"   src='" + newCompressedPath + "'/></td>");
-                                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                                    html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.VisualReview + "</font></p>");
                                                 }
-                                                visual_Images_apartment.Append("</tr>");
-                                            }
-                                            else
-                                            {
-                                                visual_Images_apartment.Append(trWithStyle);
-                                                foreach (var item in visualimageApartment)
+                                                else
+                                                    html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.VisualReview + "</font></p>");
+                                                if (visualbuildingLocation.AnyVisualSign == "Yes")
+                                                {
+                                                    html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.AnyVisualSign + "</font></p>");
+                                                }
+                                                else
+                                                    html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.AnyVisualSign + "</font></p>");
+
+                                                if (visualbuildingLocation.FurtherInasive == "Yes")
+                                                {
+                                                    html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.FurtherInasive + "</font></p>");
+                                                }
+                                                else
+                                                    html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.FurtherInasive + "</font></p>");
+                                                if (visualbuildingLocation.ConditionAssessment == "Fail")
+                                                {
+                                                    html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.ConditionAssessment + "</font></p>");
+                                                }
+                                                else
+                                                    html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualbuildingLocation.ConditionAssessment + "</font></p>");
+
+
+                                                var plainText = RtfToPlainText(visualbuildingLocation.AdditionalConsideration);
+                                                html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
+
+
+                                                if (visualbuildingLocation.LifeExpectancyEEE == "0-1 Years")
+                                                {
+                                                    html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.LifeExpectancyEEE + "</font></p>");
+                                                }
+                                                else
+                                                    html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualbuildingLocation.LifeExpectancyEEE + "</p>");
+
+                                                if (visualbuildingLocation.LifeExpectancyLBC == "0-1 Years")
+                                                {
+                                                    html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.LifeExpectancyLBC + "</font></p>");
+                                                }
+                                                else
+                                                    html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualbuildingLocation.LifeExpectancyLBC + "</p>");
+
+                                                if (visualbuildingLocation.LifeExpectancyAWE == "0-1 Years")
+                                                {
+                                                    html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualbuildingLocation.LifeExpectancyAWE + "</font></p>");
+                                                }
+                                                else
+                                                    html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualbuildingLocation.LifeExpectancyAWE + "</p>");
+
+
+                                                html_Header = html_Header.Replace("{detailheading}", "Invasive Inspection Details");
+                                                mainHtml.Append(html_Header);
+
+
+
+
+                                                var visualimageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
+
+                                                string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
+
+                                                StringBuilder visual_Images_apartment = new StringBuilder();
+                                                int apCount = 0;
+                                                if (visualimageApartment.Count() <= factor)
                                                 {
 
-                                                    if ((apCount % factor) == 0)
+                                                    visual_Images_apartment.Append(trWithStyle);
+                                                    foreach (var item in visualimageApartment)
+                                                    {
+                                                        string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                        var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                                        // visual_Images_apartment.Append("<td><img  width=\"100%\"   src='" + newCompressedPath + "'/></td>");
+                                                        visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                                    }
+                                                    visual_Images_apartment.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    visual_Images_apartment.Append(trWithStyle);
+                                                    foreach (var item in visualimageApartment)
                                                     {
 
-                                                        visual_Images_apartment.Append("</tr>");
-                                                        visual_Images_apartment.Append(trWithStyle);
+                                                        if ((apCount % factor) == 0)
+                                                        {
+
+                                                            visual_Images_apartment.Append("</tr>");
+                                                            visual_Images_apartment.Append(trWithStyle);
+                                                        }
+                                                        string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                        var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+
+                                                        visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+
+                                                        apCount++;
                                                     }
-                                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
-                                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
-
-                                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
-
-                                                    apCount++;
+                                                    visual_Images_apartment.Append("</tr>");
                                                 }
-                                                visual_Images_apartment.Append("</tr>");
+                                                html_VisualImages = html_VisualImages.Replace("{VisualImages}", visual_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                                html_VisualImages = html_VisualImages.Replace("{imageCount}", factor.ToString());
+                                                mainHtml.Append(html_VisualImages);
                                             }
-                                            html_VisualImages = html_VisualImages.Replace("{VisualImages}", visual_Images_apartment.ToString()).Replace("<tr></tr>", "");
-                                            html_VisualImages = html_VisualImages.Replace("{imageCount}", factor.ToString());
-                                            mainHtml.Append(html_VisualImages);
-
-
-
+                                            else
+                                            {
+                                                html_Header = html_Header.Replace("{detailheading}", "Invasive Inspection Details");
+                                                mainHtml.Append(html_Header);
+                                            }
+                                                
+                                            
                                             List<VisualBuildingLocationPhoto> InvasiveimageApartment = imageApartment.Where(c => c.ImageDescription == "TRUE").ToList();
 
                                             string html_InvasiveImages = System.IO.File.ReadAllText(path + "\\VisualInvasiveImage.html", iso);
@@ -973,11 +1011,18 @@ namespace UI.Code.ViewModel
 
                                             html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", blocation.Description.Replace("\n", "<br/>")).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
                                             html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
-                                            mainHtml.Append(html_InvasiveImages);
+                                            //if (InvasiveimageApartment.Count != 0)
+                                            //{
+                                                mainHtml.Append(html_InvasiveImages);
+                                            //}
 
                                             //add Conclusive Part
                                             string ConclusiveHtml = await getConclusiveHTMLContent(visualbuildingLocation, quality, factor);
-                                            mainHtml.Append(ConclusiveHtml);
+                                                                                        
+                                            //if (visualbuildingLocation.IsPostInvasiveRepairsRequired)
+                                            //{
+                                                mainHtml.Append(ConclusiveHtml);
+                                            //}
 
 
                                         }
@@ -1001,7 +1046,16 @@ namespace UI.Code.ViewModel
                             {
                                 foreach (var visualPloc in visualprojectLocation)
                                 {
-                                    string html_Header = System.IO.File.ReadAllText(path + "\\VisualDeatilForProjectLocation.html", iso);
+                                    string html_Header = String.Empty;
+                                    if (!OnlyInvasive)
+                                    {
+                                        html_Header = System.IO.File.ReadAllText(path + "\\VisualDeatilForProjectLocation.html", iso);
+                                    }
+                                    else
+                                        html_Header = System.IO.File.ReadAllText(path + "\\InvasiveOnlyForProjectLocation.html", iso);
+
+
+                                    //string html_Header = System.IO.File.ReadAllText(path + "\\VisualDeatilForProjectLocation.html", iso);
                                     html_Header = html_Header.Replace("{BuildingName}", projectlocation.Name);
                                     html_Header = html_Header.Replace("{AptName}", projectlocation.Name);
                                     html_Header = html_Header.Replace("{LocName}", visualPloc.Name);
@@ -1010,112 +1064,119 @@ namespace UI.Code.ViewModel
                                     html_Header = html_Header.Replace("{TitleApt}", "Project Common Location Name");
                                     html_Header = html_Header.Replace("{TitleLoc}", "Location Name");
 
-                                    html_Header = html_Header.Replace("{ExteriorElements}", visualPloc.ExteriorElements.Replace(",", ", ").Replace("Thershold", "Threshold"));
-                                    html_Header = html_Header.Replace("{WaterProofingElements}", visualPloc.WaterProofingElements.Replace(",", ", "));
-
-                                    if (visualPloc.VisualReview == "Bad")
-                                    {
-                                        html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
-                                    }
-                                    else
-                                        html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
-                                    if (visualPloc.AnyVisualSign == "Yes")
-                                    {
-                                        html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
-                                    }
-                                    else
-                                        html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
-
-                                    if (visualPloc.FurtherInasive == "Yes")
-                                    {
-                                        html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
-                                    }
-                                    else
-                                        html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
-                                    if (visualPloc.ConditionAssessment == "Fail")
-                                    {
-                                        html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
-                                    }
-                                    else
-                                        html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
-
-
-                                    var plainText = RtfToPlainText(visualPloc.AdditionalConsideration);
-                                    html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
-
-
-                                    //html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration.Replace("\n", "<br/>"));
-
-                                    if (visualPloc.LifeExpectancyEEE == "0-1 Years")
-                                    {
-                                        html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyEEE + "</font></p>");
-                                    }
-                                    else
-                                        html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualPloc.LifeExpectancyEEE + "</p>");
-
-                                    if (visualPloc.LifeExpectancyLBC == "0-1 Years")
-                                    {
-                                        html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyLBC + "</font></p>");
-                                    }
-                                    else
-                                        html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualPloc.LifeExpectancyLBC + "</p>");
-
-                                    if (visualPloc.LifeExpectancyAWE == "0-1 Years")
-                                    {
-                                        html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyAWE + "</font></p>");
-                                    }
-                                    else
-                                        html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualPloc.LifeExpectancyAWE + "</p>");
-
-                                    mainHtml.Append(html_Header);
-
-
-
-
                                     IEnumerable<VisualProjectLocationPhoto> imageApartment = await VisualProjectLocationPhotoDataStore.GetItemsAsyncByVisualProjectLocationId(visualPloc.Id.ToString());
-                                    var visualimageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
-                                    string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
-
-                                    StringBuilder visual_Images_apartment = new StringBuilder();
-                                    int apCount = 0;
-                                    if (visualimageApartment.Count() <= factor)
+                                    if (!OnlyInvasive)
                                     {
 
-                                        visual_Images_apartment.Append(trWithStyle);
-                                        foreach (var item in visualimageApartment)
+
+                                        html_Header = html_Header.Replace("{ExteriorElements}", visualPloc.ExteriorElements.Replace(",", ", ").Replace("Thershold", "Threshold"));
+                                        html_Header = html_Header.Replace("{WaterProofingElements}", visualPloc.WaterProofingElements.Replace(",", ", "));
+
+                                        if (visualPloc.VisualReview == "Bad")
                                         {
-                                            string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
-                                            var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
-                                            visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                            html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
                                         }
-                                        visual_Images_apartment.Append("</tr>");
-                                    }
-                                    else
-                                    {
-                                        visual_Images_apartment.Append(trWithStyle);
-                                        foreach (var item in visualimageApartment)
+                                        else
+                                            html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
+                                        if (visualPloc.AnyVisualSign == "Yes")
+                                        {
+                                            html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
+                                        }
+                                        else
+                                            html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
+
+                                        if (visualPloc.FurtherInasive == "Yes")
+                                        {
+                                            html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
+                                        }
+                                        else
+                                            html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
+                                        if (visualPloc.ConditionAssessment == "Fail")
+                                        {
+                                            html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
+                                        }
+                                        else
+                                            html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
+
+
+                                        var plainText = RtfToPlainText(visualPloc.AdditionalConsideration);
+                                        html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
+
+
+                                        //html_Header = html_Header.Replace("{Additional}", visualPloc.AdditionalConsideration.Replace("\n", "<br/>"));
+
+                                        if (visualPloc.LifeExpectancyEEE == "0-1 Years")
+                                        {
+                                            html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyEEE + "</font></p>");
+                                        }
+                                        else
+                                            html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualPloc.LifeExpectancyEEE + "</p>");
+
+                                        if (visualPloc.LifeExpectancyLBC == "0-1 Years")
+                                        {
+                                            html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyLBC + "</font></p>");
+                                        }
+                                        else
+                                            html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualPloc.LifeExpectancyLBC + "</p>");
+
+                                        if (visualPloc.LifeExpectancyAWE == "0-1 Years")
+                                        {
+                                            html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyAWE + "</font></p>");
+                                        }
+                                        else
+                                            html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualPloc.LifeExpectancyAWE + "</p>");
+
+                                        mainHtml.Append(html_Header);
+
+
+                                        var visualimageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
+                                        string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
+
+                                        StringBuilder visual_Images_apartment = new StringBuilder();
+                                        int apCount = 0;
+                                        if (visualimageApartment.Count() <= factor)
                                         {
 
-                                            if ((apCount % factor) == 0)
+                                            visual_Images_apartment.Append(trWithStyle);
+                                            foreach (var item in visualimageApartment)
+                                            {
+                                                string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                                visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                            }
+                                            visual_Images_apartment.Append("</tr>");
+                                        }
+                                        else
+                                        {
+                                            visual_Images_apartment.Append(trWithStyle);
+                                            foreach (var item in visualimageApartment)
                                             {
 
-                                                visual_Images_apartment.Append("</tr>");
-                                                visual_Images_apartment.Append(trWithStyle);
+                                                if ((apCount % factor) == 0)
+                                                {
+
+                                                    visual_Images_apartment.Append("</tr>");
+                                                    visual_Images_apartment.Append(trWithStyle);
+                                                }
+                                                string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                                var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+
+                                                visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                                apCount++;
                                             }
-                                            string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
-                                            var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
-
-                                            visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
-                                            apCount++;
+                                            visual_Images_apartment.Append("</tr>");
                                         }
-                                        visual_Images_apartment.Append("</tr>");
+                                        html_VisualImages = html_VisualImages.Replace("{VisualImages}", visual_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                        html_VisualImages = html_VisualImages.Replace("{imageCount}", factor.ToString());
+                                        mainHtml.Append(html_VisualImages);
                                     }
-                                    html_VisualImages = html_VisualImages.Replace("{VisualImages}", visual_Images_apartment.ToString()).Replace("<tr></tr>", "");
-                                    html_VisualImages = html_VisualImages.Replace("{imageCount}", factor.ToString());
-                                    mainHtml.Append(html_VisualImages);
+                                    else
+                                    {
+                                        html_Header = html_Header.Replace("{detailheading}", "Invasive Inspection Details");
+                                        mainHtml.Append(html_Header);
+                                    }
+                                        
                                     //Invasive
-
-
                                     List<VisualProjectLocationPhoto> InvasiveimageApartment = imageApartment.Where(c => c.ImageDescription == "TRUE").ToList();
                                     string html_InvasiveImages = System.IO.File.ReadAllText(path + "\\VisualInvasiveImage.html", iso);
 
@@ -1161,10 +1222,16 @@ namespace UI.Code.ViewModel
 
                                     html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualPloc.ImageDescription.Replace("\n", "<br/>")).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
                                     html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
-                                    mainHtml.Append(html_InvasiveImages);
+                                    
+                                    mainHtml.Append(html_InvasiveImages);                                    
+                                    
 
                                     string conclusiveHTML = await getConclusiveHTMLContent(visualPloc, quality, factor);
-                                    mainHtml.Append(conclusiveHTML);
+                                    //if (visualPloc.IsPostInvasiveRepairsRequired)
+                                    //{
+                                        mainHtml.Append(conclusiveHTML);
+                                    //}
+                                    
                                 }
 
                             }
@@ -2925,7 +2992,7 @@ namespace UI.Code.ViewModel
             IsReportInProgress = System.Windows.Visibility.Collapsed;
         }
 
-        public async Task WordInvasiveSingleLevel(long quality, int height, int width, string projectID = "11D6DFDB-EF89-42E4-A127-7565CCE65DC0", string company = "DI", string Type = "Word")
+        public async Task WordInvasiveSingleLevel(long quality, int height, int width, string projectID = "11D6DFDB-EF89-42E4-A127-7565CCE65DC0", string company = "DI", string Type = "Word", bool OnlyInvasive=false )
         {
             int factor = height;
             IsReportInProgress = System.Windows.Visibility.Visible;
@@ -2988,121 +3055,132 @@ namespace UI.Code.ViewModel
                     {
                         foreach (var visualPloc in visualprojectLocation)
                         {
-                            string html_Header = System.IO.File.ReadAllText(path + "\\VisualDetailSingleLevelProject.html", iso);
-                            //html_Header = html_Header.Replace("{BuildingName}", projectlocation.Name);
-                            //html_Header = html_Header.Replace("{AptName}", projectlocation.Name);
-                            html_Header = html_Header.Replace("{LocName}", visualPloc.Name);
-
-                            // html_Header = html_Header.Replace("{TitleName}", "Project Common Location Name");
-                            html_Header = html_Header.Replace("{TitleApt}", "Project Common Location Name");
-                            html_Header = html_Header.Replace("{TitleLoc}", "Location Name");
-
-                            html_Header = html_Header.Replace("{ExteriorElements}", visualPloc.ExteriorElements.Replace(",", ", ").Replace("Thershold", "Threshold"));
-                            html_Header = html_Header.Replace("{WaterProofingElements}", visualPloc.WaterProofingElements.Replace(",", ", "));
-
-                            if (visualPloc.VisualReview == "Bad")
-                            {
-                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
-                            }
-                            else
-                                html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
-                            if (visualPloc.AnyVisualSign == "Yes")
-                            {
-                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
-                            }
-                            else
-                                html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
-
-                            if (visualPloc.FurtherInasive == "Yes")
-                            {
-                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
-                            }
-                            else
-                                html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
-                            if (visualPloc.ConditionAssessment == "Fail")
-                            {
-                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
-                            }
-                            else
-                                html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
-
-                            var plainText = RtfToPlainText(visualPloc.AdditionalConsideration);
-                            html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
-
-                            if (visualPloc.LifeExpectancyEEE == "0-1 Years")
-                            {
-                                html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyEEE + "</font></p>");
-                            }
-                            else
-                                html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualPloc.LifeExpectancyEEE + "</p>");
-
-                            if (visualPloc.LifeExpectancyLBC == "0-1 Years")
-                            {
-                                html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyLBC + "</font></p>");
-                            }
-                            else
-                                html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualPloc.LifeExpectancyLBC + "</p>");
-
-                            if (visualPloc.LifeExpectancyAWE == "0-1 Years")
-                            {
-                                html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyAWE + "</font></p>");
-                            }
-                            else
-                                html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualPloc.LifeExpectancyAWE + "</p>");
-
-                            mainHtml.Append(html_Header);
-
-
-
-
                             IEnumerable<VisualProjectLocationPhoto> imageApartment = await VisualProjectLocationPhotoDataStore.GetItemsAsyncByVisualProjectLocationId(visualPloc.Id.ToString());
-                            var visualimageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
-                            string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
-
-                            StringBuilder visual_Images_apartment = new StringBuilder();
-                            int apCount = 0;
-                            if (visualimageApartment.Count() <= factor)
+                            if (OnlyInvasive)
                             {
+                                string html_Header = System.IO.File.ReadAllText(path + "\\InvasiveOnlySingleLevelProject.html", iso);
+                                html_Header = html_Header.Replace("{LocName}", visualPloc.Name);
 
-                                visual_Images_apartment.Append(trWithStyle);
-                                foreach (var item in visualimageApartment)
-                                {
-                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
-                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
-                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
-                                }
-                                visual_Images_apartment.Append("</tr>");
+                                // html_Header = html_Header.Replace("{TitleName}", "Project Common Location Name");
+                                html_Header = html_Header.Replace("{TitleApt}", "Project Common Location Name");
+                                html_Header = html_Header.Replace("{TitleLoc}", "Location Name");
+                                mainHtml.Append(html_Header);
                             }
                             else
                             {
-                                visual_Images_apartment.Append(trWithStyle);
-                                foreach (var item in visualimageApartment)
+                                string html_Header = System.IO.File.ReadAllText(path + "\\VisualDetailSingleLevelProject.html", iso);
+                                //html_Header = html_Header.Replace("{BuildingName}", projectlocation.Name);
+                                //html_Header = html_Header.Replace("{AptName}", projectlocation.Name);
+                                html_Header = html_Header.Replace("{LocName}", visualPloc.Name);
+
+                                // html_Header = html_Header.Replace("{TitleName}", "Project Common Location Name");
+                                html_Header = html_Header.Replace("{TitleApt}", "Project Common Location Name");
+                                html_Header = html_Header.Replace("{TitleLoc}", "Location Name");
+
+                                html_Header = html_Header.Replace("{ExteriorElements}", visualPloc.ExteriorElements.Replace(",", ", ").Replace("Thershold", "Threshold"));
+                                html_Header = html_Header.Replace("{WaterProofingElements}", visualPloc.WaterProofingElements.Replace(",", ", "));
+
+                                if (visualPloc.VisualReview == "Bad")
+                                {
+                                    html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"red\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
+                                }
+                                else
+                                    html_Header = html_Header.Replace("{VisualReview}", "<p><font color=\"green\">&nbsp;" + visualPloc.VisualReview + "</font></p>");
+                                if (visualPloc.AnyVisualSign == "Yes")
+                                {
+                                    html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"red\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
+                                }
+                                else
+                                    html_Header = html_Header.Replace("{AnyVisualSignsofleaks}", "<p><font color=\"green\">&nbsp;" + visualPloc.AnyVisualSign + "</font></p>");
+
+                                if (visualPloc.FurtherInasive == "Yes")
+                                {
+                                    html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"red\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
+                                }
+                                else
+                                    html_Header = html_Header.Replace("{FurtherInvasive}", "<p><font color=\"green\">&nbsp;" + visualPloc.FurtherInasive + "</font></p>");
+                                if (visualPloc.ConditionAssessment == "Fail")
+                                {
+                                    html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"red\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
+                                }
+                                else
+                                    html_Header = html_Header.Replace("{ConditionAssessment}", "<p><font color=\"green\">&nbsp;" + visualPloc.ConditionAssessment + "</font></p>");
+
+                                var plainText = RtfToPlainText(visualPloc.AdditionalConsideration);
+                                html_Header = html_Header.Replace("{Additional}", plainText.Replace("\n", "<br/>"));
+
+                                if (visualPloc.LifeExpectancyEEE == "0-1 Years")
+                                {
+                                    html_Header = html_Header.Replace("{EEE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyEEE + "</font></p>");
+                                }
+                                else
+                                    html_Header = html_Header.Replace("{EEE}", "<p>&nbsp;" + visualPloc.LifeExpectancyEEE + "</p>");
+
+                                if (visualPloc.LifeExpectancyLBC == "0-1 Years")
+                                {
+                                    html_Header = html_Header.Replace("{LBC}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyLBC + "</font></p>");
+                                }
+                                else
+                                    html_Header = html_Header.Replace("{LBC}", "<p>&nbsp;" + visualPloc.LifeExpectancyLBC + "</p>");
+
+                                if (visualPloc.LifeExpectancyAWE == "0-1 Years")
+                                {
+                                    html_Header = html_Header.Replace("{AWE}", "<p><font color=\"red\">&nbsp;" + visualPloc.LifeExpectancyAWE + "</font></p>");
+                                }
+                                else
+                                    html_Header = html_Header.Replace("{AWE}", "<p>&nbsp;" + visualPloc.LifeExpectancyAWE + "</p>");
+
+                                mainHtml.Append(html_Header);
+                            
+                            
+                                
+                                var visualimageApartment = imageApartment.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").ToList();
+                                string html_VisualImages = System.IO.File.ReadAllText(path + "\\VisualImage.html", iso);
+
+                                StringBuilder visual_Images_apartment = new StringBuilder();
+                                int apCount = 0;
+                                if (visualimageApartment.Count() <= factor)
                                 {
 
-                                    if ((apCount % factor) == 0)
+                                    visual_Images_apartment.Append(trWithStyle);
+                                    foreach (var item in visualimageApartment)
+                                    {
+                                        string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                        var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                        visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                    }
+                                    visual_Images_apartment.Append("</tr>");
+                                }
+                                else
+                                {
+                                    visual_Images_apartment.Append(trWithStyle);
+                                    foreach (var item in visualimageApartment)
                                     {
 
-                                        visual_Images_apartment.Append("</tr>");
-                                        visual_Images_apartment.Append(trWithStyle);
-                                    }
-                                    string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
-                                    var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+                                        if ((apCount % factor) == 0)
+                                        {
 
-                                    visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
-                                    apCount++;
+                                            visual_Images_apartment.Append("</tr>");
+                                            visual_Images_apartment.Append(trWithStyle);
+                                        }
+                                        string lastImage = item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('/') + 1);
+                                        var newCompressedPath = CompressImage(item.ImageUrl, lastImage, quality);
+
+                                        visual_Images_apartment.Append(getTdWithStyle(factor) + getimgWithStyle(factor, newCompressedPath));
+                                        apCount++;
+                                    }
+                                    visual_Images_apartment.Append("</tr>");
                                 }
-                                visual_Images_apartment.Append("</tr>");
+                                html_VisualImages = html_VisualImages.Replace("{VisualImages}", visual_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                html_VisualImages = html_VisualImages.Replace("{imageCount}", factor.ToString());
+                                mainHtml.Append(html_VisualImages);
                             }
-                            html_VisualImages = html_VisualImages.Replace("{VisualImages}", visual_Images_apartment.ToString()).Replace("<tr></tr>", "");
-                            html_VisualImages = html_VisualImages.Replace("{imageCount}", factor.ToString());
-                            mainHtml.Append(html_VisualImages);
+
                             //Invasive
 
 
                             List<VisualProjectLocationPhoto> InvasiveimageApartment = imageApartment.Where(c => c.ImageDescription == "TRUE").ToList();
                             string html_InvasiveImages = System.IO.File.ReadAllText(path + "\\VisualInvasiveImage.html", iso);
-
-
 
                             StringBuilder Inv_Images_apartment = new StringBuilder();
 

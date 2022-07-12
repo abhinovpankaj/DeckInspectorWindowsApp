@@ -303,6 +303,7 @@ namespace UI.Code.View
             btnReport_Visual_Word.Tag=btnReport_Visual.Tag= p.Id;
             //Invasive FOR DI
             btnReport_Invasive.Tag = btnDIInvasiveWord.Tag = p.InvasiveProjectID;
+            btnReport_InvasiveOnly.Tag = btnDIInvasiveWord.Tag = p.InvasiveProjectID;
             //Finel FOR DI WORD AND PDF
             btnFinelReport_Deck.Tag = btnFilelReport_Deck_Word.Tag = p.Id;
 
@@ -310,7 +311,7 @@ namespace UI.Code.View
             btnReport_Visual_WICR.Tag = WICR_Visual_Word.Tag = p.Id;
 
             btnReport_Invasive_wicr.Tag= WICR_Invasive_Word.Tag= p.InvasiveProjectID;
-
+            btnReport_InvasiveOnly_wicr.Tag = WICR_Invasive_Word.Tag = p.InvasiveProjectID;
             btnFinelReport_Wicr.Tag = btnWICR_FinelReport_Word.Tag = p.Id;
 
         }
@@ -638,6 +639,38 @@ namespace UI.Code.View
             childWindowMessageBox.Show();
             myVM.ReloadLocation(true);
            
+        }
+
+        private void BtnReport_InvasiveOnly_wicr_Click(object sender, RoutedEventArgs e)
+        {
+            string projectId = ((Button)sender).Tag.ToString();
+            Task.Run(() => vm.WordInvasive(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId, "WICR", "pdf",true));
+
+            ShowHideUI();
+        }
+
+        private void WICR_InvasiveOnly_Word_Click(object sender, RoutedEventArgs e)
+        {
+            string projectId = ((Button)sender).Tag.ToString();
+            Task.Run(() => vm.WordInvasive(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId, "WICR", "Word",true));
+
+            ShowHideUI();
+        }
+
+        private void BtnReport_InvasiveOnly_Click(object sender, RoutedEventArgs e)
+        {
+            string projectId = ((Button)sender).Tag.ToString();
+            Task.Run(() => vm.WordInvasive(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId, "DI", "pdf", true));
+
+            ShowHideUI();
+        }
+
+        private void BtnDIInvasiveOnlyWord_Click(object sender, RoutedEventArgs e)
+        {
+            string projectId = ((Button)sender).Tag.ToString();
+            Task.Run(() => vm.WordInvasive(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId, "DI", "Word",true));
+
+            ShowHideUI();
         }
     }
 }
