@@ -30,6 +30,7 @@ namespace UI.Code.ViewModel
     {
         private ObservableCollection<string> _pType;
 
+        private const string NoInvasivePhotoText = "Invasive inspection not conducted as request by customer.";
         public ObservableCollection<string> ProjectTypeList
         {
             get { return _pType; }
@@ -787,23 +788,24 @@ namespace UI.Code.ViewModel
                                                 Inv_Images_apartment.Append("</tr>");
                                             }
 
+                                            if (InvasiveimageApartment.Count != 0)
+                                            {
+                                                html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualApt.ImageDescription.Replace("\n", "<br/>")).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                                html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
 
-
-                                            html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualApt.ImageDescription.Replace("\n", "<br/>")).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
-                                            html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
-
-                                            //if (InvasiveimageApartment.Count!=0)
-                                            //{
                                                 mainHtml.Append(html_InvasiveImages);
-                                            //}
-                                                                                       
-
-                                            //Add Conclusive Part 
-                                            string ConclusiveHtml = await getConclusiveHTMLContent(visualApt, quality, factor);
-                                            //if (visualApt.IsPostInvasiveRepairsRequired)
-                                            //{
+                                                //Add Conclusive Part 
+                                                string ConclusiveHtml = await getConclusiveHTMLContent(visualApt, quality, factor);
+                                                //if (visualApt.IsPostInvasiveRepairsRequired)
+                                                //{
                                                 mainHtml.Append(ConclusiveHtml);
-                                            //}
+                                                //}
+                                            }
+                                            else
+                                            {
+                                                string html_InvasiveNoImages = System.IO.File.ReadAllText(path + "\\InvasiveNoImage.html", iso);
+                                                mainHtml.Append(html_InvasiveNoImages);
+                                            }                                                                                    
                                         }
 
                                     }
@@ -1008,22 +1010,26 @@ namespace UI.Code.ViewModel
                                             }
 
 
-
-                                            html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", blocation.Description.Replace("\n", "<br/>")).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
-                                            html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
-                                            //if (InvasiveimageApartment.Count != 0)
-                                            //{
+                                            if (InvasiveimageApartment.Count!=0)
+                                            {
+                                                html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", blocation.Description.Replace("\n", "<br/>")).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                                html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
+                                                
                                                 mainHtml.Append(html_InvasiveImages);
-                                            //}
+                                                
+                                                //add Conclusive Part
+                                                string ConclusiveHtml = await getConclusiveHTMLContent(visualbuildingLocation, quality, factor);
 
-                                            //add Conclusive Part
-                                            string ConclusiveHtml = await getConclusiveHTMLContent(visualbuildingLocation, quality, factor);
-                                                                                        
-                                            //if (visualbuildingLocation.IsPostInvasiveRepairsRequired)
-                                            //{
                                                 mainHtml.Append(ConclusiveHtml);
-                                            //}
+                                                
+                                            }
 
+
+                                            else
+                                            {
+                                                string html_InvasiveNoImages = System.IO.File.ReadAllText(path + "\\InvasiveNoImage.html", iso);
+                                                mainHtml.Append(html_InvasiveNoImages);
+                                            }
 
                                         }
 
@@ -1219,19 +1225,21 @@ namespace UI.Code.ViewModel
                                         }
                                         Inv_Images_apartment.Append("</tr>");
                                     }
+                                    if (InvasiveimageApartment.Count!=0)
+                                    {
+                                        html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualPloc.ImageDescription.Replace("\n", "<br/>")).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
+                                        html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
 
-                                    html_InvasiveImages = html_InvasiveImages.Replace("{InvasiveDescrition}", visualPloc.ImageDescription.Replace("\n", "<br/>")).Replace("{InvasiveImages}", Inv_Images_apartment.ToString()).Replace("<tr></tr>", "");
-                                    html_InvasiveImages = html_InvasiveImages.Replace("{imageCount}", factor.ToString());
-                                    
-                                    mainHtml.Append(html_InvasiveImages);                                    
-                                    
+                                        mainHtml.Append(html_InvasiveImages);
+                                        string conclusiveHTML = await getConclusiveHTMLContent(visualPloc, quality, factor);                                        
+                                        mainHtml.Append(conclusiveHTML);                                        
+                                    }
+                                    else
+                                    {
+                                        string html_InvasiveNoImages = System.IO.File.ReadAllText(path + "\\InvasiveNoImage.html", iso);
+                                        mainHtml.Append(html_InvasiveNoImages);
+                                    }
 
-                                    string conclusiveHTML = await getConclusiveHTMLContent(visualPloc, quality, factor);
-                                    //if (visualPloc.IsPostInvasiveRepairsRequired)
-                                    //{
-                                        mainHtml.Append(conclusiveHTML);
-                                    //}
-                                    
                                 }
 
                             }

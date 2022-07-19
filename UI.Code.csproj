@@ -764,6 +764,9 @@
     <Content Include="Report\VisualImage.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Report\InvasiveNoImage.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Report\VisualInvasiveImage.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
