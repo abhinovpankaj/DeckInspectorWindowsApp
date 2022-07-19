@@ -763,7 +763,7 @@
                                 </Grid>
                             </Grid>
                             <Grid Visibility="{Binding IsChecked, ElementName=rbTab2, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <Grid>
+                                <Grid >
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
@@ -783,11 +783,11 @@
                                             HorizontalAlignment="Left"
                                             AcceptsReturn="True"
                                             FontSize="12"
-                                            FontWeight="Normal"
-                                            Foreground="White"
-                                                BorderBrush="White"
+                                            FontWeight="Normal" Background="White"
+                                            
+                                            BorderBrush="White"
                                             IsReadOnly="False"
-                                            Style="{StaticResource MaterialDesignTextBox}"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                             Text="{Binding SelectedItem.ImageDescription}"
                                             TextWrapping="WrapWithOverflow" />
                                             <Button Margin="30,5"
