@@ -743,6 +743,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Report\styles.html" />
+    <Content Include="Report\InvasiveOnlySingleLevelProject.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Report\InvasiveOnlyDetail.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Report\InvasiveOnlyForProjectLocation.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Report\VisualDetailSingleLevelProject.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -753,6 +762,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Report\VisualImage.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Report\InvasiveNoImage.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Report\VisualInvasiveImage.html">
