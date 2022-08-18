@@ -121,14 +121,48 @@
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
 
-                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+
                                     <Setter Property="Margin" Value="10,5" />
                                     <Setter Property="AllowDrop" Value="true" />
-
+                                    <Setter Property="Padding" Value="0" />
                                     <EventSetter Event="PreviewMouseMove" Handler="lbox_PreviewMouseMoveEvent" />
                                     <EventSetter Event="Drop" Handler="lboxProjectLocationDataBinding_Drop" />
                                     <EventSetter Event="MouseDoubleClick" Handler="LocationHandleDoubleClick" />
-
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <Border
+                                                    x:Name="Bd"
+                                                    Padding="{TemplateBinding Padding}"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    SnapsToDevicePixels="true">
+                                                    <ContentPresenter
+                                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="true">
+                                                        <Setter TargetName="Bd" Property="Background" Value="#fed8b1" />
+                                                        <Setter TargetName="Bd" Property="BorderThickness" Value="6,6,0,0" />
+                                                    </Trigger>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            <Condition Property="IsSelected" Value="true" />
+                                                            <Condition Property="Selector.IsSelectionActive" Value="false" />
+                                                        </MultiTrigger.Conditions>
+                                                        <!--<Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />-->
+                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                                                    </MultiTrigger>
+                                                    <Trigger Property="IsEnabled" Value="false">
+                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
 
 
                                 </Style>
@@ -143,7 +177,8 @@
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
                                         BorderBrush="#2e479b"
-                                        BorderThickness="1">
+                                        BorderThickness="1"
+                                        CornerRadius="5">
                                         <!--<local:CachedImage ImageUrl="{Binding ProjectImage}" Width="200" Height="200" />-->
                                         <Grid
                                             Margin="5"
@@ -333,14 +368,48 @@
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
 
-                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                    <Setter Property="Padding" Value="0" />
                                     <Setter Property="Margin" Value="10,5" />
                                     <Setter Property="AllowDrop" Value="true" />
 
                                     <EventSetter Event="PreviewMouseMove" Handler="lbox_PreviewMouseMoveEvent" />
                                     <EventSetter Event="Drop" Handler="lboxBuildingLocation_Drop" />
                                     <EventSetter Event="MouseDoubleClick" Handler="BuildingHandleDoubleClick" />
-
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <Border
+                                                    x:Name="Bd"
+                                                    Padding="{TemplateBinding Padding}"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    SnapsToDevicePixels="true">
+                                                    <ContentPresenter
+                                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="true">
+                                                        <Setter TargetName="Bd" Property="Background" Value="#fed8b1" />
+                                                        <Setter TargetName="Bd" Property="BorderThickness" Value="6,6,0,0" />
+                                                    </Trigger>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            <Condition Property="IsSelected" Value="true" />
+                                                            <Condition Property="Selector.IsSelectionActive" Value="false" />
+                                                        </MultiTrigger.Conditions>
+                                                        <!--<Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />-->
+                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                                                    </MultiTrigger>
+                                                    <Trigger Property="IsEnabled" Value="false">
+                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
 
                                 </Style>
 
@@ -352,7 +421,8 @@
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         BorderBrush="#2e479b"
-                                        BorderThickness="1">
+                                        BorderThickness="1"
+                                        CornerRadius="5">
                                         <!--<local:CachedImage ImageUrl="{Binding ProjectImage}" Width="200" Height="200" />-->
                                         <Grid
                                             Margin="5"
@@ -426,7 +496,7 @@
 
 
                                             </StackPanel>
-                                           
+
                                         </Grid>
 
                                     </Border>
@@ -443,7 +513,7 @@
                 </Grid>
 
             </Grid>
-         
+
         </Grid>
         <Border Style="{StaticResource brdProgress}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
             <control:progress />

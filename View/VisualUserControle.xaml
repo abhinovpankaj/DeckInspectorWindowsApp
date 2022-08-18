@@ -135,14 +135,49 @@
 
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="0" />
 
-                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                                     <Setter Property="Margin" Value="10,5" />
                                     <Setter Property="AllowDrop" Value="true" />
 
                                     <EventSetter Event="PreviewMouseMove" Handler="lbox_PreviewMouseMoveEvent" />
                                     <EventSetter Event="Drop" Handler="lboxViusal_Drop" />
                                     <EventSetter Event="MouseDoubleClick" Handler="VisualDoubleClick" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <Border
+                                                    x:Name="Bd"
+                                                    Padding="{TemplateBinding Padding}"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    SnapsToDevicePixels="true">
+                                                    <ContentPresenter
+                                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="true">
+                                                        <Setter TargetName="Bd" Property="Background" Value="#fed8b1" />
+                                                        <Setter TargetName="Bd" Property="BorderThickness" Value="6,6,0,0" />
+                                                    </Trigger>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            <Condition Property="IsSelected" Value="true" />
+                                                            <Condition Property="Selector.IsSelectionActive" Value="false" />
+                                                        </MultiTrigger.Conditions>
+                                                        <!--<Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />-->
+                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                                                    </MultiTrigger>
+                                                    <Trigger Property="IsEnabled" Value="false">
+                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Style>
 
                             </ListBox.ItemContainerStyle>
@@ -153,7 +188,8 @@
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         BorderBrush="#2e479b"
-                                        BorderThickness="1">
+                                        BorderThickness="1"
+                                        CornerRadius="5">
 
                                         <Grid
                                             Margin="5"
@@ -763,7 +799,7 @@
                                 </Grid>
                             </Grid>
                             <Grid Visibility="{Binding IsChecked, ElementName=rbTab2, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <Grid >
+                                <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
@@ -778,30 +814,30 @@
                                             Text="Description" />
                                         <StackPanel Orientation="Horizontal">
                                             <TextBox
-                                            Width="600"
-                                            Margin="5"
-                                            HorizontalAlignment="Left"
-                                            AcceptsReturn="True"
-                                            FontSize="12"
-                                            FontWeight="Normal" Background="White"
-                                            
-                                            BorderBrush="White"
-                                            IsReadOnly="False"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding SelectedItem.ImageDescription}"
-                                            TextWrapping="WrapWithOverflow" />
-                                            <Button Margin="30,5"
-                                                    Click="SaveConclusiveData_Click"
-                                                    Name="btnSaveInvasiveData"
-                                                    HorizontalAlignment="Right"
-                                                    Foreground="White"
-                                                    Style="{StaticResource ImgBtn}"
-                                                    ToolTip="Save"
-                                                    >
+                                                Width="600"
+                                                Margin="5"
+                                                HorizontalAlignment="Left"
+                                                AcceptsReturn="True"
+                                                Background="White"
+                                                BorderBrush="White"
+                                                FontSize="12"
+                                                FontWeight="Normal"
+                                                IsReadOnly="False"
+                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                Text="{Binding SelectedItem.ImageDescription}"
+                                                TextWrapping="WrapWithOverflow" />
+                                            <Button
+                                                Name="btnSaveInvasiveData"
+                                                Margin="30,5"
+                                                HorizontalAlignment="Right"
+                                                Click="SaveConclusiveData_Click"
+                                                Foreground="White"
+                                                Style="{StaticResource ImgBtn}"
+                                                ToolTip="Save">
                                                 <materialDesign:PackIcon Kind="Floppy" />
                                             </Button>
                                         </StackPanel>
-                                        
+
 
                                     </StackPanel>
                                     <Grid Grid.Row="1" Margin="5">

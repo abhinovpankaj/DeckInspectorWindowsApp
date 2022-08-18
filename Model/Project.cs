@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,8 @@ namespace UI.Code.Model
 {
     public class Project : BindingModel
     {
-
+        public ProjectDocument SelectedDocument { get; set; }
+        public ObservableCollection<ProjectDocument> DocumentsList { get; set; } = new ObservableCollection<ProjectDocument>();
         public string Id { get; set; }
 
         public string Attendent { get; set; }

@@ -133,13 +133,10 @@
                 <Setter Property="Foreground" Value="White" />
 
             </Style>
-            <Style TargetType="ListViewItem">
+            <!--<Style TargetType="ListViewItem">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            </Style>
-            <!--<Style TargetType="ListBoxItem">
-                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
             </Style>-->
+
             <Style x:Key="HorizontalRadioButtonList" TargetType="{x:Type ListBox}">
                 <Setter Property="Background" Value="Red" />
                 <Setter Property="ItemsPanel">
@@ -195,6 +192,7 @@
                         <ControlTemplate>
                             <Rectangle
                                 Margin="-2"
+                                Fill="Orange"
                                 Stroke="Red"
                                 StrokeDashArray="1 2"
                                 StrokeThickness="1" />

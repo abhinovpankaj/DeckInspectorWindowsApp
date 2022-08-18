@@ -22,12 +22,14 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Xml;
 using UI.Code.Model;
+using UI.Code.Services;
 using UI.Code.View.Dialog;
 
 namespace UI.Code.ViewModel
 {
     public class ProjectsPageViewModel : BaseViewModel, INavigationAware
     {
+        #region Properties
         private ObservableCollection<string> _pType;
 
         private const string NoInvasivePhotoText = "Invasive inspection not conducted as request by customer.";
@@ -83,22 +85,50 @@ namespace UI.Code.ViewModel
             set { _isDetailShow = value; OnPropertyChanged("DetailVisibility"); }
         }
 
-
-        IRegionManager RegionManger
-        {
-            get
-            {
-                return (IRegionManager)Prism.Ioc.ContainerLocator.Container.Resolve(typeof(IRegionManager));
-            }
-        }
-
-
         private string error;
 
         public string ErrorMsg
         {
             get { return error; }
             set { error = value; OnPropertyChanged("ErrorMsg"); }
+        }
+        private string _selecteType;
+
+        public string SelectedeportType
+        {
+            get { return _selecteType; }
+            set { _selecteType = value; OnPropertyChanged("SelectedeportType"); }
+        }
+        private string _us;
+
+        public string UserSearch
+        {
+            get { return _us; }
+            set { _us = value; OnPropertyChanged("UserSearch"); }
+        }
+        private bool _isc;
+
+        public bool IsCompleted
+        {
+            get { return _isc; }
+            set { _isc = value; OnPropertyChanged("IsCompleted"); }
+        }
+        private bool _isProjectDeleted;
+        public bool IsProjectDeleted
+        {
+            get { return _isProjectDeleted; }
+            set { _isProjectDeleted = value; OnPropertyChanged("IsProjectDeleted"); }
+        }
+
+        //public ProjectDocument SelectedDocument { get; set; }
+        //public ObservableCollection<ProjectDocument> DocumentsList { get; set; }
+        #endregion
+        IRegionManager RegionManger
+        {
+            get
+            {
+                return (IRegionManager)Prism.Ioc.ContainerLocator.Container.Resolve(typeof(IRegionManager));
+            }
         }
 
         public DelegateCommand NewCommand => new DelegateCommand(async () => await New());
@@ -126,13 +156,7 @@ namespace UI.Code.ViewModel
             SelectedeportType = "All";
             await Task.Run(() => LongOperation(SearchText, SelectedeportType, null));
         }
-        private string _selecteType;
-
-        public string SelectedeportType
-        {
-            get { return _selecteType; }
-            set { _selecteType = value; OnPropertyChanged("SelectedeportType"); }
-        }
+        
         public async void ReloadLocation(bool isActive=false)
         {
             IsBusy = true;
@@ -159,27 +183,7 @@ namespace UI.Code.ViewModel
             IsBusy = false;
         }
 
-        private string _us;
-
-        public string UserSearch
-        {
-            get { return _us; }
-            set { _us = value; OnPropertyChanged("UserSearch"); }
-        }
-        private bool _isc;
-
-        public bool IsCompleted
-        {
-            get { return _isc; }
-            set { _isc = value; OnPropertyChanged("IsCompleted"); }
-        }
-        private bool _isProjectDeleted;
-        public bool IsProjectDeleted
-        {
-            get { return _isProjectDeleted; }
-            set { _isProjectDeleted = value; OnPropertyChanged("IsProjectDeleted"); }
-        }
-
+       
         public DelegateCommand SearchCommand => new DelegateCommand(async () => await Search());
         public async Task Search()
         {
@@ -220,9 +224,7 @@ namespace UI.Code.ViewModel
             {
                 var parameters = new NavigationParameters { { "Project", prm } };
                 RegionManger.RequestNavigate("MainRegion", "Project", parameters);
-            }
-            
-            
+            }                        
         }
 
 
@@ -324,7 +326,7 @@ namespace UI.Code.ViewModel
           
             //TreeItems = MakeTree(new ObservableCollection<Organization>(await treeService.GetItemAsync(SearchText)), null);
             Projects = new ObservableCollection<Project>(await projectService.GetItemsAsync(search, SelectedeportType, CreatedOn,isProjectDeleted));
-
+            
             IsBusy = false;
             Showhide = IsProjectDeleted;
             OnPropertyChanged("Showhide");
@@ -335,6 +337,39 @@ namespace UI.Code.ViewModel
         {
             await Task.Run(() => TreeLongOperation(Id));
             return await Task.FromResult(true);
+        }
+
+        public async Task<bool> GetAllDocumentsForProject(Project prj)
+        {
+            IsBusy = true;
+            SelectedItem.DocumentsList = new ObservableCollection<ProjectDocument>(await projectService.GetDocuments(prj.Id));
+            OnPropertyChanged("DocumentsList");
+            IsBusy = false;
+            return await Task.FromResult(true);
+        }
+
+        public async void UploadDocumentsForProject(List<string> documents, string Id)
+        {
+            Response response = new Response();
+            foreach (var item in documents)
+            {
+                ProjectDocument doc = new ProjectDocument();
+                doc.UploadedOn = DateTime.Now;
+                doc.UserName = App.LogUserName.Split(':')[1].Trim();
+                doc.DocumentPath = item;
+                doc.ProjectId = Id;
+                doc.DocumentName  = Path.GetFileNameWithoutExtension(item);
+                response = await DataUploadService.UploadProjectDocument(doc, $"api/Project/AddDocuments");
+                
+                if (response.Status== ApiResult.Success)
+                {
+                    ShowDialog(doc.DocumentName + " Uploaded successfully.");
+                    SelectedItem.DocumentsList = (ObservableCollection<ProjectDocument>)response.Data;
+                }
+            }
+            
+            
+            //await GetAllDocumentsForProject(null);
         }
         public async Task<bool> TreeLongOperation(string Id)
         {
@@ -377,12 +412,8 @@ namespace UI.Code.ViewModel
         {
             IsBusy = true;
             ErrorModel err = new ErrorModel();
-
-            
             try
             {
-
-
                 Response result = await projectService.FinelReportUpdateItemAsync(item);
                 if (result.Status == ApiResult.Success)
                 {

@@ -1,0 +1,99 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using UI.Code.Model;
+
+namespace UI.Code.Services
+{
+    public static class DataUploadService
+    {
+        public static async Task<Response> UploadFile(string filePath, string parentName, string endpointUrl)
+        {
+            Response result = new Response();
+            var parameters = new  Dictionary<string, string>();
+            var extension = Path.GetExtension(filePath);
+            parameters.Add("extension", extension);
+            HttpContent DictionaryItems = new FormUrlEncodedContent(parameters);
+            try
+            {
+                using (var client = new HttpClient())
+                {
+
+                    client.BaseAddress = new Uri(App.AppUrl);
+
+                    using (var formData = new MultipartFormDataContent())
+                    {
+                        string ServerFileName = parentName + Guid.NewGuid().ToString();
+
+                        formData.Add(new ByteArrayContent(File.ReadAllBytes(filePath)), "MainImage" + DateTime.Now.Ticks, ServerFileName);
+
+                        formData.Add(DictionaryItems, "Model");
+
+                        var response = client.PostAsync(endpointUrl, formData).Result;
+
+                        var responseBody = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<Response>(responseBody);
+                        
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Data = -1;
+                result.Message = ex.Message;
+                result.Status = ApiResult.Fail;
+            }
+            return await Task.FromResult(result);
+        }
+
+        public static async Task<Response> UploadProjectDocument(ProjectDocument document, string endpointUrl)
+        {
+            Response result = new Response();
+            var parameters = new Dictionary<string, string>();
+            var extension = Path.GetExtension(document.DocumentPath);
+            parameters.Add("extension", extension);
+            parameters.Add("DocumentName", document.DocumentName);
+            parameters.Add("ProjectId", document.ProjectId);
+            parameters.Add("DocUrl", document.DocumentPath);
+            parameters.Add("UserName", document.UserName);
+            HttpContent DictionaryItems = new FormUrlEncodedContent(parameters);
+            try
+            {
+                using (var client = new HttpClient())
+                {
+
+                    client.BaseAddress = new Uri(App.AppUrl);
+
+                    using (var formData = new MultipartFormDataContent())
+                    {
+                        string ServerFileName = document.DocumentName + Guid.NewGuid().ToString();
+
+                        formData.Add(new ByteArrayContent(File.ReadAllBytes(document.DocumentPath)), document.DocumentName + DateTime.Now.Ticks, ServerFileName);
+
+                        formData.Add(DictionaryItems, "Model");
+
+                        var response =  client.PostAsync(endpointUrl, formData).Result;
+
+                        var responseBody = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<Response>(responseBody);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Data = -1;
+                result.Message = ex.Message;
+                result.Status = ApiResult.Fail;
+            }
+            return await Task.FromResult(result);
+        }
+
+    }
+}
