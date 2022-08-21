@@ -47,6 +47,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
@@ -125,8 +126,18 @@
                             <materialDesign:PackIcon Kind="PlusCircleOutline" />
                         </Button>
                     </StackPanel>
-                    <StackPanel
+                    <Button
                         Grid.Column="4"
+                        Margin="5"
+                        HorizontalAlignment="Right"
+                        Command="{Binding UpdateFinalReportTemplateCommand}"
+                        IsEnabled="{Binding IsAdmin}"
+                        Style="{StaticResource ImgBtn}"
+                        ToolTip="Change Project Final Report Template">
+                        <materialDesign:PackIcon Kind="FileDocumentEdit" />
+                    </Button>
+                    <StackPanel
+                        Grid.Column="5"
                         VerticalAlignment="Center"
                         Visibility="{Binding IsReportInProgress}">
                         <TextBlock Margin="10,0" Text="{Binding StatusMessage}" />

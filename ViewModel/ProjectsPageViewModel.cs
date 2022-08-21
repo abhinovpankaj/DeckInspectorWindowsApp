@@ -32,6 +32,8 @@ namespace UI.Code.ViewModel
     public class ProjectsPageViewModel : BaseViewModel, INavigationAware
     {
         #region Properties
+        public bool IsAdminLoggedIn { get; set; }
+
         private ObservableCollection<string> _pType;
 
         private const string NoInvasivePhotoText = "Invasive inspection not conducted as request by customer.";
@@ -130,6 +132,22 @@ namespace UI.Code.ViewModel
             get
             {
                 return (IRegionManager)Prism.Ioc.ContainerLocator.Container.Resolve(typeof(IRegionManager));
+            }
+        }
+        
+        public DelegateCommand UpdateFinalReportTemplateCommand => new DelegateCommand( () =>  UpdateFinalReportTemplate());
+
+        private void UpdateFinalReportTemplate()
+        {
+            List<string> templateFilePath = new List<string>();
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = false;
+            openFileDialog.Filter = "Template files (*.*)|*.*";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() ==  System.Windows.Forms.DialogResult.OK)
+            {
+                templateFilePath.Add(System.IO.Path.GetFullPath(openFileDialog.FileName));                
+                UploadDocumentsForProject(templateFilePath,"");
             }
         }
 
@@ -401,6 +419,8 @@ namespace UI.Code.ViewModel
                     SelectedItem.DocumentsList = new ObservableCollection<ProjectDocument>(JsonConvert.DeserializeObject<List<ProjectDocument>>
                         (response.Data.ToString()));
                 }
+                else
+                    ShowDialog("Failed to update report template. "+ response.Message);
             }
             
             
@@ -534,6 +554,8 @@ namespace UI.Code.ViewModel
             ImageQuality = Properties.Settings.Default.ImageQuality;
             Factor = Properties.Settings.Default.Factor;
             ReportMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(8000));
+            IsAdminLoggedIn = App.LogUser.RoleName == "Admin" ;
+            OnPropertyChanged("IsAdminLoggedIn");
         }
         private void ShowDialog()
         {
