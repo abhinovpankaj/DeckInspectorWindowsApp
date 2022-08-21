@@ -415,12 +415,14 @@ namespace UI.Code.ViewModel
                 
                 if (response.Status== ApiResult.Success)
                 {
-                    ShowDialog(doc.DocumentName + " Uploaded successfully.");                    
-                    SelectedItem.DocumentsList = new ObservableCollection<ProjectDocument>(JsonConvert.DeserializeObject<List<ProjectDocument>>
-                        (response.Data.ToString()));
+                    ShowDialog(doc.DocumentName + " Uploaded successfully.");
+                    SelectedItem.DocumentsList.Add(doc);
+                    //SelectedItem.DocumentsList = new ObservableCollection<ProjectDocument>(JsonConvert.DeserializeObject<List<ProjectDocument>>
+                    //    (response.Data.ToString()));
+
                 }
                 else
-                    ShowDialog("Failed to update report template. "+ response.Message);
+                    ShowDialog("Failed to upload the file. "+ response.Message);
             }
             
             
