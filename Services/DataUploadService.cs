@@ -56,11 +56,11 @@ namespace UI.Code.Services
         {
             Response result = new Response();
             var parameters = new Dictionary<string, string>();
-            var extension = Path.GetExtension(document.DocumentPath);
+            var extension = Path.GetExtension(document.DocURL);
             parameters.Add("extension", extension);
             parameters.Add("DocumentName", document.DocumentName);
             parameters.Add("ProjectId", document.ProjectId);
-            parameters.Add("DocUrl", document.DocumentPath);
+            parameters.Add("DocUrl", document.DocURL);
             parameters.Add("UserName", document.UserName);
             HttpContent DictionaryItems = new FormUrlEncodedContent(parameters);
             try
@@ -72,9 +72,9 @@ namespace UI.Code.Services
 
                     using (var formData = new MultipartFormDataContent())
                     {
-                        string ServerFileName = document.DocumentName + Guid.NewGuid().ToString();
+                        string ServerFileName = Path.GetFileNameWithoutExtension(document.DocURL) + Guid.NewGuid().ToString();
 
-                        formData.Add(new ByteArrayContent(File.ReadAllBytes(document.DocumentPath)), document.DocumentName + DateTime.Now.Ticks, ServerFileName);
+                        formData.Add(new ByteArrayContent(File.ReadAllBytes(document.DocURL)), Path.GetFileNameWithoutExtension(document.DocURL) + DateTime.Now.Ticks, ServerFileName);
 
                         formData.Add(DictionaryItems, "Model");
 

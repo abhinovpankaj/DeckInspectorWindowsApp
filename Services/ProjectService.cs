@@ -373,7 +373,7 @@ namespace UI.Code.Services
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
-                using (HttpResponseMessage response = await client.PostAsJsonAsync($"api/Project/DeleteDocument", id))
+                using (HttpResponseMessage response = await client.DeleteAsync($"api/Project/DeleteDocument?id="+ id))
                 {
                     var responseBody = await response.Content.ReadAsStringAsync();
                     Response result = JsonConvert.DeserializeObject<Response>(responseBody);

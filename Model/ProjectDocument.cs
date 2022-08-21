@@ -12,6 +12,8 @@ namespace UI.Code.Model
         public string UserName { get; set; }
         public string ProjectId { get; set; }
         public DateTime UploadedOn { get; set; }
-        public string DocumentPath { get; set; }
+        public string DocURL { get; set; }
+        public string Id { get; set; }
     }
 }
+

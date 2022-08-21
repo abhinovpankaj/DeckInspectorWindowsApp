@@ -16,10 +16,12 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Xml;
 using UI.Code.Model;
 using UI.Code.Services;
@@ -258,6 +260,38 @@ namespace UI.Code.ViewModel
             DetailVisibility = false;
         }
         public DelegateCommand<Project> EditCommand => new DelegateCommand<Project>(async (Project parm) => await Edit(parm));
+        public DelegateCommand<ProjectDocument> DownloadDocumentCommand => new DelegateCommand<ProjectDocument>( (ProjectDocument parm) => DownloadDocument(parm));
+
+        public DelegateCommand<ProjectDocument> DeleteDocumentCommand => new DelegateCommand<ProjectDocument>(async (ProjectDocument parm) => await DeleteDocument(parm));
+        private void DownloadDocument(ProjectDocument parm)
+        {
+            string localFile = string.Empty;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            saveFileDialog1.Title = "Save File";
+            saveFileDialog1.CheckFileExists = false;
+            saveFileDialog1.CheckPathExists = false;
+            saveFileDialog1.FileName = parm.DocumentName;
+            saveFileDialog1.RestoreDirectory = true;
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                localFile = saveFileDialog1.FileName;
+            }
+            var webClient = new WebClient();
+            webClient.DownloadFileCompleted += (sender, args) =>
+            {
+                if (args.Error != null)
+                {
+                    ShowDialog("Failed to download the  file.Error: "+ args.Error);
+                }
+            };
+            webClient.DownloadFileAsync(new Uri(parm.DocURL), localFile);
+        }
+        private async Task DeleteDocument(ProjectDocument parm)
+        {
+            SelectedItem.DocumentsList.Remove(parm);
+            await projectService.DeleteProjectDocument(parm.Id);
+        }
         public async Task Edit(Project parm)
         {
             // ShowDialog();
@@ -356,15 +390,16 @@ namespace UI.Code.ViewModel
                 ProjectDocument doc = new ProjectDocument();
                 doc.UploadedOn = DateTime.Now;
                 doc.UserName = App.LogUserName.Split(':')[1].Trim();
-                doc.DocumentPath = item;
+                doc.DocURL = item;
                 doc.ProjectId = Id;
-                doc.DocumentName  = Path.GetFileNameWithoutExtension(item);
+                doc.DocumentName  = Path.GetFileName(item);
                 response = await DataUploadService.UploadProjectDocument(doc, $"api/Project/AddDocuments");
                 
                 if (response.Status== ApiResult.Success)
                 {
-                    ShowDialog(doc.DocumentName + " Uploaded successfully.");
-                    SelectedItem.DocumentsList = (ObservableCollection<ProjectDocument>)response.Data;
+                    ShowDialog(doc.DocumentName + " Uploaded successfully.");                    
+                    SelectedItem.DocumentsList = new ObservableCollection<ProjectDocument>(JsonConvert.DeserializeObject<List<ProjectDocument>>
+                        (response.Data.ToString()));
                 }
             }
             
@@ -3462,7 +3497,7 @@ namespace UI.Code.ViewModel
 
                 using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(rtf ?? string.Empty)))
                 {
-                    textRange.Load(stream, DataFormats.Rtf);
+                    textRange.Load(stream, System.Windows.DataFormats.Rtf);
                 }
                 return textRange.Text;
             }

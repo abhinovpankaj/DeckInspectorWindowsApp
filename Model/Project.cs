@@ -10,7 +10,8 @@ namespace UI.Code.Model
 {
     public class Project : BindingModel
     {
-        public ProjectDocument SelectedDocument { get; set; }
+        public ProjectDocument SelectedDocument { get; 
+            set; }
         public ObservableCollection<ProjectDocument> DocumentsList { get; set; } = new ObservableCollection<ProjectDocument>();
         public string Id { get; set; }
 
