@@ -142,7 +142,7 @@ namespace UI.Code.ViewModel
             List<string> templateFilePath = new List<string>();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = false;
-            openFileDialog.Filter = "Template files (*.*)|*.*";
+            openFileDialog.Filter = "Template files(*.docx)|*.docx|All files(*.*)|*.* ";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             if (openFileDialog.ShowDialog() ==  System.Windows.Forms.DialogResult.OK)
             {
@@ -416,7 +416,11 @@ namespace UI.Code.ViewModel
                 if (response.Status== ApiResult.Success)
                 {
                     ShowDialog(doc.DocumentName + " Uploaded successfully.");
-                    SelectedItem.DocumentsList.Add(doc);
+                    if (!string.IsNullOrEmpty(Id))
+                    {
+                        SelectedItem.DocumentsList.Add(doc);
+                    }
+                    
                     //SelectedItem.DocumentsList = new ObservableCollection<ProjectDocument>(JsonConvert.DeserializeObject<List<ProjectDocument>>
                     //    (response.Data.ToString()));
 
