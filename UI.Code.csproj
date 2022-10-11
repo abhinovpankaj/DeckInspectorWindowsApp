@@ -219,11 +219,13 @@
     <Compile Include="Model\CustomRadioItem.cs" />
     <Compile Include="Model\MultiImage.cs" />
     <Compile Include="Model\OrganizationDetail.cs" />
+    <Compile Include="Model\ProjectDocument.cs" />
     <Compile Include="Model\TreeFile.cs" />
     <Compile Include="Model\VisualBuildingApartment.cs" />
     <Compile Include="Model\ErrorModel.cs" />
     <Compile Include="Model\Response.cs" />
     <Compile Include="Model\Search.cs" />
+    <Compile Include="Services\DataUploadService.cs" />
     <Compile Include="Services\ReportingService.cs" />
     <Compile Include="Services\TreeServices.cs" />
     <Compile Include="ViewModel\AssigeProjectViewModel.cs" />

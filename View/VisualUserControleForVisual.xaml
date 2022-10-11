@@ -181,14 +181,48 @@
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
 
-                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                    <Setter Property="Padding" Value="0" />
                                     <Setter Property="Margin" Value="10,5" />
                                     <Setter Property="AllowDrop" Value="true" />
 
                                     <EventSetter Event="PreviewMouseMove" Handler="lbox_PreviewMouseMoveEvent" />
                                     <EventSetter Event="Drop" Handler="lboxViusal_Drop" />
                                     <EventSetter Event="MouseDoubleClick" Handler="VisualDoubleClick" />
-
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <Border
+                                                    x:Name="Bd"
+                                                    Padding="{TemplateBinding Padding}"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    SnapsToDevicePixels="true">
+                                                    <ContentPresenter
+                                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="true">
+                                                        <Setter TargetName="Bd" Property="Background" Value="#fed8b1" />
+                                                        <Setter TargetName="Bd" Property="BorderThickness" Value="6,6,0,0" />
+                                                    </Trigger>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            <Condition Property="IsSelected" Value="true" />
+                                                            <Condition Property="Selector.IsSelectionActive" Value="false" />
+                                                        </MultiTrigger.Conditions>
+                                                        <!--<Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />-->
+                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                                                    </MultiTrigger>
+                                                    <Trigger Property="IsEnabled" Value="false">
+                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
 
 
 
@@ -202,7 +236,8 @@
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         BorderBrush="#2e479b"
-                                        BorderThickness="1">
+                                        BorderThickness="1"
+                                        CornerRadius="5">
 
                                         <Grid
                                             Margin="5"
@@ -561,7 +596,7 @@
                                     Text="Additional Considerations or Concerns"
                                     TextWrapping="Wrap" />
 
-                                <RichTextBox 
+                                <RichTextBox
                                     x:Name="richAdditionalControl"
                                     Grid.Row="7"
                                     Grid.Column="1"
@@ -569,11 +604,9 @@
                                     Margin="5"
                                     HorizontalAlignment="Left"
                                     FontSize="8"
-                                    
                                     Foreground="Black"
                                     IsReadOnly="True"
-                                    IsReadOnlyCaretVisible="True"
-                                     />
+                                    IsReadOnlyCaretVisible="True" />
 
 
                                 <TextBlock

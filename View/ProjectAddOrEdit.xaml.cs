@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UI.Code.Model;
+using UI.Code.Services;
 using UI.Code.ViewModel;
 
 namespace UI.Code.View
@@ -68,7 +69,7 @@ namespace UI.Code.View
           
         }
 
-        private void btnImage_Click(object sender, RoutedEventArgs e)
+        private async void btnImage_Click(object sender, RoutedEventArgs e)
         {
             //browse select image
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -77,7 +78,13 @@ namespace UI.Code.View
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             if (openFileDialog.ShowDialog() == true)
             {
-                vm.Project.ImageUrl = System.IO.Path.GetFullPath(openFileDialog.FileName);
+                var localPath= System.IO.Path.GetFullPath(openFileDialog.FileName);
+                var response= await DataUploadService.UploadFile(localPath, vm.Project.Name, $"api/Project/AddImage");
+                if (response.Status!= ApiResult.Fail)
+                {
+                    vm.Project.ImageUrl = response.Data.ToString();
+                }
+                
             }
         }
     }

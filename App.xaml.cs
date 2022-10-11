@@ -33,7 +33,7 @@ public enum Skin { Dark, Light }
     ///  public enum Skin { Red, Blue }
     public partial class App : PrismApplication
     {
-        //public static string AppUrl = "http://localhost:1169/";
+        //public static string AppUrl = "http://localhost:62850/";
 
         //public static string AppUrl = "http://xoricwebapi-prod.us-east-1.elasticbeanstalk.com/";
         public static string AppUrl = "http://api.deckinspectors.com/v3/";

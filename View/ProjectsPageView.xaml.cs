@@ -1,4 +1,5 @@
-﻿using Prism.Services.Dialogs;
+﻿using Microsoft.Win32;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -133,8 +135,11 @@ namespace UI.Code.View
             childWindowFeedback.Close();
             childWindowdownload.Visibility = Visibility.Collapsed;
             childWindowdownload.Close();
-            childWindowdownload.Visibility = Visibility.Collapsed;
+            childWindowTree.Visibility = Visibility.Collapsed;
             childWindowTree.Close();
+
+            childWindowupload.Visibility = Visibility.Collapsed;
+            childWindowupload.Close();
         }
 
         private async void StackPanel_MouseUp(object sender, MouseButtonEventArgs e)
@@ -293,17 +298,19 @@ namespace UI.Code.View
             if(string.IsNullOrEmpty(p.InvasiveProjectID))
             {
                 DI_Invasive_Panel.Visibility = WICR_Invasive_Panel.Visibility= Visibility.Collapsed;
+                WICR_OnlyInvasive_Panel.Visibility = WICR_Invasive_Panel.Visibility = Visibility.Collapsed;
             }
             else
             {
                 DI_Invasive_Panel.Visibility = WICR_Invasive_Panel.Visibility = Visibility.Visible;
+                WICR_OnlyInvasive_Panel.Visibility = WICR_Invasive_Panel.Visibility = Visibility.Visible;
 
             }
             //VISUAL FOR DI
             btnReport_Visual_Word.Tag=btnReport_Visual.Tag= p.Id;
             //Invasive FOR DI
             btnReport_Invasive.Tag = btnDIInvasiveWord.Tag = p.InvasiveProjectID;
-            btnReport_InvasiveOnly.Tag = btnDIInvasiveWord.Tag = p.InvasiveProjectID;
+            btnReport_InvasiveOnly.Tag = btnDIInvasiveOnlyWord.Tag = p.InvasiveProjectID;
             //Finel FOR DI WORD AND PDF
             btnFinelReport_Deck.Tag = btnFilelReport_Deck_Word.Tag = p.Id;
 
@@ -311,7 +318,8 @@ namespace UI.Code.View
             btnReport_Visual_WICR.Tag = WICR_Visual_Word.Tag = p.Id;
 
             btnReport_Invasive_wicr.Tag= WICR_Invasive_Word.Tag= p.InvasiveProjectID;
-            btnReport_InvasiveOnly_wicr.Tag = WICR_Invasive_Word.Tag = p.InvasiveProjectID;
+            btnReport_InvasiveOnly_wicr.Tag = WICR_InvasiveOnly_Word.Tag = p.InvasiveProjectID;
+            
             btnFinelReport_Wicr.Tag = btnWICR_FinelReport_Word.Tag = p.Id;
 
         }
@@ -671,6 +679,38 @@ namespace UI.Code.View
             Task.Run(() => vm.WordInvasive(vm.ImageQuality, vm.Factor, vm.ImageWidth, projectId, "DI", "Word",true));
 
             ShowHideUI();
+        }
+        Project selectedProject;
+        private async void BtnUpload_Click(object sender, RoutedEventArgs e)
+        {
+            selectedProject = ((Button)sender).DataContext as Project;
+            vm.SelectedItem = selectedProject;
+            await vm.GetAllDocumentsForProject(selectedProject);
+            childWindowupload.DataContext = selectedProject;
+            childWindowupload.Visibility = Visibility.Visible;
+            childWindowupload.Show();
+        }
+
+        private void btnuploadClose_Click(object sender, RoutedEventArgs e)
+        {
+            childWindowupload.Visibility = Visibility.Collapsed;
+            childWindowupload.Close();
+        }
+
+        private void btnUploadDocuments_Click(object sender, RoutedEventArgs e)
+        {
+            List<string> docs = new List<string>();
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = true;
+            openFileDialog.Filter = "Project files (*.*)|*.*";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                foreach (string filename in openFileDialog.FileNames)
+                    docs.Add(System.IO.Path.GetFullPath(filename));
+
+                vm.UploadDocumentsForProject(docs, selectedProject.Id);                
+            }
         }
     }
 }
