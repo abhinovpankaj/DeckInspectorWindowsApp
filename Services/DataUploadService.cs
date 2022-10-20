@@ -127,15 +127,15 @@ namespace UI.Code.Services
 
                         if (document.ProjectId=="")    
                         {                            
-                            WordDocument reportDoc = new WordDocument(document.DocURL, FormatType.Docx);
-                            if (File.Exists("Finel.html"))
-                            {
-                                File.Delete("Finel.html");
-                            }
-                            reportDoc.Save("Finel.html", FormatType.Html);                            
-                            reportDoc.Close();
+                            //WordDocument reportDoc = new WordDocument(document.DocURL, FormatType.Docx);
+                            ////if (File.Exists("Finel.html"))
+                            ////{
+                            ////    File.Delete("Finel.html");
+                            ////}
+                            //reportDoc.Save("Finel.html", FormatType.Html);                            
+                            //reportDoc.Close();
 
-                            formData.Add(new ByteArrayContent(File.ReadAllBytes("Finel.html")), "Finel"
+                            formData.Add(new ByteArrayContent(File.ReadAllBytes(document.DocURL)), "Finel"
                                 + DateTime.Now.Ticks, ServerFileName);
                         }
                         else
