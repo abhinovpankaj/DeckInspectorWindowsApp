@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace UI.Code.View
 {
@@ -42,68 +43,77 @@ namespace UI.Code.View
 
         private static void ImageUrlPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            var url = (String)e.NewValue;
-            if (String.IsNullOrEmpty(url))
-                return;
-            try
+            Task.Factory.StartNew(() => 
             {
-                var uri = new Uri(url);
-                var localFile = String.Format(Path.Combine(AppCacheDirectory, uri.Segments[uri.Segments.Length - 1]));
-                var tempFile = String.Format(Path.Combine(AppCacheDirectory, Guid.NewGuid().ToString()));
+                var url = (String)e.NewValue;
+                if (String.IsNullOrEmpty(url))
+                    return;
+                try
+                {
+                    var uri = new Uri(url);
+                    var localFile = String.Format(Path.Combine(AppCacheDirectory, uri.Segments[uri.Segments.Length - 1]));
+                    var tempFile = String.Format(Path.Combine(AppCacheDirectory, Guid.NewGuid().ToString()));
 
-                if (File.Exists(localFile))
-                {
-                    SetSource((CachedImage)obj, localFile);
-                }
-                else
-                {
-                    var webClient = new WebClient();
-                    webClient.DownloadFileCompleted += (sender, args) =>
+                    if (File.Exists(localFile))
                     {
-                        if (args.Error != null)
-                        {
-                            File.Delete(tempFile);
-                            return;
-                        }
-                        if (File.Exists(localFile))
-                            return;
-                        lock (SafeCopy)
-                        {
-                            File.Move(tempFile, localFile);
-                        }
                         SetSource((CachedImage)obj, localFile);
-                    };
+                    }
+                    else
+                    {
+                        var webClient = new WebClient();
+                        webClient.DownloadFileCompleted += (sender, args) =>
+                        {
+                            if (args.Error != null)
+                            {
+                                File.Delete(tempFile);
+                                return;
+                            }
+                            if (File.Exists(localFile))
+                                return;
+                            lock (SafeCopy)
+                            {
+                                File.Move(tempFile, localFile);
+                            }
+                            SetSource((CachedImage)obj, localFile);
+                        };
 
-                    webClient.DownloadFileAsync(uri, tempFile);
+                        webClient.DownloadFileAsync(uri, tempFile);
+                    }
                 }
-            }
-            catch{
+                catch
+                {
 
-            }
+                }
+            });
+            
             
         }
 
         private static void SetSource(System.Windows.Controls.Image inst, String path)
         {
-           
-            using (var objImage = System.Drawing.Image.FromFile(path))
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                try
+                using (var objImage = System.Drawing.Image.FromFile(path))
                 {
-                    //if (!File.Exists(path))
-                   // {
+                    try
+                    {
+                        //if (!File.Exists(path))
+                        // {
                         FixImage(objImage, path);
                         objImage.Save(path);
-                    //}
-                }
-                catch (Exception ex)
-                {
+                        //}
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    inst.Source = new BitmapImage(new Uri(path));
+
 
                 }
-                inst.Source = new BitmapImage(new Uri(path));
-
-
-            }
+            });
+           
+            
 
          
         }
