@@ -161,145 +161,194 @@
                             </Button>
                         </StackPanel>
                     </Grid>
-                    <ScrollViewer Grid.Row="1">
-                        <ListBox
-                            Name="lboxVisual"
-                            Width="400"
-                            VerticalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            ItemsSource="{Binding Items}"
-                            ScrollViewer.CanContentScroll="False"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            SelectionMode="Single">
-                            <ListBox.Resources>
-                                <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="ListBoxItem">
-                                    <Setter Property="Background" Value="Transparent" />
-                                </Style>
-                            </ListBox.Resources>
+                    <materialDesign:DialogHost x:Name="confirmationDialog" Grid.Row="1">
+                        <materialDesign:DialogHost.DialogContent>
+                            <StackPanel Margin="20">
+                                <TextBlock
+                                    Name="txtDelete"
+                                    Margin="5"
+                                    FontSize="14"
+                                    Foreground="Black"
+                                    Style="{StaticResource Title}"
+                                    Text="Location will be deleted. Are you sure?" />
 
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <Button
+                                        Name="btnDeleteOk"
+                                        Height="25"
+                                        Margin="10"
+                                        HorizontalAlignment="Right"
+                                        HorizontalContentAlignment="Center"
+                                        Click="btnDeleteLocation_Click"
+                                        Content="Yes"
+                                        Style="{StaticResource btn}"
+                                        ToolTip="Yes" />
+                                    <Button
+                                        Name="btnDeleteClose"
+                                        Margin="10"
+                                        HorizontalAlignment="Center"
+                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                        Style="{StaticResource btn}"
+                                        ToolTip="No">
+                                        No
+                                    </Button>
+                                </StackPanel>
 
-                                    <Setter Property="Padding" Value="0" />
-                                    <Setter Property="Margin" Value="10,5" />
-                                    <Setter Property="AllowDrop" Value="true" />
+                            </StackPanel>
+                        </materialDesign:DialogHost.DialogContent>
+                        <!--  put the content over which the dialog is shown here (e.g. your main window grid)  -->
+                        <ScrollViewer>
+                            <ListBox
+                                Name="lboxVisual"
+                                Width="400"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                ItemsSource="{Binding Items}"
+                                ScrollViewer.CanContentScroll="False"
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectionMode="Single">
+                                <ListBox.Resources>
+                                    <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="ListBoxItem">
+                                        <Setter Property="Background" Value="Transparent" />
+                                    </Style>
+                                </ListBox.Resources>
 
-                                    <EventSetter Event="PreviewMouseMove" Handler="lbox_PreviewMouseMoveEvent" />
-                                    <EventSetter Event="Drop" Handler="lboxViusal_Drop" />
-                                    <EventSetter Event="MouseDoubleClick" Handler="VisualDoubleClick" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                                <Border
-                                                    x:Name="Bd"
-                                                    Padding="{TemplateBinding Padding}"
-                                                    Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                    SnapsToDevicePixels="true">
-                                                    <ContentPresenter
-                                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsSelected" Value="true">
-                                                        <Setter TargetName="Bd" Property="Background" Value="#fed8b1" />
-                                                        <Setter TargetName="Bd" Property="BorderThickness" Value="6,6,0,0" />
-                                                    </Trigger>
-                                                    <MultiTrigger>
-                                                        <MultiTrigger.Conditions>
-                                                            <Condition Property="IsSelected" Value="true" />
-                                                            <Condition Property="Selector.IsSelectionActive" Value="false" />
-                                                        </MultiTrigger.Conditions>
-                                                        <!--<Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />-->
-                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-                                                    </MultiTrigger>
-                                                    <Trigger Property="IsEnabled" Value="false">
-                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="Margin" Value="10,5" />
+                                        <Setter Property="AllowDrop" Value="true" />
+
+                                        <EventSetter Event="PreviewMouseMove" Handler="lbox_PreviewMouseMoveEvent" />
+                                        <EventSetter Event="Drop" Handler="lboxViusal_Drop" />
+                                        <EventSetter Event="MouseDoubleClick" Handler="VisualDoubleClick" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                    <Border
+                                                        x:Name="Bd"
+                                                        Padding="{TemplateBinding Padding}"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        SnapsToDevicePixels="true">
+                                                        <ContentPresenter
+                                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsSelected" Value="true">
+                                                            <Setter TargetName="Bd" Property="Background" Value="#fed8b1" />
+                                                            <Setter TargetName="Bd" Property="BorderThickness" Value="6,6,0,0" />
+                                                        </Trigger>
+                                                        <MultiTrigger>
+                                                            <MultiTrigger.Conditions>
+                                                                <Condition Property="IsSelected" Value="true" />
+                                                                <Condition Property="Selector.IsSelectionActive" Value="false" />
+                                                            </MultiTrigger.Conditions>
+                                                            <!--<Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />-->
+                                                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                                                        </MultiTrigger>
+                                                        <Trigger Property="IsEnabled" Value="false">
+                                                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
 
 
 
-                                </Style>
+                                    </Style>
 
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border
-                                        Margin="0"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
-                                        BorderBrush="#2e479b"
-                                        BorderThickness="1"
-                                        CornerRadius="5">
-
-                                        <Grid
-                                            Margin="5"
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            Margin="0"
                                             HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <!--<ColumnDefinition Width="Auto"></ColumnDefinition>-->
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock
-                                                    Grid.Row="0"
+                                            VerticalAlignment="Stretch"
+                                            BorderBrush="#2e479b"
+                                            BorderThickness="1"
+                                            CornerRadius="5">
+
+                                            <Grid
+                                                Margin="5"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Margin="20,0,0,0"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="16"
+                                                        Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                                                        Text="{Binding Name}" />
+
+                                                </StackPanel>
+                                                <StackPanel
+                                                    Grid.Row="1"
                                                     Grid.Column="0"
-                                                    Margin="20,0,0,0"
-                                                    HorizontalAlignment="Left"
-                                                    VerticalAlignment="Center"
-                                                    FontSize="16"
-                                                    Style="{StaticResource MaterialDesignHeadline3TextBlock}"
-                                                    Text="{Binding Name}" />
-
-                                            </StackPanel>
-                                            <StackPanel
-                                                Grid.Row="1"
-                                                Grid.Column="0"
-                                                Margin="20,0"
-                                                Orientation="Horizontal">
+                                                    Margin="20,0"
+                                                    Orientation="Horizontal">
 
 
-                                                <TextBlock
-                                                    Margin="0"
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Center"
-                                                    Style="{StaticResource MaterialDesignCaptionTextBlock}"
-                                                    Text="{Binding CreatedOn, StringFormat='CreatedOn {0} '}" />
-                                                <TextBlock
-                                                    Margin="5,0,0,0"
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Center"
-                                                    Style="{StaticResource MaterialDesignCaptionTextBlock}"
-                                                    Text="{Binding Username, StringFormat='By {0} '}" />
+                                                    <TextBlock
+                                                        Margin="0"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                                        Text="{Binding CreatedOn, StringFormat='CreatedOn {0} '}" />
+                                                    <TextBlock
+                                                        Margin="5,0,0,0"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                                        Text="{Binding Username, StringFormat='By {0} '}" />
 
 
 
-                                            </StackPanel>
+                                                </StackPanel>
+                                                <Button
+                                                    Name="btnDeleteLocation"
+                                                    Grid.RowSpan="2"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Right"
+                                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                                    Foreground="#2e479b"
+                                                    Style="{StaticResource ImgBtn}"
+                                                    ToolTip="Reorder"
+                                                    Visibility="Visible">
+                                                    <materialDesign:PackIcon Kind="DeleteCircle" />
+                                                </Button>
+                                            </Grid>
 
-                                        </Grid>
-
-                                    </Border>
+                                        </Border>
 
 
-                                </DataTemplate>
+                                    </DataTemplate>
 
-                            </ListBox.ItemTemplate>
+                                </ListBox.ItemTemplate>
 
 
-                        </ListBox>
+                            </ListBox>
 
-                    </ScrollViewer>
+                        </ScrollViewer>
+                    </materialDesign:DialogHost>
+
                 </Grid>
 
                 <Grid

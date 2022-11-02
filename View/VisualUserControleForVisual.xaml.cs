@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -1435,6 +1436,48 @@ namespace UI.Code.View
             VisualReportEditor.DataContext = addViewModel; 
             VisualReportEditor.Visibility = Visibility.Visible;
             
+        }
+
+        private async void btnDeleteLocation_Click(object sender, RoutedEventArgs e)
+        {
+            DialogHost.CloseDialogCommand.Execute(null,null);
+            var vm = this.DataContext;
+            try
+            {
+                
+                if (vm.GetType() == typeof(VisualApartmentViewModel))
+                {
+                    VisualApartmentViewModel db = vm as VisualApartmentViewModel;
+                    await db.VisualFormApartmentDataStore.DeleteItemAsync(db.SelectedItem);
+                    db.Items.Remove(db.SelectedItem);
+                    db.SelectedItem = null;
+                }
+                else if (vm.GetType() == typeof(VisualBuildingLocationViewModel))
+                {
+                    VisualBuildingLocationViewModel db = vm as VisualBuildingLocationViewModel;
+                    await db.VisualFormBuildingLocationDataStore.DeleteItemAsync(db.SelectedItem);
+                    db.Items.Remove(db.SelectedItem);
+                    db.SelectedItem = null;
+                }
+                else if (vm.GetType() == typeof(VisualProjectLocationViewModel))
+                {
+                    VisualProjectLocationViewModel db = vm as VisualProjectLocationViewModel;
+                    await db.VisualProjectLocationService.DeleteItemAsync(db.SelectedItem);
+                    db.Items.Remove(db.SelectedItem);
+                    db.SelectedItem = null;
+                }
+                else if (vm.GetType() == typeof(VisualSingleLevelProjectLocationViewModel))
+                {
+                    VisualSingleLevelProjectLocationViewModel db = vm as VisualSingleLevelProjectLocationViewModel;
+                    await db.VisualProjectLocationService.DeleteItemAsync(db.SelectedItem);
+                    db.Items.Remove(db.SelectedItem);
+                    db.SelectedItem = null;
+                }
+            }
+            catch
+            {
+
+            }
         }
     }
 }

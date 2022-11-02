@@ -26,12 +26,18 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>-->
-                <img:CachedImage
+                <!--<img:CachedImage
                     Width="240"
                     Height="200"
                     Margin="0"
                     VerticalAlignment="Stretch"
-                    ImageUrl="{Binding ImageUrl}" />
+                    ImageUrl="{Binding ImageUrl}" />-->
+                <Image
+                    Width="240"
+                    Height="200"
+                    Margin="0"
+                    VerticalAlignment="Stretch"
+                    Source="{Binding ImageUrl}" />
 
                 <TextBlock
                     Grid.Row="0"
