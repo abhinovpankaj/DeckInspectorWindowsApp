@@ -203,7 +203,10 @@ namespace UI.Code.ViewModel
             IsBusy = false;
         }
 
-       
+        public async void UpdateOfflineStatus(string id,bool isAllowed)
+        {
+            await projectService.UpdateProjectOfflineStatus(new OfflineStatus { Id=id, IsAvailableOffline=isAllowed});
+        }
         public DelegateCommand SearchCommand => new DelegateCommand(async () => await Search());
         public async Task Search()
         {

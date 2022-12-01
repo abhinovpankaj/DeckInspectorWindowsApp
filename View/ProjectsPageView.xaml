@@ -343,7 +343,10 @@
                                                 Visibility="{Binding IsInvasive, Converter={StaticResource BooleanToVisibilityConverter}}">
                                                 Invasive
                                             </Button>
-
+                                            <CheckBox
+                                                Click="CheckBox_Click"
+                                                Content="Allow Offline"
+                                                IsChecked="{Binding IsAvailableOffline}" />
                                             <Button
                                                 Margin="5"
                                                 HorizontalAlignment="Right"

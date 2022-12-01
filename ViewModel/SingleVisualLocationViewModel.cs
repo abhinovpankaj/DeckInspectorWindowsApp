@@ -311,6 +311,9 @@ namespace UI.Code.ViewModel
             Images = new ObservableCollection<VisualProjectLocationPhoto>(res.Where(c => c.ImageDescription != "TRUE" && c.ImageDescription != "CONCLUSIVE").OrderBy(c => c.SeqNo));
             InvasiveImgs = new ObservableCollection<VisualProjectLocationPhoto>(res.Where(c => c.ImageDescription == "TRUE").OrderBy(c => c.SeqNo));
             ConclusiveImgs = new ObservableCollection<VisualProjectLocationPhoto>(res.Where(c => c.ImageDescription == "CONCLUSIVE").OrderBy(c => c.SeqNo));
+            
+            //apply the logic to fix the images here only.
+
             return await Task.FromResult(true);
         }
         private ObservableCollection<VisualProjectLocationPhoto> Imgs;

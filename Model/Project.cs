@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using UI.Code.Services;
 
 namespace UI.Code.Model
 {
@@ -20,7 +21,22 @@ namespace UI.Code.Model
         public string AssignTo { get; set; }
         public string Name { get; set; }
 
-
+        private bool _isAvailableOffline;
+        public bool IsAvailableOffline
+        {
+            get
+            {
+                return _isAvailableOffline;
+            }
+            set
+            {
+                if (value!=_isAvailableOffline)
+                {
+                    _isAvailableOffline = value;
+                    OnPropertyChanged("IsAvailableOffline");                    
+                }
+            }
+        }        
         public string Description { get; set; }
 
 

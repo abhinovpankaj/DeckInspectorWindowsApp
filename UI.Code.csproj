@@ -16,26 +16,28 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>publish/</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://api.deckinspectors.com/v3/installer/</InstallUrl>
     <SupportUrl>http://api.deckinspectors.com/</SupportUrl>
     <ErrorReportUrl>http://api.deckinspectors.com/</ErrorReportUrl>
     <ProductName>Deck inspectors</ProductName>
     <PublisherName>Deck inspectors</PublisherName>
     <SuiteName>Deck inspectors</SuiteName>
-    <MinimumRequiredVersion>1.0.0.54</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.0.62</MinimumRequiredVersion>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>56</ApplicationRevision>
+    <ApplicationRevision>69</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -61,7 +63,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>6C23463747BFD9F251DCC22FC81054C45057A514</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>009F63F25BA72D45E6B5AA7F1534BF1BC79EB41C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>
@@ -218,6 +220,7 @@
     <Compile Include="Model\Class4.cs" />
     <Compile Include="Model\CustomRadioItem.cs" />
     <Compile Include="Model\MultiImage.cs" />
+    <Compile Include="Model\OfflineStatus.cs" />
     <Compile Include="Model\OrganizationDetail.cs" />
     <Compile Include="Model\ProjectDocument.cs" />
     <Compile Include="Model\TreeFile.cs" />

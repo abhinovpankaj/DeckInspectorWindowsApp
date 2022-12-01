@@ -23,7 +23,7 @@ namespace UI.Code.Services
         Task<IEnumerable<Project>> GetItemsAsync(string search, string Type, string CreatedOn, bool forceRefresh = false,bool IsDeleted=false);
         Task<IEnumerable<Project>> TreeGetItemsAsync(string TreeID, string search, string Type, string CreatedOn, bool forceRefresh = false);
         //Task<IEnumerable<BuildingApartment>> GetItemsAsyncByBuildingId(string BuildingId);
-
+        Task<Response> UpdateProjectOfflineStatus(OfflineStatus status);
     }
     public class ProjectService : IProjectService
     {
@@ -80,7 +80,24 @@ namespace UI.Code.Services
             // return await Task.FromResult(new Response());
 
         }
+        public async Task<Response> UpdateProjectOfflineStatus(OfflineStatus status)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(App.AppUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+                using (HttpResponseMessage response = await client.PostAsJsonAsync($"api/Project/UpdateProjectOfflineStatus", status))
+                {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    Response result = JsonConvert.DeserializeObject<Response>(responseBody);
 
+                    response.EnsureSuccessStatusCode();                    
+                    return await Task.FromResult(result);
+                }
+            }
+        }
         public async Task<Response> UpdateItemAsync(Project item)
         {
 

@@ -712,6 +712,15 @@ namespace UI.Code.View
                 vm.UploadDocumentsForProject(docs, selectedProject.Id);                
             }
         }
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            var chkbox = (CheckBox)sender;
+            bool checkStatus = (bool)chkbox.IsChecked;
+            selectedProject = ((CheckBox)sender).DataContext as Project;
+            vm.UpdateOfflineStatus(selectedProject.Id,checkStatus);
+            selectedProject.IsAvailableOffline = checkStatus;
+        }
     }
 }
 
