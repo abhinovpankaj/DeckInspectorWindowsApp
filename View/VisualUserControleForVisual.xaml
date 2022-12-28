@@ -750,13 +750,23 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            VerticalAlignment="Center"
-                            FontSize="14"
-                            Foreground="White"
-                            Style="{Binding Title}"
-                            Text="Photo(s)" />
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Foreground="White"
+                                Style="{Binding Title}"
+                                Text="Photo(s):" />
+                            <TextBlock
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Style="{Binding Title}"
+                                Text="{Binding Images.Count}" />
+                        </StackPanel>
+
                         <Button
                             x:Name="addPicBtn"
                             Grid.Row="0"
