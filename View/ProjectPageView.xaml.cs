@@ -1,4 +1,5 @@
-﻿using Prism.Services.Dialogs;
+﻿using Microsoft.Win32;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UI.Code.Model;
+using UI.Code.Services;
 using UI.Code.ViewModel;
 
 namespace UI.Code.View
@@ -35,6 +37,7 @@ namespace UI.Code.View
             UCAddEdit.ClickDel += UCAddEdit_ClickDel;
             UCAddEdit.ClickInvasive += UCAddEdit_ClickInvasive;
             UCAddEdit.ClickExport += UCAddEdit_ClickExport;
+            UCAddEdit.ClickImageUpload += UCAddEdit_ClickImageUpload;
             vm = this.DataContext as ProjectViewModel;
             lboxProjectLocation.SelectionChanged += LboxProjectLocation_SelectionChanged;
 
@@ -42,6 +45,25 @@ namespace UI.Code.View
             this.Loaded += ProjectPageView_Loaded;
             assignControl.ClickUserSearch += AssignControl_ClickUserSearch;
             assignControl.ClickUserReset += AssignControl_ClickUserReset;
+        }
+
+        private async void UCAddEdit_ClickImageUpload(object sender, EventArgs e)
+        {
+            //browse select image
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = false;
+            openFileDialog.Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var localPath = System.IO.Path.GetFullPath(openFileDialog.FileName);
+                var response = await DataUploadService.UploadFile(localPath, vm.Project.Name, $"api/Project/AddImage");
+                if (response.Status != ApiResult.Fail)
+                {
+                    vm.Project.ImageUrl = response.Data.ToString();
+                }
+
+            }
         }
 
         private void UCAddEdit_ClickExport(object sender, EventArgs e)

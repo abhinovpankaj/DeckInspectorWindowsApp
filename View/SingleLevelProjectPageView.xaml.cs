@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UI.Code.Model;
+using UI.Code.Services;
 using UI.Code.ViewModel;
 
 namespace UI.Code.View
@@ -34,11 +36,29 @@ namespace UI.Code.View
             UCAddEdit.ClickBack += UCAddEdit_ClickBack;
             UCAddEdit.ClickDel += UCAddEdit_ClickDel;
             UCAddEdit.ClickInvasive += UCAddEdit_ClickInvasive;
-            
+            UCAddEdit.ClickImageUpload += UCAddEdit_ClickImageUpload;
             UCAddEdit.ClickExport += UCAddEdit_ClickExport;
             vm.OnProjectLoadSuccess += Vm_OnProjectLoadSuccess;
         }
 
+        private async void UCAddEdit_ClickImageUpload(object sender, EventArgs e)
+        {
+            //browse select image
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = false;
+            openFileDialog.Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var localPath = System.IO.Path.GetFullPath(openFileDialog.FileName);
+                var response = await DataUploadService.UploadFile(localPath, vm.Project.Name, $"api/Project/AddImage");
+                if (response.Status != ApiResult.Fail)
+                {
+                    vm.Project.ImageUrl = response.Data.ToString();
+                }
+
+            }
+        }
         private void UCAddEdit_ClickExport(object sender, EventArgs e)
         {
             

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,7 @@ namespace UI.Code.Controls
         public event EventHandler ClickDel;
         public event EventHandler ClickInvasive;
         public event EventHandler ClickExport;
+        public event EventHandler ClickImageUpload;
         // public bool IsEdit { get => isEdit; set => isEdit = value; }
 
         private bool isDisplay;
@@ -44,6 +46,7 @@ namespace UI.Code.Controls
             btnBack.Click += BtnBack_Click;
             btnDelete.Click += BtnDelete_Click;
             btnExport.Click += BtnExport_Click1;
+            btnImageEdit.Click += BtnImageEdit_Click;
             if(IsAddress==true)
             {
                 txtAddress.Visibility = Visibility.Visible;
@@ -55,6 +58,16 @@ namespace UI.Code.Controls
             //    btnExport.Visibility = Visibility.Hidden;
             //}
             this.Loaded += AddEditHeader_Loaded;
+        }
+
+        private void BtnImageEdit_Click(object sender, RoutedEventArgs e)
+        {
+            var eventHandler = this.ClickImageUpload;
+
+            if (eventHandler != null)
+            {
+                eventHandler(this, e);
+            }
         }
 
         private void BtnExport_Click1(object sender, RoutedEventArgs e)
@@ -98,6 +111,7 @@ namespace UI.Code.Controls
             gDisplay.Visibility = btnDataEdit.Visibility = Visibility.Visible;
             gAddEdit.Visibility = Visibility.Collapsed;
             btnDataSave.Visibility = btnDataCancel.Visibility = Visibility.Collapsed;
+            btnImageEdit.Visibility=Visibility.Collapsed;
            
         }
 
@@ -176,6 +190,7 @@ namespace UI.Code.Controls
 
             btnDataSave.Visibility = btnDataCancel.Visibility = gAddEdit.Visibility = Visibility.Collapsed;
             btnDataEdit.Visibility = gDisplay.Visibility = Visibility.Visible;
+            btnImageEdit.Visibility = Visibility.Collapsed;
         }
 
         private void BtnDataCancel_Click(object sender, RoutedEventArgs e)
@@ -185,6 +200,7 @@ namespace UI.Code.Controls
             btnDataEdit.Visibility = gDisplay.Visibility = Visibility.Visible;
             btnDataSave.Visibility = gAddEdit.Visibility = Visibility.Collapsed;
             btnDataCancel.Visibility = Visibility.Collapsed;
+            btnImageEdit.Visibility = Visibility.Collapsed;
         }
 
 
@@ -195,12 +211,13 @@ namespace UI.Code.Controls
             IsEdit = true;
             btnDataEdit.Visibility = gDisplay.Visibility = Visibility.Collapsed;
             btnDataSave.Visibility = gAddEdit.Visibility = Visibility.Visible;
+            btnImageEdit.Visibility = Visibility.Visible;
             btnDataCancel.Visibility = Visibility.Visible;
         }
 
         private void BtnExport_Click(object sender, RoutedEventArgs e)
         {
 
-        }
+        }        
     }
 }

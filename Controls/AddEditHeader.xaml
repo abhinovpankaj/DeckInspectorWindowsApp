@@ -55,6 +55,15 @@
                 <materialDesign:PackIcon Foreground="White" Kind="DeleteCircle" />
             </Button>
             <Button
+                Name="btnImageEdit"
+                HorizontalAlignment="Right"
+                Foreground="White"
+                Style="{StaticResource ImgBtn}"
+                ToolTip="Change Image"
+                Visibility="Collapsed">
+                <materialDesign:PackIcon Kind="ImageAdd" />
+            </Button>
+            <Button
                 Name="btnDataEdit"
                 HorizontalAlignment="Right"
                 Foreground="White"
@@ -190,7 +199,7 @@
                     VerticalScrollBarVisibility="Auto" />
             </StackPanel>
             <Grid Grid.Column="1">
-                <img:CachedImage
+                <img:CachedImage 
                     Width="400"
                     Height="150"
                     Margin="0"
