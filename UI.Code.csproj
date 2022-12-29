@@ -208,6 +208,7 @@
     </Compile>
     <Compile Include="Convertor\Class2.cs" />
     <Compile Include="Convertor\Class3.cs" />
+    <Compile Include="Convertor\ImageConverter.cs" />
     <Compile Include="Convertor\InversBooleanToVisibilityConverter.cs" />
     <Compile Include="Convertor\PasswordToVisibilityConverter.cs" />
     <Compile Include="Convertor\Class1.cs" />

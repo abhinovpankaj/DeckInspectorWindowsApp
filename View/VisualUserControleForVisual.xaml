@@ -40,19 +40,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0">
-
-                    <!--<Button Grid.Column="4" Name="btnBack" HorizontalAlignment="Right"
-  Style="{StaticResource ImgBtn}" Margin="10" Foreground="White"
-  ToolTip="Back">
-                        <materialDesign:PackIcon
-    Kind="ArrowBack"
-
-     />
-                    </Button>-->
-
-
-                </Grid>
+                <Grid Grid.Column="0" />
 
                 <TextBlock
                     Grid.Column="1"
@@ -61,33 +49,7 @@
                     Foreground="White"
                     Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                     Text="{Binding DataModel.Name}" />
-                <!--<ComboBox Grid.Column="1" SelectionChanged="CbProType_SelectionChanged" SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding Items}" Width="400" Name="CbProType" HorizontalAlignment="Left" Margin="20,2,0,5" VerticalAlignment="Center"
-  materialDesign:HintAssist.Hint="Visual Inspection">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}"></TextBlock>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
 
-                <StackPanel Grid.Column="3" Orientation="Horizontal">
-                    <Button HorizontalAlignment="Right" x:Name="btnSearch"  Grid.Column="2"  Style="{StaticResource ImgBtn}"
-   Margin="10,5"
-  ToolTip="Search">
-                        <materialDesign:PackIcon Background="Transparent"
-    Kind="Search"
-
-     />
-                    </Button>
-                    <Button HorizontalAlignment="Right"  Grid.Column="2" Command="{Binding ResetCommand}"
- Style="{StaticResource ImgBtn}" Margin="5"
-  ToolTip="Reset">
-                        <materialDesign:PackIcon Background="Transparent"
-    Kind="Refresh"
-
-     />
-                    </Button>
-                </StackPanel>-->
 
             </Grid>
             <!--</materialDesign:Card>-->
@@ -847,16 +809,45 @@
                                             <EventSetter Event="PreviewMouseMove" Handler="lbox_PreviewMouseMoveEvent" />
                                             <EventSetter Event="Drop" Handler="lboxDataBinding_Drop" />
                                             <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
-
-
                                         </Style>
 
                                     </ListBox.ItemContainerStyle>
                                     <ListBox.ItemTemplate>
 
                                         <DataTemplate>
+                                            <Border
+                                                Margin="0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                BorderBrush="#2e479b"
+                                                BorderThickness="1">
+                                                <Grid>
 
-                                            <control:ListDataDisplay />
+                                                    <!--<img:CachedImage
+                    Width="240"
+                    Height="200"
+                    Margin="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    ImageUrl="{Binding ImageUrl}" />-->
+
+                                                    <Image
+                                                        Width="240"
+                                                        Height="200"
+                                                        Margin="0"
+                                                        Source="{Binding ImageUrl, IsAsync=True}" />
+                                                    <TextBlock
+                                                        Margin="5,0,5,0"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Bottom"
+                                                        FontSize="10"
+                                                        Foreground="Black"
+                                                        Style="{StaticResource Medium}"
+                                                        Text="{Binding CreatedOn}" />
+                                                    <!--<TextBlock Style="{StaticResource Medium}" Foreground="White" FontSize="10"   HorizontalAlignment="Right" Margin="0,0,5,0" Text="{Binding Username}"></TextBlock>-->
+                                                </Grid>
+                                            </Border>
+                                            <!--<control:ListDataDisplay />-->
                                         </DataTemplate>
 
                                     </ListBox.ItemTemplate>
